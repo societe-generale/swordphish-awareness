@@ -269,8 +269,6 @@ Password: %s
 
 The password must be changed at the first connection.
 
-The documentation can be found here %s/doc
-
 Best regards,
 
 Swordphish administrators
@@ -356,4 +354,4 @@ AUTOCLEAN_DAY = "saturday"
 HOSTING_DOMAIN = "FIXME"
 
 # Phishing mail header
-PHISHING_MAIL_HEADER = "X-Sworphish-Awareness-Campaign"
+PHISHING_MAIL_HEADER = "X-Swordphish-Awareness-Campaign"
