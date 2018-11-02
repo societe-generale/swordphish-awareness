@@ -12,7 +12,7 @@ This choice seriously improved the visibility on what our users are receiving, a
 
 Swordphish can be used to train people identifying suspicious mails, and it can help checking that people report correctly the mails to security teams.
 
-![screenshot](https://github.com/certsocietegenerale/swordphish/blob/master/docs/images/00-global-swordphish.png?raw=true)
+![screenshot](https://github.com/certsocietegenerale/swordphish-awareness/blob/master/docs/images/00-global-swordphish.png?raw=true)
 
 # Installation
 
