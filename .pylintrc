@@ -1,0 +1,4 @@
+[MASTER]
+
+[MESSAGES CONTROL]
+disable=import-error,missing-docstring,no-member,invalid-name,too-few-public-methods,no-name-in-module,no-self-use,too-many-ancestors,C0330,C0301,R0914,R0913,R0912,too-many-statements,too-many-lines,broad-except,too-many-return-statements

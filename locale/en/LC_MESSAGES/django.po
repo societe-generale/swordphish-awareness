@@ -1,0 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-25 17:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: LocalUsers/models.py:13
+msgid ""
+"Phone number must be entered in the format: '+999999999'. Up to 15 digits "
+"allowed."
+msgstr ""
+
+#: LocalUsers/templates/LocalUsers/index.html:24
+msgid "Sign in to Phishme"
+msgstr "Authentication"
+
+#: LocalUsers/templates/LocalUsers/index.html:25
+msgid "Email address"
+msgstr "Email address"
+
+#: LocalUsers/templates/LocalUsers/index.html:27
+msgid "Password"
+msgstr "Password"
+
+#: LocalUsers/templates/LocalUsers/index.html:31
+msgid "Remember me"
+msgstr "Remember me"
+
+#: LocalUsers/templates/LocalUsers/index.html:34
+msgid "Sign in"
+msgstr "Sign in"
+
+#: LocalUsers/templates/LocalUsers/index.html:40
+msgid "Wrong username / password combination."
+msgstr "Wrong username / password combination."
+
+#: Main/templates/Main/Campaigns/campaigns.html:9
+#: Main/templates/Main/Campaigns/leftmenu.html:24
+msgid "Campaigns"
+msgstr "Campaigns"
+
+#: Main/templates/Main/Campaigns/leftmenu.html:14
+#: Main/templates/Main/Campaigns/overview.html:9
+msgid "Overview"
+msgstr "Overview"
+
+#: Main/templates/Main/Campaigns/leftmenu.html:19
+#: Main/templates/Main/Campaigns/targets.html:9
+msgid "Targets"
+msgstr "Targets"
+
+#: Main/templates/Main/Campaigns/leftmenu.html:29
+#: Main/templates/Main/Campaigns/statistics.html:9
+msgid "Statistics"
+msgstr "Statistics"
+
+#: Main/templates/Main/Profile/leftmenu.html:14
+msgid "My informations"
+msgstr "My informations"
+
+#: Main/templates/Main/Profile/leftmenu.html:19
+msgid "My access"
+msgstr "My access"
+
+#: Main/templates/Main/topmenus.html:21
+msgid "Toggle navigation"
+msgstr "Toggle navigation"
+
+#: Main/templates/Main/topmenus.html:30
+msgid "Manage Campaigns"
+msgstr "Manage Campaigns"
+
+#: Main/templates/Main/topmenus.html:31
+msgid "My Profile"
+msgstr "My Profile"
+
+#: Main/templates/Main/topmenus.html:33
+msgid "Admin"
+msgstr "Admin"
+
+#: Main/templates/Main/topmenus.html:35
+msgid "Logout"
+msgstr "Logout"
+
+#: Main/templates/Main/topmenus.html:38
+msgid "Search"
+msgstr "Search"

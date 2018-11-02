@@ -1,0 +1,36 @@
+{% extends 'Main/Admin/leftmenu.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+
+{% block swordphish_content %}
+
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+
+<div class="starter-template">
+    <h3 class="page-header">{% trans 'Create Region' %}</h3>
+	    <form class="form-inline">
+			<div class="form-group">
+			    <label for="createentity">{% trans 'Create new region' %}</label>
+			</div>
+			 <button id="createentity" type="button" class="btn btn-primary new" data-toggle="modal" data-form="{% url 'Authent:new_region' %}" data-target="#modal">{% trans 'Create region' %}</button>
+		</form>
+</div>
+<div class="starter-template">
+    <h3 class="page-header">{% trans 'Existing Regions' %}</h3>
+    <div class="filter">
+		<form class="form-inline filter-form">
+			<div class="form-group dropdown">
+			  <label for="dropdownMenu1">{% trans 'Select region' %}</label>
+			  <select class="form-control select dynamic" data-form="{%url 'Authent:list_regions' %}">
+			  </select>
+			</div>
+		</form>
+	</div>
+	<br/>
+	<div class="selected" id="users"></div>
+</div>
+
+{% endblock %}

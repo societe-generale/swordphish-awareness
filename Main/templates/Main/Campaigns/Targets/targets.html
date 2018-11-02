@@ -1,0 +1,27 @@
+{% extends 'Main/Campaigns/leftmenu.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+
+
+{% block swordphish_content %}
+
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+
+<div class="starter-template">
+    <h3 class="page-header">{% trans 'Create Targets List' %}</h3>
+    <form class="form-inline">
+		<div class="form-group">
+		    <label class="control-label" for="createentity">{% trans 'Create new list' %}</label>
+		    <button id="createentity" type="button" class="btn btn-primary new form-control" data-toggle="modal" data-form="{% url 'Main:campaign_create_targets_list' %}" data-target="#modal">{% trans 'Create List' %}</button>
+		</div>
+	</form>
+</div>
+
+<div class="starter-template">
+    <h3 class="page-header">{% trans 'Existing Targets Lists' %}</h3>
+	<div class="dynamic" id="users" data-form="{%url 'Main:campaign_list_targets_list' %}"></div>
+</div>
+
+{% endblock %}

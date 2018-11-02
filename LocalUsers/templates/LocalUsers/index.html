@@ -1,0 +1,46 @@
+{% extends 'LocalUsers/bootstrap.html' %}
+
+{% load bootstrap3 %}
+{% load i18n %}
+{% trans alert %}
+
+
+{% block bootstrap3_extra_head %}
+    <link href="/static/custom_css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block bootstrap3_content %}
+
+	{# Display django.contrib.messages as Bootstrap alerts #}
+	{% bootstrap_messages %}
+
+	<div class="container">
+
+      <form class="form-signin" role="form" method="post">
+      	{% csrf_token %}
+      	<img class="img-responsive" src="/static/img/logo.jpg" alt="Logo" />
+        <h2 class="form-signin-heading">{% trans 'Sign in to SwordPhish'%}</h2>
+        {% trans "Email address" as mail_address %}
+        <input type="email" name="username" class="form-control" placeholder="{{ mail_address }}" required autofocus>
+        {% trans "Password" as password %}
+        <input type="password" name="password" class="form-control" placeholder="{{ password }}" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="remember" value="remember-me">{% trans 'Keep me signed' %}
+          </label>
+        </div>
+    {% if error %}
+    <div class="alert alert-danger alert-dismissible" id="error">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>{% trans 'Unable to log in...' %}</strong><br/>
+    </div>
+  {% endif %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Sign in' %}</button>
+
+        <center><a href="{% url 'Authent:password_lost' %}">{% trans 'Password forgotten ?' %}</a></center>
+      </form>
+
+
+    </div>
+
+{% endblock %}

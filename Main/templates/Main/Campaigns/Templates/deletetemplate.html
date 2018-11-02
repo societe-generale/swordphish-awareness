@@ -1,0 +1,28 @@
+{% load bootstrap3 %}
+{% load i18n %}
+<form class="modal-form" method="post" action="{% url 'Main:campaign_delete_template' template.id %}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>{% trans 'Delete Template' %}</h3>
+
+      </div>
+      <div class="modal-body">
+        {% csrf_token %}
+        {% if templateused %}
+          <div class="alert alert-danger alert-dismissible" id="error">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{% trans 'This template is used in a campaign !' %}</strong><br/>
+          </div>
+        {% endif %}
+
+        <label class="control-label" for="targtlistname">{% trans "Template name" %}</label>
+        <input id="targtlistname" type="text" name="targtlistname" class="form-control" value="{{ template.name }}" readonly>
+        <div class="modal-footer">
+          <input name="remove" class="btn btn-primary" type="submit" value="Confirm" />
+          <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
+      </div>
+    </div>
+  </div>
+</form>
