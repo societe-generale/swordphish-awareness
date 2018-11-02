@@ -1,8 +1,8 @@
 # What is Swordphish ?
 
-wordphish is a plateform allowing to create an manage fake phishing campaigns.
+Swordphish is a plateform allowing to create and manage fake phishing campaigns.
 
-The goal of Swordphish is to raise awareness of your users regarding phishing in a secure way.
+The goal of Swordphish is to raise your users awareness regarding phishing in a secure way.
 
 We believe that it's totally utopian to reach the goal of zero click on a phishing campaign, but we believe we can reduce the number of victims and overall increase the number of reporting to security teams by training people using this kind of tool.
 
