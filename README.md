@@ -18,7 +18,7 @@ Swordphish can be used to train people identifying suspicious mails, and it can 
 
 The detailed installation instructions can be found in the docs directory. You can compile it to HTML after having installed sphinx python package
 
-```$docs>pip install Sphinx```
+```$docs>pip install Sphinx recommonmark```
 
 ```$docs>make html```
 
