@@ -38,7 +38,7 @@ Add the following line in the user's ~/.profile to enable virtualenvwrapper::
 Switch to newly created user and git-clone Swordphish repository::
 
   #>su - swordphish
-  $swordphish>git clone https://github.com/certsocietegenerale/swordphish.git
+  $swordphish>git clone https://github.com/certsocietegenerale/swordphish-awareness.git
 
 Ensure that virtualenvwrapper has been loaded in user's environment and create the virtualenv::
 
