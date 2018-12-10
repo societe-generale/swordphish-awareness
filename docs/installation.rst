@@ -298,8 +298,8 @@ Create the two files here::
 
 And link them to the sites-enabled::
 
-  #>ln -s /etc/nginx/sites-enabled/swordphish.conf /etc/nginx/sites-available/swordphish.conf
-  #>ln -s /etc/nginx/sites-enabled/swordphish_phishing_domains.conf /etc/nginx/sites-available/swordphish_phishing_domains.conf
+  #>ln -s /etc/nginx/sites-available/swordphish.conf /etc/nginx/sites-enabled/swordphish.conf
+  #>ln -s /etc/nginx/sites-available/swordphish_phishing_domains.conf /etc/nginx/sites-enabled/swordphish_phishing_domains.conf
 
 Then restart nginx::
 
