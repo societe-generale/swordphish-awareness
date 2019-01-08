@@ -21,8 +21,7 @@ def __send_user_informations(firstname, email, password, creator):
     template = settings.NEW_ACCOUNT_TEMPLATE % (firstname,
                                                 settings.SWORPDHISH_URL,
                                                 email,
-                                                password,
-                                                settings.SWORPDHISH_URL)
+                                                password)
 
     if creator.lower() == settings.USER_ACCOUNT_CREATION_MAIL_CONTACT:
         message = EmailMessage(from_email=settings.USER_ACCOUNT_CREATION_MAIL_SENDER,
