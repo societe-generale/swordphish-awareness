@@ -107,7 +107,7 @@ def password_lost(request):
 
 
 def password_change_mandatory(request):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return redirect("Authent:login")
     if request.method == "GET":
         if not request.user.swordphishuser.must_change_password:
