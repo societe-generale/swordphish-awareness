@@ -299,7 +299,7 @@ USER_ACCOUNT_LOST_PASS_MAIL_TITLE = "[SwordPhish] New password request"
 
 USER_ACCOUNT_CREATION_MAIL_CONTACT = "contact_swordphish@invalid.notld"
 
-USER_ACCOUNT_LOCKED_MAIL_TITLE = "[Swordphish] Your account has been locked up !"
+USER_ACCOUNT_LOCKED_MAIL_TITLE = "[Swordphish] Your account has been locked !"
 
 
 # Mail address used to send mails
@@ -322,7 +322,7 @@ AUTOLOCK_TEMPLATE = u"""Hello %s
 
 You have an active account on Swordphish but you never logged in.
 
-As a security measure, your account has been locked. If you need it reply this mail !
+As a security measure, your account has been locked. If you need it reply to this email !
 
 Best regards,
 
@@ -335,9 +335,9 @@ AUTOLOCK_NEVER_USED_DELAY = 30
 # Mail sent when an account is never used
 AUTOLOCK_NEVER_USED_TEMPLATE = u"""Hello %s
 
-You have an active account on Swordphish but didn't use during the last %s days.
+You have an active account on Swordphish but haven't used it during the last %s days.
 
-As a security measure, your account has been locked. If you need it reply this mail !
+As a security measure, your account has been locked. If you need it reply to this email !
 
 Best regards,
 
