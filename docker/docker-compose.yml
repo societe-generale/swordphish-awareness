@@ -3,6 +3,7 @@
 version: '3'
 services:
   swordphish:
+    container_name: swordphish_main
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
@@ -16,11 +17,29 @@ services:
     restart: always
   swordphish-redis:
     image: redis:latest
+  swordphish-beat:
+    image: swordphish
+    links:
+      - swordphish-redis
+      - swordphish-postgres
+      - swordphish-mail
+    command: ['docker-entrypoint.sh', 'beat']
+    restart: always
+  swordphish-worker:
+    image: swordphish
+    links:
+      - swordphish-redis
+      - swordphish-postgres
+      - swordphish-mail
+    command: ['docker-entrypoint.sh', 'workers']
+    restart: always
   swordphish-mail:
     image: mailhog/mailhog:latest
     ports:
       - "8025:8025"
+    restart: always
   swordphish-postgres:
     image: postgres:latest
     environment:
       - POSTGRES_PASSWORD=postgres
+    restart: always

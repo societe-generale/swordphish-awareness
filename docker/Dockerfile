@@ -15,6 +15,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && apt-get ins
     update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10 && \
     pip3 install --upgrade pip
 
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/
+
 ADD . /opt/swordphish
 
 WORKDIR /opt/swordphish
@@ -33,8 +35,11 @@ RUN locale-gen en_US.UTF-8 && \
         sed -i '80s/FIXME/postgres/' Swordphish/settings_docker.py && \
         sed -i '81s/FIXME/swordphish-postgres/' Swordphish/settings_docker.py && \
         sed -i '253s/localhost/swordphish-redis/' Swordphish/settings_docker.py && \
-        sed -i '309s/localhost/swordphish-smtp/' Swordphish/settings_docker.py && \
-        sed -i '310s/2525/1025/' Swordphish/settings_docker.py
+        sed -i '259s/hostname/localhost:8000/' Swordphish/settings_docker.py && \
+        sed -i '309s/localhost/swordphish-mail/' Swordphish/settings_docker.py && \
+        sed -i '310s/2525/1025/' Swordphish/settings_docker.py && \
+        mv ./docker/scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
+        chmod 755 /usr/local/bin/wait-for-it.sh /usr/local/bin/docker-entrypoint.sh
 
 
 USER swordphish
@@ -45,4 +50,5 @@ ENV DJANGO_SETTINGS_MODULE Swordphish.settings_docker
 RUN ./manage.py generate_secret_key
 
 EXPOSE 8000
-CMD ["./manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["docker-entrypoint.sh", "webserver"]
