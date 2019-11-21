@@ -1,0 +1,26 @@
+---
+
+version: '3'
+services:
+  swordphish:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: swordphish
+    ports:
+      - "8000:8000"
+    links:
+      - swordphish-redis
+      - swordphish-postgres
+      - swordphish-mail
+    restart: always
+  swordphish-redis:
+    image: redis:latest
+  swordphish-mail:
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025"
+  swordphish-postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=postgres
