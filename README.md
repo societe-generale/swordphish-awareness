@@ -22,6 +22,10 @@ The detailed installation instructions can be found in the docs directory. You c
 
 ```$docs>make html```
 
+# Docker images
+
+Swordphish has a `docker-compose` script to get up and running test and dev environnement very fast. Full instructions [here](https://github.com/certsocietegenerale/swordphish-awareness/tree/master/docker)
+
 # Technical Specs
 
 Swordphish is a Python application that relies on the following technologies:
