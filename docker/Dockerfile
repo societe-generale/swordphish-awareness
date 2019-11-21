@@ -36,6 +36,7 @@ RUN locale-gen en_US.UTF-8 && \
         sed -i '81s/FIXME/swordphish-postgres/' Swordphish/settings_docker.py && \
         sed -i '253s/localhost/swordphish-redis/' Swordphish/settings_docker.py && \
         sed -i '259s/hostname/localhost:8000/' Swordphish/settings_docker.py && \
+        sed -i '259s/https/http/' Swordphish/settings_docker.py && \
         sed -i '309s/localhost/swordphish-mail/' Swordphish/settings_docker.py && \
         sed -i '310s/2525/1025/' Swordphish/settings_docker.py && \
         mv ./docker/scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
