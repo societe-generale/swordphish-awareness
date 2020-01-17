@@ -486,7 +486,6 @@ class Campaign(models.Model):
 
         html_content = base_mail["text"].replace("FIXMEURL", linkurl)
 
-
         if self.enable_mail_tracker:
             html_content = html_content.replace("FIXMEMAILTRACKER", imgurl)
 
@@ -509,7 +508,7 @@ class Campaign(models.Model):
                                   attachment_content):
         base_mail = mail_content
         attachment_content = attachment_content
-
+        target = AnonymousTarget.objects.get(uniqueid=targetid)
         mail_content = "Read this mail with a HTML compatible client"
         sender = self.from_name + '@' + self.from_domain.domain
         if self.display_name != "":
@@ -539,6 +538,8 @@ class Campaign(models.Model):
         if self.enable_attachment_tracker:
             mhtml_attach = mhtml_attach.replace("FIXMEDOCTRACKER", imgurl_attachment)
 
+        for att in target.attributes.all():
+            html_content = html_content.replace("($%s$)" % (att.key), att.value)
         email.attach_alternative(html_content, "text/html")
         temp = "%s.doc" % (self.attachment_template.title)
         filename = Header(temp, 'utf-8').encode()
