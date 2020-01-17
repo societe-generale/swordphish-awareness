@@ -456,6 +456,7 @@ class Campaign(models.Model):
         base_mail = mail_content
         mail_content = "Read this mail with a HTML compatible client"
         sender = self.from_name + '@' + self.from_domain.domain
+        target = AnonymousTarget.objects.get(uniqueid=targetid)
         if self.display_name != "":
             from_mail = "%s <%s>" % (self.display_name, sender)
         else:
@@ -485,8 +486,12 @@ class Campaign(models.Model):
 
         html_content = base_mail["text"].replace("FIXMEURL", linkurl)
 
+
         if self.enable_mail_tracker:
             html_content = html_content.replace("FIXMEMAILTRACKER", imgurl)
+
+        for att in target.attributes.all():
+            html_content = html_content.replace("($%s$)" % (att.key), att.value)
 
         email.attach_alternative(html_content, "text/html")
         email.mixed_subtype = 'related'
