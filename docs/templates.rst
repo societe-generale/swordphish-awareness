@@ -19,8 +19,13 @@ Common best practices to create templates:
 * A “fullscreen” button is provided in the rich text editor for a better user experience
 
 
+Standard templates
+------------------
+
+This category regroups templates of files / mails that will be sent to the targets.
+
 Mails with link
----------------
+^^^^^^^^^^^^^^^
 
 This template is the most common one; it corresponds to a simple mail with a link.
 
@@ -35,16 +40,15 @@ This keyword is used to inject the target’s dedicated link. When creating or e
 
 The “Subject” input corresponds to the mail’s title.
 
-Standard templates
-------------------
-
-This category regroups templates of files / mails that will be sent to the targets.
+It's possible to customize emails with targets tags using ($tag_name$) tags. It'll be replaced automatically when the campaign starts by the tag value corresponding to the tag name if available.
 
 
 Mails with attachment
 ^^^^^^^^^^^^^^^^^^^^^
 
 This kind of template corresponds to a mail that will have an attachment. Contrary to the “mail with link” template it doesn’t need any link.
+
+Like the mails with links, it's also possible to customize mails with attachemnt with targets tags. The syntax is exactly the same: ($tag_name$)
 
 Attachment
 ^^^^^^^^^^
