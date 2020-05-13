@@ -15,6 +15,7 @@ Follow the [official instructions](https://www.docker.com/community-edition).
 The following command will build a Docker image named `swordphish` and launch it :
 
     $ cd docker
+    $ docker-compose build
     $ docker-compose up
 
 The `docker-compose up` command should start a working swordphish container listening for connections on `http://localhost:8000/`.

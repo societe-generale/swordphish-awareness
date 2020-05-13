@@ -8,16 +8,17 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && apt-get install -y --no-install-suggests --no-install-recommends \
     build-essential libpq-dev locales \
-    python3-dev python3-pip python3-setuptools && \
+    python3-dev python3-pip python3-setuptools git && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /root/.cache/* && \
     groupadd swordphish && useradd -r --home-dir /opt/swordhish -g swordphish swordphish && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 10 && \
     update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10 && \
     pip3 install --upgrade pip
 
+
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/
 
-ADD . /opt/swordphish
+RUN git clone https://github.com/certsocietegenerale/swordphish-awareness.git /opt/swordphish
 
 WORKDIR /opt/swordphish
 
