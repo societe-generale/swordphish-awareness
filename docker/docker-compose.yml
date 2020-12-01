@@ -41,5 +41,7 @@ services:
   swordphish-postgres:
     image: postgres:latest
     environment:
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=swordphish
+      - POSTGRES_PASSWORD=swordphish
+      - POSTGRES_DB=swordphish
     restart: always

@@ -31,9 +31,7 @@ RUN locale-gen en_US.UTF-8 && \
         pip install -r requirements.txt && \
         cp Swordphish/settings.py Swordphish/settings_docker.py && \
         chown -R swordphish:swordphish /opt/swordphish && \
-        sed -i '78s/swordphish/postgres/' Swordphish/settings_docker.py && \
-        sed -i '79s/swordphish/postgres/' Swordphish/settings_docker.py && \
-        sed -i '80s/FIXME/postgres/' Swordphish/settings_docker.py && \
+        sed -i '80s/FIXME/swordphish/' Swordphish/settings_docker.py && \
         sed -i '81s/FIXME/swordphish-postgres/' Swordphish/settings_docker.py && \
         sed -i '253s/localhost/swordphish-redis/' Swordphish/settings_docker.py && \
         sed -i '259s/hostname/localhost:8000/' Swordphish/settings_docker.py && \
