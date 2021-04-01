@@ -31,8 +31,8 @@ Swordphish has a `docker-compose` script to get up and running test and dev envi
 Swordphish is a Python application that relies on the following technologies:
 
 * Django for the web framework
-* celery for background tasks
-* PosgreSQL for the database
+* Celery for background tasks
+* PostgreSQL for the database
 * Bootstrap for the web framework
 
 
