@@ -6,8 +6,8 @@
 # MAINTAINER CERT SG, cert.sg@socgen.com
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && apt-get install -y --no-install-suggests --no-install-recommends \
-    build-essential libpq-dev locales \
+RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-suggests --no-install-recommends \
+    build-essential libpq-dev locales tzdata \
     python3-dev python3-pip python3-setuptools git && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /root/.cache/* && \
     groupadd swordphish && useradd -r --home-dir /opt/swordhish -g swordphish swordphish && \
@@ -24,11 +24,10 @@ WORKDIR /opt/swordphish
 
 # Setup locales
 RUN locale-gen en_US.UTF-8 && \
-        echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
-        echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
-        echo "LANG=en_US.UTF-8" > /etc/locale.conf && \
-        export "LANG=en_US.UTF-8" && \
-        pip install -r requirements.txt && \
+        update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 && \
+        ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime && \
+        dpkg-reconfigure -f noninteractive tzdata && \
+        LANG=en_US.UTF-8 pip install -r requirements.txt && \
         cp Swordphish/settings.py Swordphish/settings_docker.py && \
         chown -R swordphish:swordphish /opt/swordphish && \
         sed -i '80s/FIXME/swordphish/' Swordphish/settings_docker.py && \
@@ -41,11 +40,12 @@ RUN locale-gen en_US.UTF-8 && \
         mv ./docker/scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
         chmod 755 /usr/local/bin/wait-for-it.sh /usr/local/bin/docker-entrypoint.sh
 
-
 USER swordphish
 ENV HOME /opt/swordphish
 ENV USER swordphish
 ENV DJANGO_SETTINGS_MODULE Swordphish.settings_docker
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 
 RUN ./manage.py generate_secret_key
 
