@@ -1,4 +1,5 @@
 import datetime
+from django.utils.timezone import get_current_timezone
 import uuid
 from base64 import b64decode
 from smtplib import SMTPRecipientsRefused
@@ -582,7 +583,7 @@ class Campaign(models.Model):
             targets = targetlist.targets.all()
             for target in targets:
                 newAnon = AnonymousTarget()
-                newAnon.mail_sent_time = datetime.datetime.now()
+                newAnon.mail_sent_time = datetime.datetime.now(tz=get_current_timezone())
                 newAnon.save()
                 newAnon.importAttributes(target)
                 self.anonymous_targets.add(newAnon)
