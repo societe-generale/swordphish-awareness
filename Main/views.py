@@ -3,6 +3,7 @@ import re
 import json
 from base64 import b64decode
 from datetime import datetime
+from django.utils.timezone import get_current_timezone
 from zipfile import BadZipfile
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
@@ -1104,7 +1105,7 @@ def campaign_display_awareness(request, campaignid, targetid):
         if campaign.campaign_type == "3" or campaign.campaign_type == "4":
             if campaign.status == "2":
                 target.form_submitted = True
-                target.form_submitted_time = datetime.now()
+                target.form_submitted_time = datetime.now(tz=get_current_timezone())
                 target.save()
 
     if campaign.onclick_action.template_type == "4":
@@ -1148,9 +1149,9 @@ def campaign_target_click(request, targetid):
 
             target.link_clicked = True
             target.mail_opened = True
-            target.link_clicked_time = datetime.now()
+            target.link_clicked_time = datetime.now(tz=get_current_timezone())
             if not target.mail_opened_time:
-                target.mail_opened_time = datetime.now()
+                target.mail_opened_time = datetime.now(tz=get_current_timezone())
             target.save()
 
     if campaign.status != "2" and not test:
@@ -1232,7 +1233,7 @@ def campaign_target_openmail(request, targetid):
                 return HttpResponseForbidden()
 
             target.mail_opened = True
-            target.mail_opened_time = datetime.now()
+            target.mail_opened_time = datetime.now(tz=get_current_timezone())
             target.save()
 
     blank = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC\
@@ -1259,7 +1260,7 @@ def campaign_target_reportmail(request, targetid):
             return HttpResponseForbidden()
 
         target.reported = True
-        target.reported_time = datetime.now()
+        target.reported_time = datetime.now(tz=get_current_timezone())
         target.save()
 
     return HttpResponse("Ok")
@@ -1287,7 +1288,7 @@ def campaign_target_openattachment(request, targetid):
                 return HttpResponseForbidden()
 
             target.attachment_opened = True
-            target.attachment_opened_time = datetime.now()
+            target.attachment_opened_time = datetime.now(tz=get_current_timezone())
             target.save()
 
     blank = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC\
