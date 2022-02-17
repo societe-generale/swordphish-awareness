@@ -1147,10 +1147,11 @@ def campaign_target_click(request, targetid):
             if not tar:
                 return HttpResponseForbidden()
 
-            target.link_clicked = True
-            target.mail_opened = True
-            target.link_clicked_time = datetime.now(tz=get_current_timezone())
-            if not target.mail_opened_time:
+            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > 5:
+                target.link_clicked = True
+                target.link_clicked_time = datetime.now(tz=get_current_timezone())
+            if not target.mail_opened_time and (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds> 5:
+                target.mail_opened = True
                 target.mail_opened_time = datetime.now(tz=get_current_timezone())
             target.save()
 
@@ -1232,9 +1233,10 @@ def campaign_target_openmail(request, targetid):
             if not test:
                 return HttpResponseForbidden()
 
-            target.mail_opened = True
-            target.mail_opened_time = datetime.now(tz=get_current_timezone())
-            target.save()
+            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > 5:
+                target.mail_opened = True
+                target.mail_opened_time = datetime.now(tz=get_current_timezone())
+                target.save()
 
     blank = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC\
             AMAAAAoyzS7AAAABGdBTUEAALGPC/xhBQAAAAFzUkdC\
@@ -1287,9 +1289,10 @@ def campaign_target_openattachment(request, targetid):
             if not test:
                 return HttpResponseForbidden()
 
-            target.attachment_opened = True
-            target.attachment_opened_time = datetime.now(tz=get_current_timezone())
-            target.save()
+            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > 5:
+                target.attachment_opened = True
+                target.attachment_opened_time = datetime.now(tz=get_current_timezone())
+                target.save()
 
     blank = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC\
             AMAAAAoyzS7AAAABGdBTUEAALGPC/xhBQAAAAFzUkdC\
