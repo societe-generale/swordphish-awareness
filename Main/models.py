@@ -628,11 +628,12 @@ class Campaign(models.Model):
         connec.close()
         return True
 
-    def download_results_xlsx(self):
+    def generate_results_xlsx(self):
         targets = self.anonymous_targets.all()
         wb = Workbook()
         ws = wb.active
         tags = set()
+        dest_filename = 'results/' + str(self.id) + '.xlsx'
 
         for target in targets:
             attributes = target.attributes.all()
@@ -787,7 +788,8 @@ class Campaign(models.Model):
 
         c = ws['B2']
         ws.freeze_panes = c
-        return save_virtual_workbook(wb)
+        wb.save(filename = dest_filename)
+        return True
 
     def count_targets(self):
         lists = self.targets.all()

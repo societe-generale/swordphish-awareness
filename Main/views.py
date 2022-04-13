@@ -23,7 +23,7 @@ from Main.forms import AttachmentCampaignForm, SimpleMailForm, MailWithAttachmen
 from Main.forms import AttachmentForm, Redirection, Awareness, CredsHarvesterForm
 from Main.forms import TestCampaignForm, ReportForm, FakeRansomForm, FakeRansomCampaignForm
 from Main.forms import FakeFormCampaignForm
-
+from os.path import exists
 
 def validate_domain(function):
     hosting_domain = settings.HOSTING_DOMAIN
@@ -999,7 +999,15 @@ def campaign_download_results(request, campaignid):
 
     if request.method == "GET" or request.method == "POST":
         excelmime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        response = HttpResponse(campaign.download_results_xlsx(), content_type=excelmime)
+        data = None
+        if exists('results/' + str(campaignid) + '.xlsx'):
+            with open('results/' + str(campaignid) + '.xlsx', 'rb') as f:
+                data = f.read()
+        else:
+            campaign.generate_results_xlsx()
+            with open('results/' + str(campaignid) + '.xlsx', 'rb') as f:
+                data = f.read()
+        response = HttpResponse(data, content_type=excelmime)
         response['Content-Disposition'] = 'attachment; filename="%s_results.xlsx"' % campaign.name
         return response
 
