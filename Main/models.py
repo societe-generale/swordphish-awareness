@@ -24,6 +24,7 @@ from django.core.validators import RegexValidator
 from LocalUsers.models import SwordphishUser, get_admin
 from Main.utils import send_alert_new_campaign
 
+import re
 
 # Create your models here.
 @python_2_unicode_compatible
@@ -79,7 +80,12 @@ class TargetList(models.Model):
         ws = wb.active
         targets = {}
         header = next(ws.rows)
-        tags_keys = [x.value for x in header[1:] if x.value is not None]
+        tags_keys = []
+        n = 1
+        for x in header[1:]:
+            if x.value is not None:
+                tags_keys.append('ORDN-' +  "%03d" % n + '-' + x.value)
+                n += 1
         for row in ws.iter_rows(row_offset=1):
             if row[0] and row[0].value:
                 email = row[0].value.lower()
@@ -659,8 +665,8 @@ class Campaign(models.Model):
         header.append("reported")
         header.append("reported time")
 
-        for tag in tags:
-            header.append(tag)
+        for tag in sorted(tags):
+            header.append(re.sub(r'ORDN-[0-9]{3}-','',tag))
 
         ft = Font(bold=True)
         al = Alignment(horizontal="center", vertical="center")
@@ -731,7 +737,7 @@ class Campaign(models.Model):
             else:
                 reported_time = "N/A"
 
-            for tag in tags:
+            for tag in sorted(tags):
                 att = target.attributes.filter(key=tag)
                 if att:
                     values.append(att[0].value)
