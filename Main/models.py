@@ -141,13 +141,15 @@ class TargetList(models.Model):
             for attribute in attributes:
                 mails[target.mail_address][attribute.key] = attribute.value
                 tags.add(attribute.key)
-        header = list(tags)
+        header = list(sorted(tags))
+        for h in header:
+            h = re.sub(r'ORDN-[0-9]{3}-','',h)
         header.insert(0, "email")
         ws.append(header)
         for address in mails:
             line = []
             line.append(address)
-            for tag in tags:
+            for tag in sorted(tags):
                 if tag in mails[address]:
                     line.append(mails[address][tag])
                 else:
