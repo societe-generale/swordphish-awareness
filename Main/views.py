@@ -1147,10 +1147,10 @@ def campaign_target_click(request, targetid):
             if not tar:
                 return HttpResponseForbidden()
 
-            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > 5:
+            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > settings.CLICK_DELAY:
                 target.link_clicked = True
                 target.link_clicked_time = datetime.now(tz=get_current_timezone())
-            if not target.mail_opened_time and (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds> 5:
+            if not target.mail_opened_time and (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds> settings.CLICK_DELAY:
                 target.mail_opened = True
                 target.mail_opened_time = datetime.now(tz=get_current_timezone())
             target.save()
@@ -1233,7 +1233,7 @@ def campaign_target_openmail(request, targetid):
             if not test:
                 return HttpResponseForbidden()
 
-            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > 5:
+            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > settings.CLICK_DELAY:
                 target.mail_opened = True
                 target.mail_opened_time = datetime.now(tz=get_current_timezone())
                 target.save()
@@ -1289,7 +1289,7 @@ def campaign_target_openattachment(request, targetid):
             if not test:
                 return HttpResponseForbidden()
 
-            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > 5:
+            if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > settings.CLICK_DELAY:
                 target.attachment_opened = True
                 target.attachment_opened_time = datetime.now(tz=get_current_timezone())
                 target.save()

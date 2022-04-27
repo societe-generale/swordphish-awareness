@@ -355,3 +355,5 @@ HOSTING_DOMAIN = "FIXME"
 
 # Phishing mail header
 PHISHING_MAIL_HEADER = "X-Swordphish-Awareness-Campaign"
+
+CLICK_DELAY = int(os.getenv("CLICK_DELAY",0))
