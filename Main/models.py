@@ -168,10 +168,16 @@ class AnonymousTarget(models.Model):
     mail_sent_time = models.DateTimeField(blank=True, null=True)
     mail_opened = models.BooleanField(default=False)
     mail_opened_time = models.DateTimeField(blank=True, null=True)
+    sandbox_mail_opened = models.BooleanField(default=False)
+    sandbox_mail_opened_time = models.DateTimeField(blank=True, null=True)
     link_clicked = models.BooleanField(default=False)
     link_clicked_time = models.DateTimeField(blank=True, null=True)
+    sandbox_link_clicked = models.BooleanField(default=False)
+    sandbox_link_clicked_time = models.DateTimeField(blank=True, null=True)
     attachment_opened = models.BooleanField(default=False)
     attachment_opened_time = models.DateTimeField(blank=True, null=True)
+    sandbox_attachment_opened = models.BooleanField(default=False)
+    sandbox_attachment_opened_time = models.DateTimeField(blank=True, null=True)
     form_submitted = models.BooleanField(default=False)
     form_submitted_time = models.DateTimeField(blank=True, null=True)
     reported = models.BooleanField(default=False)
@@ -644,9 +650,13 @@ class Campaign(models.Model):
         header.append("mail sent time")
         header.append("mail opened")
         header.append("mail opened time")
+        header.append("sandbox mail opened")
+        header.append("sandbox mail opened time")
         if self.campaign_type == "1" or self.campaign_type == "3" or self.campaign_type == "4":
             header.append("link clicked")
             header.append("link clicked time")
+            header.append("sandbox link clicked")
+            header.append("sandbox link clicked time")
             if self.campaign_type == "3":
                 header.append("form submitted")
                 header.append("form submitted time")
@@ -656,6 +666,8 @@ class Campaign(models.Model):
         else:
             header.append("attachement opened")
             header.append("attachement opened time")
+            header.append("sandbox attachement opened")
+            header.append("sandbox attachement opened time")
         header.append("reported")
         header.append("reported time")
 
@@ -691,6 +703,16 @@ class Campaign(models.Model):
             else:
                 mail_opened_time = "N/A"
 
+            if target.sandbox_mail_opened:
+                sandbox_mail_opened = "yes"
+            else:
+                sandbox_mail_opened = "no"
+
+            if target.sandbox_mail_opened_time:
+                sandbox_mail_opened_time = target.sandbox_mail_opened_time.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                sandbox_mail_opened_time = "N/A"
+
             if target.link_clicked:
                 link_clicked = "yes"
             else:
@@ -701,6 +723,16 @@ class Campaign(models.Model):
             else:
                 link_clicked_time = "N/A"
 
+            if target.sandbox_link_clicked:
+                sandbox_link_clicked = "yes"
+            else:
+                sandbox_link_clicked = "no"
+
+            if target.sandbox_link_clicked_time:
+                sandbox_link_clicked_time = target.sandbox_link_clicked_time.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                sandbox_link_clicked_time = "N/A"
+
             if target.attachment_opened:
                 attachment_opened = "yes"
             else:
@@ -710,6 +742,16 @@ class Campaign(models.Model):
                 attachment_opened_time = target.attachment_opened_time.strftime('%Y-%m-%d %H:%M:%S')
             else:
                 attachment_opened_time = "N/A"
+
+            if target.sandbox_attachment_opened:
+                sandbox_attachment_opened = "yes"
+            else:
+                sandbox_attachment_opened = "no"
+
+            if target.sandbox_attachment_opened_time:
+                sandbox_attachment_opened_time = target.sandbox_attachment_opened_time.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                sandbox_attachment_opened_time = "N/A"
 
             if target.form_submitted:
                 form_submitted = "yes"
@@ -752,11 +794,24 @@ class Campaign(models.Model):
             ws.cell(row=row, column=column, value=mail_opened_time)
             ws.cell(row=row, column=column).alignment = al
             column += 1
+            ws.cell(row=row, column=column, value=sandbox_mail_opened)
+            ws.cell(row=row, column=column).alignment = al
+            column += 1
+            ws.cell(row=row, column=column, value=sandbox_mail_opened_time)
+            ws.cell(row=row, column=column).alignment = al
+            column += 1
+
             if self.campaign_type == "1" or self.campaign_type == "3" or self.campaign_type == "4":
                 ws.cell(row=row, column=column, value=link_clicked)
                 ws.cell(row=row, column=column).alignment = al
                 column += 1
                 ws.cell(row=row, column=column, value=link_clicked_time)
+                ws.cell(row=row, column=column).alignment = al
+                column += 1
+                ws.cell(row=row, column=column, value=sandbox_link_clicked)
+                ws.cell(row=row, column=column).alignment = al
+                column += 1
+                ws.cell(row=row, column=column, value=sandbox_link_clicked_time)
                 ws.cell(row=row, column=column).alignment = al
                 column += 1
                 if self.campaign_type == "3" or self.campaign_type == "4":
@@ -771,6 +826,12 @@ class Campaign(models.Model):
                 ws.cell(row=row, column=column).alignment = al
                 column += 1
                 ws.cell(row=row, column=column, value=attachment_opened_time)
+                ws.cell(row=row, column=column).alignment = al
+                column += 1
+                ws.cell(row=row, column=column, value=sandbox_attachment_opened)
+                ws.cell(row=row, column=column).alignment = al
+                column += 1
+                ws.cell(row=row, column=column, value=sandbox_attachment_opened_time)
                 ws.cell(row=row, column=column).alignment = al
                 column += 1
             ws.cell(row=row, column=column, value=reported)

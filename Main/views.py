@@ -1150,6 +1150,9 @@ def campaign_target_click(request, targetid):
             if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > settings.CLICK_DELAY:
                 target.link_clicked = True
                 target.link_clicked_time = datetime.now(tz=get_current_timezone())
+            else:
+                target.sandbox_link_clicked = True
+                target.sandbox_link_clicked_time = datetime.now(tz=get_current_timezone())
             if not target.mail_opened_time and (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds> settings.CLICK_DELAY:
                 target.mail_opened = True
                 target.mail_opened_time = datetime.now(tz=get_current_timezone())
@@ -1237,6 +1240,10 @@ def campaign_target_openmail(request, targetid):
                 target.mail_opened = True
                 target.mail_opened_time = datetime.now(tz=get_current_timezone())
                 target.save()
+            else:
+                target.sandbox_mail_opened = True
+                target.sandbox_mail_opened_time = datetime.now(tz=get_current_timezone())
+                target.save()
 
     blank = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC\
             AMAAAAoyzS7AAAABGdBTUEAALGPC/xhBQAAAAFzUkdC\
@@ -1292,6 +1299,10 @@ def campaign_target_openattachment(request, targetid):
             if (datetime.now(tz=get_current_timezone()) - target.mail_sent_time).seconds > settings.CLICK_DELAY:
                 target.attachment_opened = True
                 target.attachment_opened_time = datetime.now(tz=get_current_timezone())
+                target.save()
+            else:
+                target.sandbox_attachment_opened = True
+                target.sandbox_attachment_opened_time = datetime.now(tz=get_current_timezone())
                 target.save()
 
     blank = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC\
