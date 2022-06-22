@@ -51,6 +51,7 @@ def check_campaigns():
     for campaign in campaigns:
         if campaign.end_date <= now:
             campaign.stop()
+            campaign.generate_results_xlsx()
 
 
 @celery_app.task
