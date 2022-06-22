@@ -503,6 +503,7 @@ class Campaign(models.Model):
 
         if target:
             for att in target.attributes.all():
+                att.key = re.sub(r'ORDN-[0-9]{3}-','',att.key)
                 html_content = html_content.replace("($%s$)" % (att.key), att.value)
 
         email.attach_alternative(html_content, "text/html")
@@ -556,6 +557,7 @@ class Campaign(models.Model):
 
         if target:
             for att in target.attributes.all():
+                att.key = re.sub(r'ORDN-[0-9]{3}-','',att.key)
                 html_content = html_content.replace("($%s$)" % (att.key), att.value)
         email.attach_alternative(html_content, "text/html")
         temp = "%s.doc" % (self.attachment_template.title)
