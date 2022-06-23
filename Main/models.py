@@ -24,6 +24,7 @@ from django.core.validators import RegexValidator
 from LocalUsers.models import SwordphishUser, get_admin
 from Main.utils import send_alert_new_campaign
 
+import re
 
 # Create your models here.
 @python_2_unicode_compatible
@@ -79,7 +80,12 @@ class TargetList(models.Model):
         ws = wb.active
         targets = {}
         header = next(ws.rows)
-        tags_keys = [x.value for x in header[1:] if x.value is not None]
+        tags_keys = []
+        n = 1
+        for x in header[1:]:
+            if x.value is not None:
+                tags_keys.append('ORDN-' +  "%03d" % n + '-' + x.value)
+                n += 1
         for row in ws.iter_rows(row_offset=1):
             if row[0] and row[0].value:
                 email = row[0].value.lower()
@@ -135,13 +141,15 @@ class TargetList(models.Model):
             for attribute in attributes:
                 mails[target.mail_address][attribute.key] = attribute.value
                 tags.add(attribute.key)
-        header = list(tags)
+        header = list(sorted(tags))
+        for h in header:
+            h = re.sub(r'ORDN-[0-9]{3}-','',h)
         header.insert(0, "email")
         ws.append(header)
         for address in mails:
             line = []
             line.append(address)
-            for tag in tags:
+            for tag in sorted(tags):
                 if tag in mails[address]:
                     line.append(mails[address][tag])
                 else:
@@ -495,6 +503,7 @@ class Campaign(models.Model):
 
         if target:
             for att in target.attributes.all():
+                att.key = re.sub(r'ORDN-[0-9]{3}-','',att.key)
                 html_content = html_content.replace("($%s$)" % (att.key), att.value)
 
         email.attach_alternative(html_content, "text/html")
@@ -548,6 +557,7 @@ class Campaign(models.Model):
 
         if target:
             for att in target.attributes.all():
+                att.key = re.sub(r'ORDN-[0-9]{3}-','',att.key)
                 html_content = html_content.replace("($%s$)" % (att.key), att.value)
         email.attach_alternative(html_content, "text/html")
         temp = "%s.doc" % (self.attachment_template.title)
@@ -628,11 +638,12 @@ class Campaign(models.Model):
         connec.close()
         return True
 
-    def download_results_xlsx(self):
+    def generate_results_xlsx(self):
         targets = self.anonymous_targets.all()
         wb = Workbook()
         ws = wb.active
         tags = set()
+        dest_filename = 'results/' + str(self.id) + '.xlsx'
 
         for target in targets:
             attributes = target.attributes.all()
@@ -659,8 +670,8 @@ class Campaign(models.Model):
         header.append("reported")
         header.append("reported time")
 
-        for tag in tags:
-            header.append(tag)
+        for tag in sorted(tags):
+            header.append(re.sub(r'ORDN-[0-9]{3}-','',tag))
 
         ft = Font(bold=True)
         al = Alignment(horizontal="center", vertical="center")
@@ -731,7 +742,7 @@ class Campaign(models.Model):
             else:
                 reported_time = "N/A"
 
-            for tag in tags:
+            for tag in sorted(tags):
                 att = target.attributes.filter(key=tag)
                 if att:
                     values.append(att[0].value)
@@ -787,7 +798,8 @@ class Campaign(models.Model):
 
         c = ws['B2']
         ws.freeze_panes = c
-        return save_virtual_workbook(wb)
+        wb.save(filename = dest_filename)
+        return True
 
     def count_targets(self):
         lists = self.targets.all()
