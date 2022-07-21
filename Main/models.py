@@ -146,6 +146,7 @@ class TargetList(models.Model):
         for h in raw_header:
             h = re.sub(r'ORDN-[0-9]{3}-','',h)
             header.append(h)
+        header.insert(0, "email")
         ws.append(header)
         for address in mails:
             line = []
