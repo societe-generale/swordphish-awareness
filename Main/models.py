@@ -2,7 +2,7 @@ import datetime
 from django.utils.timezone import get_current_timezone
 import uuid
 from base64 import b64decode
-from smtplib import SMTPRecipientsRefused
+from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
 from email.mime.image import MIMEImage
 from email.header import Header
 from bs4 import BeautifulSoup
@@ -24,7 +24,8 @@ from LocalUsers.models import SwordphishUser, get_admin
 from Main.utils import send_alert_new_campaign
 
 import re
-
+import logging
+from time import sleep
 # Create your models here.
 
 class Attribute(models.Model):
@@ -572,6 +573,7 @@ class Campaign(models.Model):
         email.send(fail_silently=False)
 
     def start(self):
+        logger = logging.getLogger(__name__)
         if self.status != "2":
             self.status = "2"
         attachment_content = self.__buildattachment()
@@ -586,17 +588,15 @@ class Campaign(models.Model):
         except SMTPRecipientsRefused:
             pass
         targetlists = self.targets.all()
-        connec = mail.get_connection()
+        connec = mail.get_connection(fail_silently=False,timeout=15)
         connec.open()
         mail_content = self.__buildemail()
         for targetlist in targetlists:
             targets = targetlist.targets.all()
             for target in targets:
                 newAnon = AnonymousTarget()
-                newAnon.mail_sent_time = datetime.datetime.now(tz=get_current_timezone())
                 newAnon.save()
                 newAnon.importAttributes(target)
-                self.anonymous_targets.add(newAnon)
                 try:
                     if self.campaign_type in ["1", "3", "4"]:
                         self.__sendemail(target.mail_address,
@@ -613,6 +613,36 @@ class Campaign(models.Model):
                                                        )
                 except SMTPRecipientsRefused:
                     pass
+                except SMTPServerDisconnected:
+                    logger.error("Timeout connecting to SMTP server")
+                    logger.info("Pause for a little while before opening a new connection")
+                    sleep(60)
+                    try:
+                        connec = mail.get_connection(fail_silently=False,timeout=15)
+                        connec.open()
+                        if self.campaign_type in ["1", "3", "4"]:
+                            self.__sendemail(target.mail_address,
+                                             newAnon.uniqueid,
+                                             connec,
+                                             mail_content
+                                             )
+                        elif self.campaign_type == "2":
+                            self.__sendemailwithattachment(target.mail_address,
+                                                           newAnon.uniqueid,
+                                                           connec,
+                                                           mail_content,
+                                                           attachment_content
+                                                           )
+                    except SMTPServerDisconnected:
+                        logger.error("Failed to reopen a connection to SMTP server. Giving up")
+                        break
+                    else:
+                        logger.info("New connection is working")
+                        newAnon.mail_sent_time = datetime.datetime.now(tz=get_current_timezone())
+                        self.anonymous_targets.add(newAnon)
+                else:
+                    newAnon.mail_sent_time = datetime.datetime.now(tz=get_current_timezone())
+                    self.anonymous_targets.add(newAnon)
         connec.close()
         return True
 
