@@ -140,10 +140,11 @@ class TargetList(models.Model):
             for attribute in attributes:
                 mails[target.mail_address][attribute.key] = attribute.value
                 tags.add(attribute.key)
-        header = list(sorted(tags))
-        for h in header:
+        raw_header = list(sorted(tags))
+        header = []
+        for h in raw_header:
             h = re.sub(r'ORDN-[0-9]{3}-','',h)
-        header.insert(0, "email")
+            header.append(h)
         ws.append(header)
         for address in mails:
             line = []
