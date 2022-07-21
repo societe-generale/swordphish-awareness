@@ -2,12 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.core.validators import RegexValidator
-from django.utils.encoding import python_2_unicode_compatible
 
 # Create your models here.
 
 
-@python_2_unicode_compatible
+
 class SwordphishUser(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -99,7 +98,7 @@ def get_admin():
     return SwordphishUser.objects.filter(user__is_superuser=True)[0]
 
 
-@python_2_unicode_compatible
+
 class Entity(models.Model):
     name = models.CharField(max_length=200)
     admins = models.ManyToManyField(SwordphishUser)
@@ -111,7 +110,7 @@ class Entity(models.Model):
         ordering = ['name']
 
 
-@python_2_unicode_compatible
+
 class Region(models.Model):
     name = models.CharField(max_length=200)
     members = models.ManyToManyField(SwordphishUser, through='RegionMembership')
@@ -127,7 +126,7 @@ class Region(models.Model):
         ordering = ["entity__name", 'name']
 
 
-@python_2_unicode_compatible
+
 class RegionMembership(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     user = models.ForeignKey(SwordphishUser, on_delete=models.CASCADE)

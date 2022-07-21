@@ -17,7 +17,6 @@ from django.forms import ValidationError
 from django.core import mail
 from django.conf import settings
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 from django.core.validators import RegexValidator
 
@@ -27,7 +26,7 @@ from Main.utils import send_alert_new_campaign
 import re
 
 # Create your models here.
-@python_2_unicode_compatible
+
 class Attribute(models.Model):
     key = models.CharField(db_index=True, max_length=240)
     value = models.CharField(db_index=True, max_length=240)
@@ -62,7 +61,7 @@ class Target(models.Model):
         self.save()
 
 
-@python_2_unicode_compatible
+
 class TargetList(models.Model):
     class Meta:
         ordering = ["name", "-creation_date"]
@@ -169,7 +168,7 @@ class TargetList(models.Model):
         return save_virtual_workbook(wb)
 
 
-@python_2_unicode_compatible
+
 class AnonymousTarget(models.Model):
     uniqueid = models.CharField(db_index=True, max_length=36, default=uuid.uuid4)
     attributes = models.ManyToManyField(Attribute)
@@ -198,7 +197,7 @@ class AnonymousTarget(models.Model):
             self.attributes.add(att)
 
 
-@python_2_unicode_compatible
+
 class PhishmailDomain(models.Model):
     class Meta:
         ordering = ["domain"]
@@ -209,7 +208,7 @@ class PhishmailDomain(models.Model):
         return self.domain
 
 
-@python_2_unicode_compatible
+
 class Template(models.Model):
 
     class Meta:
@@ -255,7 +254,7 @@ class Template(models.Model):
         return False
 
 
-@python_2_unicode_compatible
+
 class Campaign(models.Model):
 
     class Meta:
