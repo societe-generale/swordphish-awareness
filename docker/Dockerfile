@@ -4,27 +4,21 @@
 # Must not be used directly, use docker-compose instead (see README.md)
 #
 # MAINTAINER CERT SG, cert.sg@socgen.com
-FROM ubuntu:18.04
+FROM python:3.9-slim
 
-RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-suggests --no-install-recommends \
-    build-essential libpq-dev locales tzdata \
-    python3-dev python3-pip python3-setuptools git && \
+RUN apt update && apt install git gcc libpq-dev python3-dev locales tzdata -y --no-install-suggests --no-install-recommends && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /root/.cache/* && \
-    groupadd swordphish && useradd -r --home-dir /opt/swordhish -g swordphish swordphish && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3 10 && \
-    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10 && \
-    pip3 install --upgrade pip
-
+    groupadd swordphish && useradd -r --home-dir /opt/swordhish -g swordphish swordphish
 
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/
 
-RUN git clone https://github.com/certsocietegenerale/swordphish-awareness.git /opt/swordphish
+RUN git clone https://github.com/certsocietegenerale/swordphish-awareness.git /opt/swordphish --depth=1 && rm -rf /opt/swordphish/.git
 
 WORKDIR /opt/swordphish
 
 # Setup locales
 RUN locale-gen en_US.UTF-8 && \
-        update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 && \
+        update-locale LANG=en_US.UTF-8 LC_ALL="en_US.UTF-8 UTF-8" && \
         ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime && \
         dpkg-reconfigure -f noninteractive tzdata && \
         LANG=en_US.UTF-8 pip install -r requirements.txt && \
