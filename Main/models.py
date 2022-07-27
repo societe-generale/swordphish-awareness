@@ -641,9 +641,11 @@ class Campaign(models.Model):
                         logger.info("New connection is working")
                         newAnon.mail_sent_time = datetime.datetime.now(tz=get_current_timezone())
                         self.anonymous_targets.add(newAnon)
+                        newAnon.save()
                 else:
                     newAnon.mail_sent_time = datetime.datetime.now(tz=get_current_timezone())
                     self.anonymous_targets.add(newAnon)
+                    newAnon.save()
         connec.close()
         return True
 
