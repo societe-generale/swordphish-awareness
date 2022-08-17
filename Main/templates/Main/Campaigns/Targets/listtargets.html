@@ -65,11 +65,11 @@
             {% endif %}
             {% for page in targets.pages %}
               {% if page %}
-                {% ifequal targets.number page %}
+                {% if targets.number == page %}
                   <li class="active"><a href="#">{{ page }}</a></li>
                 {% else %}
                   <li><a data-form="{% url 'Main:campaign_list_targets' targetlist.id page %}" class="paging" href="#">{{ page }}</a></li>
-                {% endifequal %}
+                {% endif %}
               {% else %}
                 <li class="disabled"><span aria-hidden="true">...</span></li>
               {% endif %}

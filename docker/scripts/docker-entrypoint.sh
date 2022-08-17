@@ -12,6 +12,7 @@ function _wait_for_redis {
 if [ "$1" = 'webserver' ]; then
     _wait_for_postgres
     _wait_for_redis
+    ./manage.py makemigrations && ./manage.py migrate
     exec ./manage.py runserver 0.0.0.0:8000
 elif  [ "$1" = 'beat' ]; then
     _wait_for_postgres

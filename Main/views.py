@@ -5,7 +5,7 @@ from base64 import b64decode
 from datetime import datetime
 from django.utils.timezone import get_current_timezone
 from zipfile import BadZipfile
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.urls import reverse
@@ -368,7 +368,8 @@ def campaign_list_targets(request, listid, page=1):
     if targetlist.author not in request.user.swordphishuser.visible_users():
         editable = False
 
-    paginator = Paginator(targetlist.targets.all().order_by("mail_address"), 10, request=request)
+    paginator = Paginator(targetlist.targets.all().order_by("mail_address"), 10)
+    paginator.ELLIPSIS = ''
 
     try:
         targets = paginator.page(page)
@@ -378,6 +379,8 @@ def campaign_list_targets(request, listid, page=1):
         targets = paginator.page(paginator.num_pages)
     except Exception:
         targets = paginator.page(1)
+
+    targets.pages = paginator.get_elided_page_range(page)
 
     if request.method == "GET":
         return render(request, 'Main/Campaigns/Targets/listtargets.html',
@@ -433,7 +436,8 @@ def campaign_list_targets_list(request, page=1):
         visible_usrs = request.user.swordphishuser.visible_users()
         targetslists = TargetList.objects.filter(author__in=visible_usrs).order_by("-creation_date")
 
-        paginator = Paginator(targetslists, 20, request=request)
+        paginator = Paginator(targetslists, 20)
+        paginator.ELLIPSIS = ''
 
         try:
             lists = paginator.page(page)
@@ -443,6 +447,8 @@ def campaign_list_targets_list(request, page=1):
             lists = paginator.page(paginator.num_pages)
         except Exception:
             lists = paginator.page(1)
+
+        lists.pages = paginator.get_elided_page_range(page)
 
         return render(request, "Main/Campaigns/Targets/listtargetslists.html",
                       {'targetslists': lists,
@@ -669,6 +675,7 @@ def campaign_list_template(request, page=1):
         templatelist = Template.objects.filter(Q(author__in=visible_users) |
                                                Q(public=True)).order_by("-creation_date")
         paginator = Paginator(templatelist, 20)
+        paginator.ELLIPSIS = ''
 
         try:
             templates = paginator.page(page)
@@ -678,6 +685,8 @@ def campaign_list_template(request, page=1):
             templates = paginator.page(paginator.num_pages)
         except Exception:
             templates = paginator.page(1)
+
+        templates.pages = paginator.get_elided_page_range(page)
 
         return render(request, 'Main/Campaigns/Templates/listtemplate.html',
                       {"templatelist": templates,
@@ -941,6 +950,7 @@ def campaign_list_campaigns(request, page=1):
         visible_users = request.user.swordphishuser.visible_users()
         campaignlist = Campaign.objects.filter(author__in=visible_users)
         paginator = Paginator(campaignlist, 20)
+        paginator.ELLIPSIS = ''
 
         try:
             campaigns = paginator.page(page)
@@ -950,6 +960,8 @@ def campaign_list_campaigns(request, page=1):
             campaigns = paginator.page(paginator.num_pages)
         except Exception:
             campaigns = paginator.page(1)
+
+        campaigns.pages = paginator.get_elided_page_range(page)
 
         return render(request, 'Main/Campaigns/Campaigns/listcampaigns.html',
                       {"campaignlist": campaigns,
@@ -968,6 +980,7 @@ def campaign_list_running_campaigns(request, page=1):
     if request.method == "GET":
         campaignlist = Campaign.objects.filter(status="2").order_by("-start_date")
         paginator = Paginator(campaignlist, 20)
+        paginator.ELLIPSIS = ''
 
         try:
             campaigns = paginator.page(page)
@@ -977,6 +990,8 @@ def campaign_list_running_campaigns(request, page=1):
             campaigns = paginator.page(paginator.num_pages)
         except Exception:
             campaigns = paginator.page(1)
+
+        campaigns.pages = paginator.get_elided_page_range(page)
 
         return render(request, 'Main/Campaigns/Campaigns/list_running_campaigns.html',
                       {"campaignlist": campaigns,

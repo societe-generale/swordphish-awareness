@@ -31,7 +31,8 @@ ADMINS = []
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', "127.0.0.1", "::1"]
+CSRF_TRUSTED_ORIGINS = ['http://' + h for h in ALLOWED_HOSTS] + ['https://' + h for h in ALLOWED_HOSTS]
 
 PROJECT_NAME = "SwordPHISH"
 
@@ -47,7 +48,6 @@ INSTALLED_APPS = (
     'django_generate_secret_key',
     'bootstrap3',
     'bootstrap3_datetime',
-    'pure_pagination',
     'ckeditor',
     'LocalUsers',
     'Main',
@@ -71,6 +71,7 @@ WSGI_APPLICATION = 'Swordphish.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 DATABASES = {
     'default': {
@@ -99,6 +100,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
+                'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
             ],
             'debug': True,
@@ -138,11 +140,6 @@ MEDIA_URL = '/media/'
 LOGIN_URL = 'Authent:login'
 LOGOUT_URL = 'Authent:logout'
 
-
-PAGINATION_SETTINGS = {
-    'PAGE_RANGE_DISPLAYED': 2,
-    'MARGIN_PAGES_DISPLAYED': 3,
-}
 
 SESSION_SAVE_EVERY_REQUEST = True
 

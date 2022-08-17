@@ -17,7 +17,7 @@ from django.forms import ValidationError
 from django.core import mail
 from django.conf import settings
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.core.validators import RegexValidator
 
 from LocalUsers.models import SwordphishUser, get_admin
@@ -230,7 +230,7 @@ class Template(models.Model):
         ('7', _('Fake ransomware template')),
     ]
 
-    template_type = models.CharField(max_length=1, choices=TEMPLATE_TYPE, default=1)
+    template_type = models.CharField(max_length=2, choices=TEMPLATE_TYPE, default=1)
     name = models.CharField(max_length=200)
     author = models.ForeignKey(SwordphishUser, on_delete=models.SET(get_admin))
     creation_date = models.DateTimeField(auto_now_add=True, blank=True)

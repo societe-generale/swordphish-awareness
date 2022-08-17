@@ -4,7 +4,7 @@
 # Must not be used directly, use docker-compose instead (see README.md)
 #
 # MAINTAINER CERT SG, cert.sg@socgen.com
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-suggests --no-install-recommends \
     build-essential libpq-dev locales tzdata \
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && DEBIAN_FRON
 
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/
 
-RUN git clone https://github.com/certsocietegenerale/swordphish-awareness.git /opt/swordphish
+COPY . /opt/swordphish
 
 WORKDIR /opt/swordphish
 
@@ -30,13 +30,13 @@ RUN locale-gen en_US.UTF-8 && \
         LANG=en_US.UTF-8 pip install -r requirements.txt && \
         cp Swordphish/settings.py Swordphish/settings_docker.py && \
         chown -R swordphish:swordphish /opt/swordphish && \
-        sed -i '80s/FIXME/swordphish/' Swordphish/settings_docker.py && \
-        sed -i '81s/FIXME/swordphish-postgres/' Swordphish/settings_docker.py && \
-        sed -i '253s/localhost/swordphish-redis/' Swordphish/settings_docker.py && \
-        sed -i '259s/hostname/localhost:8000/' Swordphish/settings_docker.py && \
-        sed -i '259s/https/http/' Swordphish/settings_docker.py && \
-        sed -i '309s/localhost/swordphish-mail/' Swordphish/settings_docker.py && \
-        sed -i '310s/2525/1025/' Swordphish/settings_docker.py && \
+        sed -i '81s/FIXME/swordphish/' Swordphish/settings_docker.py && \
+        sed -i '82s/FIXME/swordphish-postgres/' Swordphish/settings_docker.py && \
+        sed -i '250s/localhost/swordphish-redis/' Swordphish/settings_docker.py && \
+        sed -i '256s/hostname/localhost:8000/' Swordphish/settings_docker.py && \
+        sed -i '256s/https/http/' Swordphish/settings_docker.py && \
+        sed -i '306s/localhost/swordphish-mail/' Swordphish/settings_docker.py && \
+        sed -i '307s/2525/1025/' Swordphish/settings_docker.py && \
         mv ./docker/scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
         chmod 755 /usr/local/bin/wait-for-it.sh /usr/local/bin/docker-entrypoint.sh
 

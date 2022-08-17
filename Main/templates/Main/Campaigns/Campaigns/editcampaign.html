@@ -21,6 +21,10 @@
         {{ campaignform.media }}
         {% bootstrap_form campaignform %}
       </div>
+      <script>
+      $("#id_start_date_pickers:has(input:not([readonly],[disabled]))").datetimepicker({"format": "YYYY-MM-DD HH:mm"});
+      $("#id_end_date_pickers:has(input:not([readonly],[disabled]))").datetimepicker({"format": "YYYY-MM-DD HH:mm"});
+      </script>
       <div class="modal-footer">
            <input name="create" class="btn btn-primary" type="submit" value="Save" />
            <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>

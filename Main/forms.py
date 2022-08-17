@@ -5,7 +5,7 @@ from bootstrap3_datetime.widgets import DateTimePicker
 from django.forms import ModelForm, EmailField, ValidationError
 from django.forms import CharField, Textarea, CheckboxSelectMultiple
 from django.core.validators import URLValidator
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.conf import settings
 from django.db.models import Q
 

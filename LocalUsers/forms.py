@@ -1,6 +1,6 @@
 from django.forms import ModelForm, CharField, PasswordInput, ValidationError, ChoiceField
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from LocalUsers.models import SwordphishUser, Entity, Region
 
 
