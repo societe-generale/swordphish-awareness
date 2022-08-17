@@ -1,12 +1,13 @@
 ---
 
 version: '3'
+
+volumes:
+  swordphish_data:
+
 services:
   swordphish:
     container_name: swordphish_main
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile
     image: swordphish
     ports:
       - "8000:8000"
@@ -27,6 +28,9 @@ services:
     restart: always
   swordphish-worker:
     image: swordphish
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
     links:
       - swordphish-redis
       - swordphish-postgres
@@ -40,6 +44,8 @@ services:
     restart: always
   swordphish-postgres:
     image: postgres:latest
+    volumes:
+    - swordphish_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=swordphish
       - POSTGRES_PASSWORD=swordphish

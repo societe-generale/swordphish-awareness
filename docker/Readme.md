@@ -24,7 +24,6 @@ A fake smtp server and webmail is also available at `http://localhost:8025/` it 
 
 But to be fully functional a few more commands need to be executed:
 
-    $ docker exec swordphish_main ./manage.py migrate
     $ docker exec swordphish_main ./manage.py loaddata docker/data_seed.json
 
 This will inject a set of test data in the freshly instanciated database. You'll then be able to log with `admin@admin.com / password` on Swordphish.
@@ -56,15 +55,3 @@ services:
       - /my/custom/swordphish/config:/opt/swordphish/Swordphish/settings_docker.py:ro
     restart: always
 ```
-2. Keep in mind, database data do __not__ persist after container destruction. If you require
-persistence for your data, you can use the `volumes` option on the `swordphish-postgres` service
-```
-swordphish-postgres:
-    image: postgres:latest
-    environment:
-      - POSTGRES_PASSWORD=postgres
-    volumes:
-      - /my/custom/path/:/var/lib/postgresql/data
-    restart: always
-```
-
