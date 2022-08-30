@@ -49,4 +49,4 @@ RUN ./manage.py collectstatic
 
 EXPOSE 8000
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["docker-entrypoint.sh", "webserver"]
+CMD ["webserver"]
