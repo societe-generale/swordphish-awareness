@@ -10,7 +10,7 @@ RUN apt update && apt upgrade -y && apt autoremove -y && \
     apt install git gcc libpq-dev python3-dev locales tzdata -y && pip3 install --upgrade pip
 
 # Setup locales
-RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 LC_ALL="en_US.UTF-8 UTF-8" && \
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen && update-locale && \
     ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
 
 RUN groupadd swordphish && useradd -r --home-dir /opt/swordhish -g swordphish swordphish
@@ -41,6 +41,7 @@ ENV USER swordphish
 ENV DJANGO_SETTINGS_MODULE Swordphish.settings_docker
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
 
 RUN ./manage.py generate_secret_key
 
