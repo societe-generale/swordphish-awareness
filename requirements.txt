@@ -9,7 +9,7 @@ beautifulsoup4==4.6.3
 billiard==3.6.4.0
 cairocffi==0.9.0
 CairoSVG==2.5.2
-celery==5.1.2
+celery==5.2.2
 certifi==2018.8.24
 cffi
 chardet==3.0.4
@@ -57,7 +57,7 @@ pytz==2018.5
 PyYAML==6.0
 recommonmark==0.4.0
 redis==4.3.4
-requests==2.20.0
+requests==2.28.1
 scandir==1.9.0
 simplegeneric==0.8.1
 six==1.11.0
@@ -68,7 +68,7 @@ sphinxcontrib-websupport==1.1.0
 tinycss2==0.6.1
 tornado==5.1
 traitlets==5.3.0
-urllib3==1.24.3
+urllib3==1.26.12
 uWSGI
 vine==5.0.0
 watchdog==0.9.0
