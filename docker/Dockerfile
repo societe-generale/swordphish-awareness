@@ -45,6 +45,8 @@ ENV LANGUAGE=en_US.UTF-8
 
 RUN ./manage.py generate_secret_key
 
+RUN ./manage.py collectstatic
+
 EXPOSE 8000
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["docker-entrypoint.sh", "webserver"]
