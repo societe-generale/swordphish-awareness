@@ -22,6 +22,8 @@ The detailed installation instructions can be found in the docs directory. You c
 
 ```$docs>make html```
 
+```$docs/_build/html>python -m http.server```
+
 # Docker images
 
 Swordphish has a `docker-compose` script to get up and running test and dev environnement very fast. Full instructions [here](https://github.com/certsocietegenerale/swordphish-awareness/tree/master/docker)
