@@ -13,7 +13,7 @@ celery==5.2.2
 certifi==2018.8.24
 cffi
 chardet==3.0.4
-CommonMark==0.5.4
+CommonMark==0.9.1
 cssselect2==0.2.1
 decorator==4.3.0
 defusedxml==0.5.0
