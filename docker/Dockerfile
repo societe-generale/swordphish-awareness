@@ -7,7 +7,7 @@
 FROM python:3.10-slim
 
 RUN apt update && apt upgrade -y && apt autoremove -y && \
-    apt install git gcc libpq-dev python3-dev locales tzdata -y && pip3 install --upgrade pip
+    apt install make git gcc libpq-dev python3-dev locales tzdata -y && pip3 install --upgrade pip
 
 # Setup locales
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen && update-locale && \

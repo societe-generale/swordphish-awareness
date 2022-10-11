@@ -13,7 +13,7 @@ celery==5.2.2
 certifi==2018.8.24
 cffi
 chardet==3.0.4
-CommonMark==0.5.4
+CommonMark==0.9.1
 cssselect2==0.2.1
 decorator==4.3.0
 defusedxml==0.5.0
@@ -55,14 +55,14 @@ pyparsing==2.2.0
 Pyphen==0.9.5
 pytz==2018.5
 PyYAML==6.0
-recommonmark==0.4.0
+recommonmark==0.7.1
 redis==4.3.4
 requests==2.28.1
 scandir==1.9.0
 simplegeneric==0.8.1
 six==1.11.0
 snowballstemmer==1.2.1
-Sphinx==1.7.8
+Sphinx==5.1.1
 sphinx-autobuild==0.7.1
 sphinxcontrib-websupport==1.1.0
 tinycss2==0.6.1
