@@ -400,8 +400,10 @@ class Campaign(models.Model):
 
         if self.enable_mail_tracker:
             if not soup.findAll("img", attrs={"src": "FIXMEMAILTRACKER"}):
-                img = soup.new_tag("img", src="FIXMEMAILTRACKER")
-                soup.body.append(img)
+                div = soup.new_tag('div', style='display: none')
+                img = soup.new_tag("img", src="FIXMEMAILTRACKER", width=1, height=1)
+                div.append(img)
+                soup.body.append(div)
 
         return {"text": str(soup), "imgs": imgs}
 
