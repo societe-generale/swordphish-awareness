@@ -17,7 +17,7 @@ CommonMark==0.9.1
 cssselect2==0.2.1
 decorator==4.3.0
 defusedxml==0.5.0
-Django==4.1.2
+Django==4.1.6
 django-bootstrap3==22.1
 django-bootstrap3-datetimepicker-2==2.8.3
 django-ckeditor==6.5.0
