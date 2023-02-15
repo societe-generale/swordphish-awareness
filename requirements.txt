@@ -1,6 +1,6 @@
 beautifulsoup4==4.11.1
 celery==5.2.7
-Django==4.1.6
+Django==4.1.7
 django-bootstrap3==22.1
 django-bootstrap3-datetimepicker-2==2.8.3
 django-ckeditor==6.5.1
