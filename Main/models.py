@@ -86,7 +86,7 @@ class TargetList(models.Model):
             if x.value is not None:
                 tags_keys.append('ORDN-' +  "%03d" % n + '-' + x.value)
                 n += 1
-        for row in ws.iter_rows(row_offset=1):
+        for row in ws.iter_rows(min_row=2):
             if row[0] and row[0].value:
                 email = row[0].value.lower()
                 tags_values = [x.value if x.value is not None else "N/A" for x in row[1:]]
