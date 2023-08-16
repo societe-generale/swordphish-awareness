@@ -9,4 +9,4 @@ django-js-asset==2.0.0
 openpyxl==3.0.10
 psycopg2-binary==2.9.3
 redis==4.4.4
-uWSGI==2.0.20
+uWSGI==2.0.22

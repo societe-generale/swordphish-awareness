@@ -1,9 +1,5 @@
 # Dockerfile for Swordphish development instance
-# written by CERT SG
-#
 # Must not be used directly, use docker-compose instead (see README.md)
-#
-# MAINTAINER CERT SG, cert.sg@socgen.com
 FROM python:3.10-slim
 
 RUN apt update && apt upgrade -y && apt autoremove -y && \
