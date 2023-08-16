@@ -8,7 +8,7 @@ Follow the [official instructions](https://www.docker.com/community-edition).
 
 ## Clone the repo
 
-    $ git clone https://github.com/certsocietegenerale/swordphish-awareness
+    $ git clone https://github.com/societe-generale/swordphish-awareness
     $ cd swordphish-awareness
 
 ## Start Swordphish

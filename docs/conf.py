@@ -21,8 +21,8 @@ from recommonmark.parser import CommonMarkParser
 # -- Project information -----------------------------------------------------
 
 project = 'Swordphish'
-copyright = '2018, CERT Société Générale'
-author = 'CERT Société Générale'
+copyright = '2018, Société Générale'
+author = 'Société Générale'
 
 # The short X.Y version
 version = ''
@@ -134,7 +134,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Swordphish.tex', 'Swordphish Documentation',
-     'CERT Société Générale', 'manual'),
+     'Société Générale', 'manual'),
 ]
 
 
