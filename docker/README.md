@@ -8,35 +8,48 @@ Follow the [official instructions](https://www.docker.com/community-edition).
 
 ## Clone the repo
 
+```bash
     $ git clone https://github.com/societe-generale/swordphish-awareness
     $ cd swordphish-awareness
+```
 
 ## Start Swordphish
+
 The following command will build a Docker image named `swordphish` and launch it :
 
+```bash
     $ cd docker
-    $ docker-compose build
     $ docker-compose up
+```
 
-The `docker-compose up` command should start a working swordphish container listening for connections on `http://localhost:8000/`.
+The `docker-compose up` command should start a working swordphish container listening for connections
+on `http://localhost:8000/`.
 
-A fake smtp server and webmail is also available at `http://localhost:8025/` it allows to receive every mail sent by swordphish without the pain of setting up a full mail server.
+### Test the application
 
-But to be fully functional a few more commands need to be executed:
+- Go to http://localhost:8000/
+- Login with `admin@admin.com` and `password` credentials
+- Duplicate existing campaign and test
 
-    $ docker exec swordphish_main ./manage.py loaddata docker/data_seed.json
+A fake smtp server and webmail is also available at `http://localhost:8025/` it allows to receive every mail sent by
+swordphish without the pain of setting up a full mail server.
 
-This will inject a set of test data in the freshly instanciated database. You'll then be able to log with `admin@admin.com / password` on Swordphish.
+You can add local DNS records in your "hosts" file (
+/etc/hosts on most Unix / Linux systems and C:\Windows\System32\Drivers\etc\hosts on Windows)
+to use other phishmail domains:
 
-Finally, if you want to fully test Swordphish campaigns, you should add the following line in your "hosts" file (/etc/hosts on most Unix / Linux systems and c:\Windows\System32\Drivers\etc\hosts on Windows).
-
+```
+    127.0.0.1 global.corp
     127.0.0.1 myphishingdomain.tld
+    ...
+```
 
 ## Notes
 
 1. A custom configuration file can be mounted under Swordphish's image by editing the
-compose file and using the `volumes` option. For example:
-```
+   compose file and using the `volumes` option. For example:
+
+```yaml
 version: '3'
 services:
   swordphish:

@@ -61,3 +61,9 @@ target/
 
 # MacOs
 *.DS_Store
+
+# venv
+venv/
+
+# jetbrains
+.idea/

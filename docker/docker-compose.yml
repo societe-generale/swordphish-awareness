@@ -3,7 +3,8 @@
 version: '3'
 
 volumes:
-  swordphish_data:
+  postgres_data:
+  swordphish_config:
 
 services:
   swordphish:
@@ -11,20 +12,22 @@ services:
     image: swordphish
     ports:
       - "8000:8000"
+    volumes:
+      - swordphish_config:/opt/swordphish/config
     links:
       - swordphish-redis
       - swordphish-postgres
       - swordphish-mail
     restart: always
   swordphish-redis:
-    image: redis:latest
+    image: redis:alpine3.19
   swordphish-beat:
     image: swordphish
     links:
       - swordphish-redis
       - swordphish-postgres
       - swordphish-mail
-    command: ['docker-entrypoint.sh', 'beat']
+    command: [ 'docker-entrypoint.sh', 'beat' ]
     restart: always
   swordphish-worker:
     image: swordphish
@@ -35,17 +38,17 @@ services:
       - swordphish-redis
       - swordphish-postgres
       - swordphish-mail
-    command: ['docker-entrypoint.sh', 'workers']
+    command: [ 'docker-entrypoint.sh', 'workers' ]
     restart: always
   swordphish-mail:
-    image: mailhog/mailhog:latest
+    image: mailhog/mailhog:v1.0.1
     ports:
       - "8025:8025"
     restart: always
   swordphish-postgres:
-    image: postgres:latest
+    image: postgres:16.2-alpine
     volumes:
-    - swordphish_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=swordphish
       - POSTGRES_PASSWORD=swordphish

@@ -11,15 +11,16 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen && update-locale &
 
 RUN groupadd swordphish && useradd -r --home-dir /opt/swordhish -g swordphish swordphish
 
-
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/
-
-COPY . /opt/swordphish
 
 WORKDIR /opt/swordphish
 
-RUN pip install -r requirements.txt && \
-    cp Swordphish/settings.py Swordphish/settings_docker.py && \
+COPY requirements.txt /opt/swordphish/
+RUN pip install -r requirements.txt
+
+COPY . /opt/swordphish/
+
+RUN cp Swordphish/settings.py Swordphish/settings_docker.py && \
     chown -R swordphish:swordphish /opt/swordphish && \
     sed -i '81s/FIXME/swordphish/' Swordphish/settings_docker.py && \
     sed -i '82s/FIXME/swordphish-postgres/' Swordphish/settings_docker.py && \
@@ -39,9 +40,7 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
 
-RUN ./manage.py generate_secret_key
-
-RUN ./manage.py collectstatic
+RUN ./manage.py generate_secret_key && ./manage.py collectstatic
 
 EXPOSE 8000
 ENTRYPOINT ["docker-entrypoint.sh"]
