@@ -1,0 +1,3 @@
+Main/static/bootstrap*/** linguist-vendored
+Main/static/ckeditor/** linguist-vendored
+Main/static/jquery* linguist-vendored
