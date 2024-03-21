@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Templates - SwordPHISH</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Templates";
+        var mkdocs_page_input_path = "templates.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> SwordPHISH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Swordphish</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../campaigns/">Campaigns</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../special-features/">Special Features</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../targets/">Targets</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Templates</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#standard-templates">Standard templates</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#mails-with-link">Mails with link</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mails-with-attachment">Mails with attachment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#attachment">Attachment</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#actions-after-click">Actions after click</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#redirection">Redirection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#awareness">Awareness</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fake-form">Fake form</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fake-ransomware">Fake ransomware</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#add-images-to-templates">Add images to templates</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../users-management/">Users management</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">SwordPHISH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Templates</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="templates">Templates</h1>
+<p>Templates are all the mails / attachment / web pages that will be sent
+or displayed to the targets in the different campaigns.</p>
+<p>Different kind of templates are available, depending on the kind of
+campaign you want to run:</p>
+<p><img alt="image" src="../images/16-templates-types.png" /></p>
+<p>Common best practices to create templates:</p>
+<ul>
+<li>Picture resizing on the fly (by setting width or height values) are
+  sometimes not taken in consideration by mail clients and word</li>
+<li>It's recommended to test templates before starting a campaign using
+  the test functionality (campaigns test functionality)</li>
+<li>Templates can be shared with the community using the tick box at the
+  bottom of the form. This will authorize any SwordPHISH user to use
+  it for a campaign.</li>
+<li>A "fullscreen" button is provided in the rich text editor for a
+  better user experience</li>
+</ul>
+<h2 id="standard-templates">Standard templates</h2>
+<p>This category regroups templates of files / mails that will be sent to
+the targets.</p>
+<h3 id="mails-with-link">Mails with link</h3>
+<p>This template is the most common one; it corresponds to a simple mail
+with a link.</p>
+<p>The only constraint to use this kind of template is to insert a link in
+the HTML that points to "FIXMEURL".</p>
+<p>This keyword is used to inject the target's dedicated link. When
+creating or editing this kind of template, this constraint will be
+automatically checked and an error will be displayed in case of
+omission.</p>
+<p><img alt="image" src="../images/17-mail-with-link.png" /></p>
+<p>The "Subject" input corresponds to the mail's title.</p>
+<p>It's possible to customize emails with targets tags using
+<code>($tag_name$)</code> tags. It'll be replaced automatically when the campaign
+starts by the tag value corresponding to the tag name if available.</p>
+<h3 id="mails-with-attachment">Mails with attachment</h3>
+<p>This kind of template corresponds to a mail that will have an
+attachment. Contrary to the "mail with link" template it doesn't need
+any link.</p>
+<p>Like the mails with links, it's also possible to customize mails with
+attachment with targets tags. The syntax is exactly the same:
+<code>($tag_name$)</code></p>
+<h3 id="attachment">Attachment</h3>
+<p>This template corresponds to the attachment that will be added to the
+mail.</p>
+<p>The attachment is created as an HTML file and is converted on the fly as
+an Office Word ".doc" file.</p>
+<p>No special requirements are expected to use this kind of template.</p>
+<h2 id="actions-after-click">Actions after click</h2>
+<p>This category regroups templates of actions that will be done once the
+targets will click on the malicious links.</p>
+<h3 id="redirection">Redirection</h3>
+<p>This template is used to define redirection to an arbitrary URL. You
+only have to provide a URL using the standard format:
+http(s)://(www.)?domain.tld(/webpage)?</p>
+<p><img alt="image" src="../images/18-redirection.png" /></p>
+<h3 id="awareness">Awareness</h3>
+<p>This template allows you to create an awareness webpage that will be
+displayed to the user in case of click on a malicious link.</p>
+<h3 id="fake-form">Fake form</h3>
+<p>This template allows you to create a fake form to lure targets. A set of
+buttons dedicated to forms creation is added to the rich editor:</p>
+<p><img alt="image" src="../images/19-forms-buttons.png" /></p>
+<p>An HTML form must be inserted in the template using the first button:</p>
+<p><img alt="image" src="../images/20-formset.png" /></p>
+<p>You can then use the "text input" and "button" buttons to create your
+form. At least one "submit" button must be inserted within the HTML
+form:</p>
+<p><img alt="image" src="../images/21-submit-button.png" /></p>
+<p>You can then use the "text input" and "button" buttons to create your
+form. At least one "submit" button must be inserted within the HTML form</p>
+<p>The fake form will be forged automatically in a way that <strong>no credential
+will be sent through the internet</strong> for evident reasons of
+confidentiality.</p>
+<p><strong>No credential will be harvested during the campaigns.</strong></p>
+<h3 id="fake-ransomware">Fake ransomware</h3>
+<p>Fake ransomware has been developed to frighten a bit more swordphish
+targets. Be reassured, it won't encrypt any file. It's a more tech
+scam than a ransomware.</p>
+<p>The goal is to display an image to lure targets to click on it,</p>
+<p><img alt="image" src="../images/25-ransomware-1.png" /></p>
+<p>then the webpage will go fullscreen during a certain amount of time to
+pretend that the target's browser is blocked displaying a frightening
+message.</p>
+<p><img alt="image" src="../images/26-ransomware-2.png" /></p>
+<p>Of course the browser won't be blocked.</p>
+<p>When the timer reach 0, another customizable on click action will be
+triggered (awareness, redirection...)</p>
+<p>To create a fake ransomware template, create one page and use <code>"normal"</code>
+style on the first practices.</p>
+<p><img alt="image" src="../images/27-ransomware-3.png" /></p>
+<p>and <code>"normal (div)"</code> on the second part.</p>
+<p><img alt="image" src="../images/28-ransomware-4.png" /></p>
+<p>swordphish will automatically deal with it and display each part when
+necessary.</p>
+<h2 id="add-images-to-templates">Add images to templates</h2>
+<p>To add images in your templates please follow these steps:</p>
+<ul>
+<li>click on the dedicated button</li>
+</ul>
+<p><img alt="image" src="../images/22-images-button.png" /></p>
+<ul>
+<li>choose a file and "that's it", file are stored directly within the
+  HTML code in base64</li>
+</ul>
+<p><img alt="image" src="../images/23-upload-image.png" /></p>
+<ul>
+<li>you can change image size by right-clicking on it and using "image"
+  submenu</li>
+</ul>
+<p><img alt="image" src="../images/24-image-size.png" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../targets/" class="btn btn-neutral float-left" title="Targets"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../users-management/" class="btn btn-neutral float-right" title="Users management">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../targets/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../users-management/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
