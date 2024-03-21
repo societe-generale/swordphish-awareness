@@ -67,3 +67,6 @@ venv/
 
 # jetbrains
 .idea/
+
+# mkdocs
+site/
