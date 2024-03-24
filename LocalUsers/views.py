@@ -81,60 +81,6 @@ def user_login(request):
         return render(request, "LocalUsers/index.html")
 
 
-def password_lost(request):
-    if request.method == "GET":
-        newform = LostpasswordForm()
-        return render(request, 'LocalUsers/password_reset_form.html', {'lostpass': newform})
-
-    if request.method == "POST":
-        newform = LostpasswordForm(request.POST)
-        if not newform.is_valid():
-            return render(request, 'LocalUsers/password_reset_form.html', {'lostpass': newform})
-        email = newform.cleaned_data["email"]
-        tmp = SwordphishUser.objects.filter(user__email=email.lower())
-        if len(tmp) == 1:
-            user = tmp[0]
-            password = User.objects.make_random_password()
-            user.user.set_password(password)
-            user.user.save()
-            user.must_change_password = True
-            user.save()
-            __lost_password(user.user.first_name, email, password)
-
-        return render(request, 'LocalUsers/password_reset_done.html')
-
-    return HttpResponseForbidden()
-
-
-def password_change_mandatory(request):
-    if not request.user.is_authenticated:
-        return redirect("Authent:login")
-    if request.method == "GET":
-        if not request.user.swordphishuser.must_change_password:
-            return redirect("Main:index")
-        changepwdform = ChangePasswordForm(instance=request.user)
-        swordphishuser = SwordphishUserForm(instance=request.user.swordphishuser)
-        return render(request, "LocalUsers/loginchangepassword.html",
-                      {'changepassform': changepwdform, 'swordphishform': swordphishuser})
-
-    if request.method == "POST":
-        changepwdform = ChangePasswordForm(request.POST, instance=request.user)
-        swordphishuser = SwordphishUserForm(request.POST, instance=request.user.swordphishuser)
-        if not changepwdform.is_valid() or not swordphishuser.is_valid():
-            return render(request, "LocalUsers/loginchangepassword.html",
-                          {'changepassform': changepwdform, 'swordphishform': swordphishuser})
-
-        editeduser = changepwdform.save(commit=False)
-        editeduser.set_password(changepwdform.cleaned_data["password_confirmation"])
-        editeduser.save()
-        editedswordphishuser = swordphishuser.save(commit=False)
-        editedswordphishuser.must_change_password = False
-        editedswordphishuser.save()
-        return redirect("Main:index")
-
-    return HttpResponseForbidden()
-
-
 @login_required
 def myprofile(request):
     if request.method == "GET":

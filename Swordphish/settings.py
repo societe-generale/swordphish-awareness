@@ -10,8 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_generate_secret_key',
-    'bootstrap3',
+    'django_bootstrap5',
     'bootstrap3_datetime',
     'ckeditor',
     'LocalUsers',
@@ -67,7 +67,6 @@ ROOT_URLCONF = 'Swordphish.urls'
 
 WSGI_APPLICATION = 'Swordphish.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
@@ -84,7 +83,6 @@ DATABASES = {
     }
 
 }
-
 
 TEMPLATES = [
     {
@@ -128,7 +126,6 @@ USE_TZ = True
 LOCALE_PATHS = (
     'locale',)
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -136,34 +133,44 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-
 LOGIN_URL = 'Authent:login'
 LOGOUT_URL = 'Authent:logout'
-
 
 SESSION_SAVE_EVERY_REQUEST = True
 
 # Default settings
-BOOTSTRAP3 = {
+BOOTSTRAP5 = {
 
-    # The URL to the jQuery JavaScript file
-    'jquery_url': STATIC_URL + 'jquery.min.js',
+    # The complete URL to the Bootstrap CSS file.
+    # Note that a URL can be either a string
+    # ("https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"),
+    # or a dict with keys `url`, `integrity` and `crossorigin` like the default value below.
+    "css_url": {
+        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css",
+        "integrity": "sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx",
+        "crossorigin": "anonymous",
+    },
 
-    # The complete URL to the Bootstrap CSS file (None means derive it from base_url)
-    'css_url': STATIC_URL + 'bootstrap-3.3.7/css/bootstrap.min.css',
+    # The complete URL to the Bootstrap bundle JavaScript file.
+    "javascript_url": {
+        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js",
+        "integrity": "sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa",
+        "crossorigin": "anonymous",
+    },
 
-    # The complete URL to the Bootstrap CSS file (None means no theme)
-    'theme_url': None,
+    # The complete URL to the Bootstrap CSS theme file (None means no theme).
+    "theme_url": None,
 
-    # The complete URL to the Bootstrap JavaScript file (None means derive it from base_url)
-    'javascript_url': STATIC_URL + 'bootstrap-3.3.7/js/bootstrap.min.js',
-
-    # Put JavaScript in the HEAD section of the HTML document
-    # (only relevant if you use bootstrap3.html)
+    # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap5.html).
     'javascript_in_head': True,
 
-    # Include jQuery with Bootstrap JavaScript (affects django-bootstrap3 template tags)
-    'include_jquery': True,
+    # Wrapper class for non-inline fields.
+    # The default value "mb-3" is the spacing as used by Bootstrap 5 example code.
+    'wrapper_class': 'mb-3',
+
+    # Wrapper class for inline fields.
+    # The default value is empty, as Bootstrap5 example code doesn't use a wrapper class.
+    'inline_wrapper_class': '',
 
     # Label class to use in horizontal forms
     'horizontal_label_class': 'col-md-2',
@@ -171,38 +178,37 @@ BOOTSTRAP3 = {
     # Field class to use in horizontal forms
     'horizontal_field_class': 'col-md-4',
 
-    # Set HTML required attribute on required fields
-    'set_required': True,
+    # Field class used for horizontal fields without a label.
+    'horizontal_field_offset_class': 'offset-sm-2',
 
-    # Set placeholder attributes to label if no placeholder is provided
+    # Set placeholder attributes to label if no placeholder is provided.
     'set_placeholder': True,
 
-    # Class to indicate required (better to set this in your Django form)
+    # Class to indicate required field (better to set this in your Django form).
     'required_css_class': '',
 
     # Class to indicate error (better to set this in your Django form)
     'error_css_class': 'has-error',
 
-    # Class to indicate success, meaning the field has valid input
-    # (better to set this in your Django form)
-    'success_css_class': 'has-success',
+    # Class to indicate success, meaning the field has valid input (better to set this in your Django form).
+    'success_css_class': '',
 
-    # Renderers (only set these if you have studied the source and understand the inner workings)
+    # Enable or disable Bootstrap 5 server side validation classes (separate from the indicator classes above).
+    'server_side_validation': True,
+
+    # Renderers (only set these if you have studied the source and understand the inner workings).
     'formset_renderers': {
-        'default': 'bootstrap3.renderers.FormsetRenderer',
+        'default': 'django_bootstrap5.renderers.FormsetRenderer',
     },
     'form_renderers': {
-        'default': 'bootstrap3.renderers.FormRenderer',
+        'default': 'django_bootstrap5.renderers.FormRenderer',
     },
     'field_renderers': {
-        'default': 'bootstrap3.renderers.FieldRenderer',
-        'inline': 'bootstrap3.renderers.InlineFieldRenderer',
+        'default': 'django_bootstrap5.renderers.FieldRenderer',
     },
 }
 
 CKEDITOR_BASEPATH = STATIC_URL + "ckeditor/ckeditor"
-
-CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS = {
     'default': {
@@ -250,54 +256,6 @@ CKEDITOR_CONFIGS = {
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_DB = 0
-
-
-# URL to reach the app (used in mail creation mails)
-SWORPDHISH_URL = "https://hostname"
-
-# Swordphish creation account mail template
-NEW_ACCOUNT_TEMPLATE = u"""Hello %s
-
-Please find your SwordPhish credentials below.
-
-URL: %s
-Login: %s
-Password: %s
-
-The password must be changed at the first connection.
-
-Best regards,
-
-Swordphish administrators
-"""
-
-# Swordphish lost password mail template
-LOST_PASSWORD_TEMPLATE = u"""Hello %s
-
-Please find your SwordPhish credentials below.
-
-URL: %s
-Login: %s
-Password: %s
-
-The password must be changed at the first connection.
-
-Best regards,
-
-Swordphish administrators
-"""
-
-
-USER_ACCOUNT_CREATION_MAIL_SENDER = "SwordPhish <swordphish@invalid.notld>"
-
-USER_ACCOUNT_CREATION_MAIL_TITLE = "[SwordPhish] Account creation"
-
-USER_ACCOUNT_LOST_PASS_MAIL_TITLE = "[SwordPhish] New password request"
-
-USER_ACCOUNT_CREATION_MAIL_CONTACT = "contact_swordphish@invalid.notld"
-
-USER_ACCOUNT_LOCKED_MAIL_TITLE = "[Swordphish] Your account has been locked !"
-
 
 # Mail address used to send mails
 SERVER_EMAIL = "SwordPhish <swordphish@invalid.notld>"

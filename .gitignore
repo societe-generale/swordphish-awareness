@@ -70,3 +70,6 @@ venv/
 
 # mkdocs
 site/
+
+# private settings
+Swordphish/settings_private*

@@ -1,4 +1,4 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 <form class="modal-form" enctype="multipart/form-data" method="post" action="{% url 'Main:campaign_create_campaign' typeid %}">
   <div class="modal-dialog">
@@ -9,9 +9,9 @@
       </div>
       <div class="modal-body">
         {% csrf_token %}
-        <link href="{{STATIC_URL}}/bootstrap3_datetime/css/bootstrap-datetimepicker.min.css" type="text/css" media="all" rel="stylesheet">
-        <script type="text/javascript" src="{{STATIC_URL}}/bootstrap3_datetime/js/moment.min.js"></script>
-        <script type="text/javascript" src="{{STATIC_URL}}/bootstrap3_datetime/js/bootstrap-datetimepicker.min.js"></script>
+        <link href="{{STATIC_URL}}/django_bootstrap5_datetime/css/bootstrap-datetimepicker.min.css" type="text/css" media="all" rel="stylesheet">
+        <script type="text/javascript" src="{{STATIC_URL}}/django_bootstrap5_datetime/js/moment.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}/django_bootstrap5_datetime/js/bootstrap-datetimepicker.min.js"></script>
         {% if campaign_already_exists %}
           <div class="alert alert-danger alert-dismissible" id="error">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
