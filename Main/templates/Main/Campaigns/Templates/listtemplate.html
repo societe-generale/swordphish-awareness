@@ -3,8 +3,8 @@
 <table class="table table-striped table-condensed">
     <thead>
     <tr>
+        <th>{% trans "Name" %}</th>
         <th>{% trans "Creation date" %}</th>
-        <th>{% trans "Template name" %}</th>
         <th>{% trans "Author" %}</th>
         <th>{% trans "Type" %}</th>
         <th>&nbsp;</th>
@@ -13,8 +13,8 @@
     <tbody>
     {% for template in templatelist.object_list %}
         <tr>
-            <td class="vert-align">{{ template.creation_date|date:"d/m/Y H:i" }}</td>
             <td class="vert-align">{{ template.name }}</td>
+            <td class="vert-align">{{ template.creation_date|date:"d/m/Y H:i" }}</td>
             <td class="vert-align">{{ template.author.user.email }}</td>
             <td class="vert-align">{{ template.get_template_type_display }}</td>
             <td class="vert-align">
