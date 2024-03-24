@@ -1,38 +1,41 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-<form class="form-inline">
-	<div class="form-group">
-		<label class="control-label" for="add_admin_button">{% trans "Modify Entity" %}</label>
-		<button id="add_admin_button" type="submit" class="form-control btn btn-primary edit" data-toggle="modal" data-form="{% url 'Authent:edit_entity' entityid %}" data-target="#modal">Edit Entity</button>
-		<button id="add_admin_button" type="submit" class="form-control btn btn-primary add" data-toggle="modal" data-form="{% url 'Authent:add_entity_admin' entityid %}" data-target="#modal">Add Admin</button>
-	</div>
-</form>
-<h3 class="page-header">{% trans 'Existing Admins' %}</h3>
-<div class="">
-	<table class="table table-striped table-condensed">
-		<thead>
-			<tr>
-				<th>{% trans "First name" %}</th>
-	            <th>{% trans "Last name" %}</th>
-	            <th>{% trans "Email" %}</th>
-	            <th>{% trans "Phone" %}</th>
-	            <th>&nbsp;</th>
-	        </tr>
-		</thead>
-		<tbody>
-			{% for user in userslist %}
-			<tr>
-				<td class="vert-align">{{ user.user.first_name }}</td>
-				<td class="vert-align">{{ user.user.last_name }}</td>
-				<td class="vert-align">{{ user.user.email }}</td>
-				<td class="vert-align">{{ user.phone_number }}</td>
-				<td class="vert-align">
-					<button type="button" class="btn btn-default btn-xs edit" data-toggle="modal" data-form="{% url 'Authent:remove_entity_admin' entityid user.id %}" data-target="#modal">
-					  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-					</button>
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+
+<button type="submit" class="btn btn-primary edit" data-toggle="modal"
+        data-form="{% url 'Authent:edit_entity' entityid %}" data-target="#modal">Edit Entity
+</button>
+<button type="submit" class="btn btn-primary add" data-toggle="modal"
+        data-form="{% url 'Authent:add_entity_admin' entityid %}" data-target="#modal">Add Admin
+</button>
+
+<h3 class="page-header mt-2">{% trans 'Admins' %}</h3>
+
+<div class="mt-2">
+    <table class="table table-striped table-condensed">
+        <thead>
+        <tr>
+            <th>{% trans "First name" %}</th>
+            <th>{% trans "Last name" %}</th>
+            <th>{% trans "Email" %}</th>
+            <th>{% trans "Phone" %}</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in userslist %}
+            <tr>
+                <td class="vert-align">{{ user.user.first_name }}</td>
+                <td class="vert-align">{{ user.user.last_name }}</td>
+                <td class="vert-align">{{ user.user.email }}</td>
+                <td class="vert-align">{{ user.phone_number }}</td>
+                <td class="vert-align">
+                    <button type="button" class="btn btn-default btn-xs edit" data-toggle="modal"
+                            data-form="{% url 'Authent:remove_entity_admin' entityid user.id %}" data-target="#modal">
+                        <em class="bi bi-trash text-danger"></em>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>

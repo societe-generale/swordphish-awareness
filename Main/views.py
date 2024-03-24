@@ -1,29 +1,32 @@
 import errno
-import re
 import json
+import re
 from base64 import b64decode
 from datetime import datetime
-from django.utils.timezone import get_current_timezone
+from os.path import exists
 from zipfile import BadZipfile
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.datastructures import MultiValueDictKeyError
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
-from django.forms import ValidationError
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
-from django.forms.formsets import formset_factory
-from django.db.models import Q
-from django.conf import settings
+
 from bs4 import BeautifulSoup
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+from django.forms import ValidationError
+from django.forms.formsets import formset_factory
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.utils.datastructures import MultiValueDictKeyError
+from django.utils.timezone import get_current_timezone
+
 from LocalUsers.forms import SwordphishUserForm, UserForm
-from Main.models import TargetList, Target, AnonymousTarget, Campaign, Template, PhishmailDomain
-from Main.forms import TargetsListForm, NewTargetForm, AttributeForm, StandardCampaignForm
 from Main.forms import AttachmentCampaignForm, SimpleMailForm, MailWithAttachmentForm
 from Main.forms import AttachmentForm, Redirection, Awareness, CredsHarvesterForm
-from Main.forms import TestCampaignForm, ReportForm, FakeRansomForm, FakeRansomCampaignForm
 from Main.forms import FakeFormCampaignForm
-from os.path import exists
+from Main.forms import TargetsListForm, NewTargetForm, AttributeForm, StandardCampaignForm
+from Main.forms import TestCampaignForm, ReportForm, FakeRansomForm, FakeRansomCampaignForm
+from Main.models import TargetList, Target, AnonymousTarget, Campaign, Template, PhishmailDomain
+
 
 def validate_domain(function):
     hosting_domain = settings.HOSTING_DOMAIN
@@ -34,10 +37,10 @@ def validate_domain(function):
                 return HttpResponseForbidden()
 
             values = [
-                      re.compile(hosting_domain),
-                      re.compile("localhost:?.*"),
-                      re.compile("127.0.0.1:?.*")
-                     ]
+                re.compile(hosting_domain),
+                re.compile("localhost:?.*"),
+                re.compile("127.0.0.1:?.*")
+            ]
 
             if any(regex.match(request.META["HTTP_HOST"]) for regex in values):
                 return func(request, *args, **kwargs)
@@ -58,12 +61,6 @@ def validate_domain(function):
 def index(request):
     # pylint: disable=W0613
     return redirect("Main:campaign_campaigns")
-
-
-@validate_domain
-@login_required
-def campaign_overview(request):
-    return render(request, "Main/Campaigns/overview.html", {"menuactive": "overview"})
 
 
 @validate_domain
@@ -93,7 +90,7 @@ def campaign_create_targets_list(request):
                                      author=request.user.swordphishuser):
             return render(request, 'Main/Campaigns/Targets/newtargetslist.html',
                           {'targetlistform': targetlistform,
-                          'list_already_exists': True}
+                           'list_already_exists': True}
                           )
 
         targetlist = targetlistform.save(commit=False)
@@ -142,7 +139,7 @@ def campaign_edit_targets_list(request, listid):
         targetlistform = TargetsListForm(instance=targetlist)
         return render(request, 'Main/Campaigns/Targets/edittargetslist.html',
                       {'targetlistform': targetlistform,
-                      'listid': listid}
+                       'listid': listid}
                       )
 
     if request.method == "POST":
@@ -151,15 +148,15 @@ def campaign_edit_targets_list(request, listid):
         if not targetlistform.is_valid():
             return render(request, 'Main/Campaigns/Targets/edittargetslist.html',
                           {'targetlistform': targetlistform,
-                          'listid': listid}
+                           'listid': listid}
                           )
 
         if TargetList.objects.filter(name=targetlistform.cleaned_data["name"],
                                      author=request.user.swordphishuser):
             return render(request, 'Main/Campaigns/Targets/edittargetslist.html',
                           {'targetlistform': targetlistform,
-                          'list_already_exists': True,
-                          'listid': listid}
+                           'list_already_exists': True,
+                           'listid': listid}
                           )
 
         targetlist.name = targetlistform.cleaned_data["name"]
@@ -181,7 +178,7 @@ def campaign_import_targets_list(request, listid):
     if request.method == "GET":
         return render(request, 'Main/Campaigns/Targets/importtargetslist.html',
                       {'targetlist': targetlist,
-                      'listid': listid}
+                       'listid': listid}
                       )
 
     if request.method == "POST":
@@ -191,8 +188,8 @@ def campaign_import_targets_list(request, listid):
         except MultiValueDictKeyError:
             return render(request, 'Main/Campaigns/Targets/importtargetslist.html',
                           {'targetlist': targetlist,
-                          'listid': listid,
-                          'bad_format_file': True}
+                           'listid': listid,
+                           'bad_format_file': True}
                           )
 
         try:
@@ -200,15 +197,15 @@ def campaign_import_targets_list(request, listid):
         except BadZipfile:
             return render(request, 'Main/Campaigns/Targets/importtargetslist.html',
                           {'targetlist': targetlist,
-                          'listid': listid,
-                          'bad_file': True}
+                           'listid': listid,
+                           'bad_file': True}
                           )
         except ValidationError as e:
             return render(request, 'Main/Campaigns/Targets/importtargetslist.html',
                           {'targetlist': targetlist,
-                          'listid': listid,
-                          'bademail': True,
-                          'exception': e}
+                           'listid': listid,
+                           'bademail': True,
+                           'exception': e}
                           )
         except Exception:
             import logging
@@ -216,8 +213,8 @@ def campaign_import_targets_list(request, listid):
             logger.exception(extra={'request': request})
             return render(request, 'Main/Campaigns/Targets/importtargetslist.html',
                           {'targetlist': targetlist,
-                          'listid': listid,
-                          'unknown_error': True}
+                           'listid': listid,
+                           'unknown_error': True}
                           )
 
         return HttpResponse("Ok")
@@ -256,9 +253,9 @@ def campaign_create_target(request, listid):
     if request.method == "GET":
         return render(request, 'Main/Campaigns/Targets/createtarget.html',
                       {'targetlist': targetlist,
-                      'targetform': targetform,
-                      'attributeformset': attributeformset,
-                      'listid': listid}
+                       'targetform': targetform,
+                       'attributeformset': attributeformset,
+                       'listid': listid}
                       )
 
     if request.method == "POST":
@@ -268,9 +265,9 @@ def campaign_create_target(request, listid):
         if (not targetform.is_valid()) or (not attributeformset.is_valid()):
             return render(request, 'Main/Campaigns/Targets/createtarget.html',
                           {'targetlist': targetlist,
-                          'targetform': targetform,
-                          'attributeformset': attributeformset,
-                          'listid': listid}
+                           'targetform': targetform,
+                           'attributeformset': attributeformset,
+                           'listid': listid}
                           )
 
         existing = targetlist.targets.filter(mail_address=targetform.cleaned_data["mail_address"])
@@ -278,10 +275,10 @@ def campaign_create_target(request, listid):
         if existing:
             return render(request, 'Main/Campaigns/Targets/createtarget.html',
                           {'targetlist': targetlist,
-                          'targetform': targetform,
-                          'attributeformset': attributeformset,
-                          'listid': listid,
-                          'target_already_exists': True}
+                           'targetform': targetform,
+                           'attributeformset': attributeformset,
+                           'listid': listid,
+                           'target_already_exists': True}
                           )
 
         newtarget = targetform.save()
@@ -318,9 +315,9 @@ def campaign_edit_target(request, listid, targetid):
     if request.method == "GET":
         return render(request, 'Main/Campaigns/Targets/edittarget.html',
                       {'targetlist': targetlist,
-                      'targetid': targetid,
-                      'targetform': targetform,
-                      'attformset': attformset}
+                       'targetid': targetid,
+                       'targetform': targetform,
+                       'attformset': attformset}
                       )
 
     if request.method == "POST":
@@ -330,9 +327,9 @@ def campaign_edit_target(request, listid, targetid):
         if not (targetform.is_valid() and attformset.is_valid()):
             return render(request, 'Main/Campaigns/Targets/edittarget.html',
                           {'targetlist': targetlist,
-                          'targetid': targetid,
-                          'targetform': targetform,
-                          'attformset': attformset}
+                           'targetid': targetid,
+                           'targetform': targetform,
+                           'attformset': attformset}
                           )
 
         tl = targetlist.targets.filter(mail_address=targetform.cleaned_data["mail_address"])
@@ -341,10 +338,10 @@ def campaign_edit_target(request, listid, targetid):
             if tar.id != target.id:
                 return render(request, 'Main/Campaigns/Targets/edittarget.html',
                               {'targetlist': targetlist,
-                              'targetid': targetid,
-                              'targetform': targetform,
-                              'attformset': attformset,
-                              'target_already_exists': True}
+                               'targetid': targetid,
+                               'targetform': targetform,
+                               'attformset': attformset,
+                               'target_already_exists': True}
                               )
 
         target.mail_address = targetform.cleaned_data["mail_address"]
@@ -385,10 +382,10 @@ def campaign_list_targets(request, listid, page=1):
     if request.method == "GET":
         return render(request, 'Main/Campaigns/Targets/listtargets.html',
                       {'targetlist': targetlist,
-                      'targets': targets,
-                      'listname': targetlist.name,
-                      'listid': listid,
-                      'editable': editable}
+                       'targets': targets,
+                       'listname': targetlist.name,
+                       'listid': listid,
+                       'editable': editable}
                       )
 
     return HttpResponseForbidden()
@@ -408,18 +405,17 @@ def campaign_delete_target(request, listid, targetid):
     if not tlist:
         return render(request, 'Main/Campaigns/Targets/deletetarget.html',
                       {'targetlist': targetlist,
-                      'target': target,
-                      'notinlist': True}
+                       'target': target,
+                       'notinlist': True}
                       )
 
     if request.method == "GET":
         return render(request, 'Main/Campaigns/Targets/deletetarget.html',
                       {'targetlist': targetlist,
-                      'target': target}
+                       'target': target}
                       )
 
     if request.method == "POST":
-
         targetlist.removeTarget(target)
         target.delete()
 
@@ -431,7 +427,6 @@ def campaign_delete_target(request, listid, targetid):
 @validate_domain
 @login_required
 def campaign_list_targets_list(request, page=1):
-
     if request.method == "GET":
         visible_usrs = request.user.swordphishuser.visible_users()
         targetslists = TargetList.objects.filter(author__in=visible_usrs).order_by("-creation_date")
@@ -452,7 +447,7 @@ def campaign_list_targets_list(request, page=1):
 
         return render(request, "Main/Campaigns/Targets/listtargetslists.html",
                       {'targetslists': lists,
-                      "current_user": request.user.swordphishuser}
+                       "current_user": request.user.swordphishuser}
                       )
 
     return HttpResponseForbidden()
@@ -463,14 +458,13 @@ def campaign_list_targets_list(request, page=1):
 def campaign_templates(request):
     return render(request, "Main/Campaigns/Templates/templates.html",
                   {"menuactive": "templates",
-                  "types": Template.TEMPLATE_TYPE}
+                   "types": Template.TEMPLATE_TYPE}
                   )
 
 
 @validate_domain
 @login_required
 def campaign_create_template(request, typeid, duplicateid=None):
-
     phishform = None
 
     values = {}
@@ -498,7 +492,7 @@ def campaign_create_template(request, typeid, duplicateid=None):
     if request.method == "GET":
         return render(request, 'Main/Campaigns/Templates/createtemplate.html',
                       {"phishform": phishform,
-                      "typeid": typeid}
+                       "typeid": typeid}
                       )
 
     if request.method == "POST":
@@ -523,7 +517,7 @@ def campaign_create_template(request, typeid, duplicateid=None):
         if not phishform.is_valid():
             return render(request, 'Main/Campaigns/Templates/createtemplate.html',
                           {"phishform": phishform,
-                          "typeid": typeid}
+                           "typeid": typeid}
                           )
 
         pmail = Template.objects.filter(name=phishform.cleaned_data["name"],
@@ -532,8 +526,8 @@ def campaign_create_template(request, typeid, duplicateid=None):
         if pmail:
             return render(request, 'Main/Campaigns/Templates/createtemplate.html',
                           {"phishform": phishform,
-                          "typeid": typeid,
-                          'template_already_exists': True}
+                           "typeid": typeid,
+                           'template_already_exists': True}
                           )
 
         template = phishform.save(commit=False)
@@ -575,8 +569,8 @@ def campaign_edit_template(request, typeid, templateid):
 
         return render(request, 'Main/Campaigns/Templates/edittemplate.html',
                       {'phishform': phishform,
-                      "typeid": typeid,
-                      'templateid': templateid}
+                       "typeid": typeid,
+                       'templateid': templateid}
                       )
 
     if request.method == "POST":
@@ -601,7 +595,7 @@ def campaign_edit_template(request, typeid, templateid):
         if not phishform.is_valid():
             return render(request, 'Main/Campaigns/Templates/edittemplate.html',
                           {'phishform': phishform,
-                          "typeid": typeid, 'templateid': templateid}
+                           "typeid": typeid, 'templateid': templateid}
                           )
 
         result = Template.objects.filter(Q(name=phishform.cleaned_data["name"]) &
@@ -612,9 +606,9 @@ def campaign_edit_template(request, typeid, templateid):
         if result:
             return render(request, 'Main/Campaigns/Templates/edittemplate.html',
                           {'phishform': phishform,
-                          "typeid": typeid,
-                          'template_already_exists': True,
-                          'templateid': templateid}
+                           "typeid": typeid,
+                           'template_already_exists': True,
+                           'templateid': templateid}
                           )
 
         template = phishform.save()
@@ -669,7 +663,6 @@ def campaign_view_template(request, templateid):
 @validate_domain
 @login_required
 def campaign_list_template(request, page=1):
-
     if request.method == "GET":
         visible_users = request.user.swordphishuser.visible_users()
         templatelist = Template.objects.filter(Q(author__in=visible_users) |
@@ -690,7 +683,7 @@ def campaign_list_template(request, page=1):
 
         return render(request, 'Main/Campaigns/Templates/listtemplate.html',
                       {"templatelist": templates,
-                      "current_user": request.user.swordphishuser}
+                       "current_user": request.user.swordphishuser}
                       )
 
     return HttpResponseForbidden()
@@ -701,7 +694,7 @@ def campaign_list_template(request, page=1):
 def campaign_campaigns(request):
     return render(request, "Main/Campaigns/Campaigns/campaigns.html",
                   {"menuactive": "campaigns",
-                  "types": Campaign.CAMPAIGN_TYPES}
+                   "types": Campaign.CAMPAIGN_TYPES}
                   )
 
 
@@ -755,7 +748,7 @@ def campaign_create_campaign(request, typeid, duplicateid=None):
 
         return render(request, 'Main/Campaigns/Campaigns/createcampaign.html',
                       {'campaignform': campaignform,
-                      "typeid": typeid}
+                       "typeid": typeid}
                       )
 
     elif request.method == "POST":
@@ -774,7 +767,7 @@ def campaign_create_campaign(request, typeid, duplicateid=None):
         if not campaignform.is_valid():
             return render(request, 'Main/Campaigns/Campaigns/createcampaign.html',
                           {'campaignform': campaignform,
-                          "typeid": typeid}
+                           "typeid": typeid}
                           )
 
         existing = Campaign.objects.filter(name=campaignform.cleaned_data["name"],
@@ -783,8 +776,8 @@ def campaign_create_campaign(request, typeid, duplicateid=None):
         if existing:
             return render(request, 'Main/Campaigns/Campaigns/createcampaign.html',
                           {'campaignform': campaignform,
-                          "typeid": typeid,
-                          'campaign_already_exists': True}
+                           "typeid": typeid,
+                           'campaign_already_exists': True}
                           )
 
         newcampaign = campaignform.save(commit=False)
@@ -811,7 +804,7 @@ def campaign_test_campaign(request, campaignid):
 
         return render(request, 'Main/Campaigns/Campaigns/testcampaign.html',
                       {'campaignform': campaignform,
-                      'campaign': campaign}
+                       'campaign': campaign}
                       )
 
     if request.method == "POST":
@@ -820,7 +813,7 @@ def campaign_test_campaign(request, campaignid):
         if not campaignform.is_valid():
             return render(request, 'Main/Campaigns/Campaigns/testcampaign.html',
                           {'campaignform': campaignform,
-                          'campaign': campaign}
+                           'campaign': campaign}
                           )
 
         recipient = campaignform.cleaned_data["recipient"]
@@ -832,8 +825,8 @@ def campaign_test_campaign(request, campaignid):
                 if e.errno == errno.ECONNREFUSED:
                     return render(request, 'Main/Campaigns/Campaigns/testcampaign.html',
                                   {'campaignform': campaignform,
-                                  'campaign': campaign,
-                                  'connect_error': True}
+                                   'campaign': campaign,
+                                   'connect_error': True}
                                   )
             else:
                 raise e
@@ -870,8 +863,8 @@ def campaign_edit_campaign(request, typeid, campaignid):
 
         return render(request, 'Main/Campaigns/Campaigns/editcampaign.html',
                       {'campaignform': campaignform,
-                      "typeid": typeid,
-                      'campaign': campaign}
+                       "typeid": typeid,
+                       'campaign': campaign}
                       )
 
     if request.method == "POST":
@@ -891,8 +884,8 @@ def campaign_edit_campaign(request, typeid, campaignid):
         if not campaignform.is_valid():
             return render(request, 'Main/Campaigns/Campaigns/editcampaign.html',
                           {'campaignform': campaignform,
-                          "typeid": typeid,
-                          'campaign': campaign}
+                           "typeid": typeid,
+                           'campaign': campaign}
                           )
 
         result = Campaign.objects.filter(Q(name=campaignform.cleaned_data["name"]) &
@@ -902,8 +895,8 @@ def campaign_edit_campaign(request, typeid, campaignid):
         if result:
             return render(request, 'Main/Campaigns/Campaigns/editcampaign.html',
                           {'campaignform': campaignform,
-                          "typeid": typeid,
-                          'campaign_already_exists': True}
+                           "typeid": typeid,
+                           'campaign_already_exists': True}
                           )
 
         campaign = campaignform.save(commit=False)
@@ -965,37 +958,7 @@ def campaign_list_campaigns(request, page=1):
 
         return render(request, 'Main/Campaigns/Campaigns/listcampaigns.html',
                       {"campaignlist": campaigns,
-                      "current_user": request.user.swordphishuser}
-                      )
-
-    return HttpResponseForbidden()
-
-
-@validate_domain
-@login_required
-def campaign_list_running_campaigns(request, page=1):
-    if not request.user.is_staff:
-        return HttpResponseForbidden()
-
-    if request.method == "GET":
-        campaignlist = Campaign.objects.filter(status="2").order_by("-start_date")
-        paginator = Paginator(campaignlist, 20)
-        paginator.ELLIPSIS = ''
-
-        try:
-            campaigns = paginator.page(page)
-        except PageNotAnInteger:
-            campaigns = paginator.page(1)
-        except EmptyPage:
-            campaigns = paginator.page(paginator.num_pages)
-        except Exception:
-            campaigns = paginator.page(1)
-
-        campaigns.pages = paginator.get_elided_page_range(page)
-
-        return render(request, 'Main/Campaigns/Campaigns/list_running_campaigns.html',
-                      {"campaignlist": campaigns,
-                      "current_user": request.user.swordphishuser}
+                       "current_user": request.user.swordphishuser}
                       )
 
     return HttpResponseForbidden()
@@ -1058,7 +1021,7 @@ def campaign_submit_reported_ids(request, campaignid):
         reportform = ReportForm(instance=campaign)
         return render(request, 'Main/Campaigns/Campaigns/submit_reported_ids.html',
                       {"campaign": campaign,
-                      "reportform": reportform}
+                       "reportform": reportform}
                       )
     if request.method == "POST":
         regex = r'[a-z\d]{8}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{12}'
@@ -1066,7 +1029,7 @@ def campaign_submit_reported_ids(request, campaignid):
         if not reportform.is_valid():
             return render(request, 'Main/Campaigns/Campaigns/submit_reported_ids.html',
                           {"campaign": campaign,
-                          "reportform": reportform}
+                           "reportform": reportform}
                           )
         text = reportform.cleaned_data['ids']
         ids = re.findall(regex, text)
@@ -1090,9 +1053,9 @@ def admin_users(request):
         phishform = SwordphishUserForm()
         return render(request, 'Main/Admin/users.html',
                       {'newswordphishform': phishform,
-                      'newuserform': userform,
-                      "menuactive": "users",
-                      "userslist": users_list}
+                       'newuserform': userform,
+                       "menuactive": "users",
+                       "userslist": users_list}
                       )
 
     return HttpResponseForbidden()

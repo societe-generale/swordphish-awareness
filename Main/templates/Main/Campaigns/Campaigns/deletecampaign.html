@@ -1,25 +1,28 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-<form class="modal-form" method="post" action="{% url 'Main:campaign_delete_campaign' campaign.id %}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>{% trans 'Delete Campaign' %}</h3>
 
-      </div>
-      <div class="modal-body">
-        {% csrf_token %}
-        <label class="control-label" for="name">{% trans "Campaign name" %}</label>
-        <input id="targtlistname" type="text" name="name" class="form-control" value="{{ campaign.name }}" readonly>
-        <label class="control-label" for="stdate">{% trans "Start date" %}</label>
-        <input id="targtlistname" type="text" name="stdate" class="form-control" value="{{ campaign.start_date }}" readonly>
-        <label class="control-label" for="endate">{% trans "End date" %}</label>
-        <input id="targtlistname" type="text" name="endate" class="form-control" value="{{ campaign.end_date }}" readonly>
-        <div class="modal-footer">
-          <input name="remove" class="btn btn-primary" type="submit" value="Confirm" />
-          <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
-      </div>
-    </div>
-  </div>
+<form class="modal-form" method="post" action="{% url 'Main:campaign_delete_campaign' campaign.id %}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Delete Campaign' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <label class="control-label" for="name">{% trans "Campaign name" %}</label>
+                <input id="targtlistname" type="text" name="name" class="form-control" value="{{ campaign.name }}"
+                       readonly>
+                <label class="control-label" for="stdate">{% trans "Start date" %}</label>
+                <input id="targtlistname" type="text" name="stdate" class="form-control"
+                       value="{{ campaign.start_date }}" readonly>
+                <label class="control-label" for="endate">{% trans "End date" %}</label>
+                <input id="targtlistname" type="text" name="endate" class="form-control" value="{{ campaign.end_date }}"
+                       readonly>
+                <div class="modal-footer">
+                    <input name="remove" class="btn btn-primary" type="submit" value="Confirm"/>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
 </form>

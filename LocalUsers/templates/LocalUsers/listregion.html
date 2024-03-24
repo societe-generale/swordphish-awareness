@@ -1,6 +1,8 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-	<option value="">{% trans '--Select--' %}</option>
+
+<option value="">{% trans '--Select--' %}</option>
 {% for region in regionlist %}
-	<option data-form="{%url 'Authent:list_region_users' region.id %}" value="{{ region.id }}">{{ region.prettyname }}</option>
+    <option data-form="{% url 'Authent:list_region_users' region.id %}"
+            value="{{ region.id }}">{{ region.prettyname }}</option>
 {% endfor %}
