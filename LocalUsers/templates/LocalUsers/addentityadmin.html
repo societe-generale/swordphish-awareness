@@ -1,5 +1,6 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
+
 <form class="modal-form" method="post" action="{% url 'Authent:add_entity_admin' entityid %}">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -20,7 +21,7 @@
             </div>
             <div class="modal-footer">
                 <input name="add" class="btn btn-primary" type="submit" value="Add"/>
-                <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

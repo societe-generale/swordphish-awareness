@@ -1,5 +1,6 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
+
 <form class="modal-form" enctype="multipart/form-data" method="post"
       action="{% url 'Main:campaign_create_target' listid %}">
     <div class="modal-dialog">
@@ -37,7 +38,7 @@
             </div>
             <div class="modal-footer">
                 <input name="create" class="btn btn-primary" type="submit" value="Create"/>
-                <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
     <div id="eform" class="nsorte">
         {% bootstrap_form attributeformset.empty_form %}
         <div class='btn btn-warning btn-sm bt_rm_sorte'>
-            <i class='glyphicon glyphicon-trash'></i>
+            <em class="bi bi-trash text-danger"></em>
         </div>
     </div>
 </div>

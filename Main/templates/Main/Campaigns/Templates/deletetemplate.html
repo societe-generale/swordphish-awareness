@@ -1,5 +1,6 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
+
 <form class="modal-form" method="post" action="{% url 'Main:campaign_delete_template' template.id %}">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -22,8 +23,9 @@
                        value="{{ template.name }}" readonly>
                 <div class="modal-footer">
                     <input name="remove" class="btn btn-primary" type="submit" value="Confirm"/>
-                    <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
+    </div>
 </form>

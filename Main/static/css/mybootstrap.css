@@ -2,16 +2,6 @@
     vertical-align: middle;
 }
 
-.usergreet {
-    float: right;
-    color: #999;
-    padding: 15px 15px 10px;
-}
-
-.usergreet a {
-    color: #999;
-}
-
 .table td, .table th {
     white-space: nowrap;
     width: 1%;

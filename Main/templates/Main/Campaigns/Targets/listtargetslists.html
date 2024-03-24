@@ -21,40 +21,37 @@
                 <button type="button" class="btn btn-default btn-xs edit" data-toggle="tooltip" data-placement="top"
                         title="List Targets" data-form="{% url 'Main:campaign_list_targets' targetlist.id %}"
                         data-target="#modal">
-                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    <em class="bi bi-list"></em>
                 </button>
                 {% if targetlist.author in current_user.visible_users %}
                     <button type="button" class="btn btn-default btn-xs edit" data-toggle="tooltip" data-placement="top"
                             title="Edit Targets List"
                             data-form="{% url 'Main:campaign_edit_targets_list' targetlist.id %}" data-target="#modal">
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        <em class="bi bi-pencil"></em>
                     </button>
                     <button type="button" class="btn btn-default btn-xs edit" data-toggle="tooltip" data-placement="top"
                             title="Import Targets with XLSX"
                             data-form="{% url 'Main:campaign_import_targets_list' targetlist.id %}"
                             data-target="#modal">
-                        <span class="glyphicon glyphicon-import" aria-hidden="true"></span>
+                        <em class="bi bi-database-add"></em>
                     </button>
                     <button type="button" class="btn btn-default btn-xs download" data-toggle="tooltip"
                             data-placement="top" title="Export Targets as XLSX"
                             data-form="{% url 'Main:campaign_export_targets_list' targetlist.id %}">
-                        <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
+                        <em class="bi bi-download"></em>
                     </button>
                     <button type="button" class="btn btn-default btn-xs edit" data-toggle="tooltip" data-placement="top"
                             title="Create Target Manually"
                             data-form="{% url 'Main:campaign_create_target' targetlist.id %}" data-target="#modal">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        <em class="bi bi-person-add"></em>
                     </button>
                     <button type="button" class="btn btn-default btn-xs edit" data-toggle="tooltip" data-placement="top"
                             title="Delete Targets List"
                             data-form="{% url 'Main:campaign_delete_targets_list' targetlist.id %}"
                             data-target="#modal">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        <em class="bi bi-trash text-danger"></em>
                     </button>
                 {% endif %}
-                <!--<button type="button" class="btn btn-default btn-sm" aria-label="Edit">
-                  <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-                </button>-->
             </td>
         </tr>
     {% endfor %}
@@ -63,16 +60,16 @@
 <nav>
     <ul class="pagination">
         {% if targetslists.has_previous %}
-            <li>
-                <a class="paging"
+            <li class="page-item">
+                <a class="page-link"
                    data-form="{% url 'Main:campaign_list_targets_list' targetslists.previous_page_number %}" href="#"
                    aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
         {% else %}
-            <li class="disabled">
-                <a href="#" disabled aria-label="Previous">
+            <li class="disabled page-item">
+                <a href="#" disabled aria-label="Previous" class="page-link">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -80,25 +77,27 @@
         {% for page in targetslists.pages %}
             {% if page %}
                 {% if targetslists.number == page %}
-                    <li class="active"><a href="#">{{ page }}</a></li>
+                    <li class="active page-item"><a href="#" class="page-link">{{ page }}</a></li>
                 {% else %}
-                    <li><a data-form="{% url 'Main:campaign_list_targets_list' page %}" class="paging"
+                    <li class="page-item">
+                        <a data-form="{% url 'Main:campaign_list_targets_list' page %}" class="page-link"
                            href="#">{{ page }}</a></li>
                 {% endif %}
             {% else %}
-                <li class="disabled"><span aria-hidden="true">...</span></li>
+                <li class="disabled page-item"><span aria-hidden="true">...</span></li>
             {% endif %}
         {% endfor %}
         {% if targetslists.has_next %}
-            <li>
-                <a class="paging" data-form="{% url 'Main:campaign_list_targets_list' targetslists.next_page_number %}"
+            <li class="page-item">
+                <a class="page-link"
+                   data-form="{% url 'Main:campaign_list_targets_list' targetslists.next_page_number %}"
                    href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         {% else %}
-            <li class="disabled">
-                <a href="#" aria-label="Next">
+            <li class="disabled page-item">
+                <a href="#" aria-label="Next" class="page-link">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

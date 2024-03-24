@@ -1,5 +1,6 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
+
 <form class="modal-form" method="post" action="{% url 'Authent:remove_region_user' region.id user.id %}">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -23,7 +24,7 @@
                 <input type="text" id="adminname" name="adminname" class="form-control" value="{{ user }}" readonly>
                 <div class="modal-footer">
                     <input name="remove" class="btn btn-primary" type="submit" value="Confirm"/>
-                    <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

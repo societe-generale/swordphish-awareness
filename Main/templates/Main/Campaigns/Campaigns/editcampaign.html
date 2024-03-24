@@ -1,5 +1,6 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
+
 <form class="modal-form" enctype="multipart/form-data" method="post"
       action="{% url 'Main:campaign_edit_campaign' typeid campaign.id %}">
     <div class="modal-dialog">
@@ -32,7 +33,7 @@
             </script>
             <div class="modal-footer">
                 <input name="create" class="btn btn-primary" type="submit" value="Save"/>
-                <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

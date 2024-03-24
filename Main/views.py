@@ -966,36 +966,6 @@ def campaign_list_campaigns(request, page=1):
 
 @validate_domain
 @login_required
-def campaign_list_running_campaigns(request, page=1):
-    if not request.user.is_staff:
-        return HttpResponseForbidden()
-
-    if request.method == "GET":
-        campaignlist = Campaign.objects.filter(status="2").order_by("-start_date")
-        paginator = Paginator(campaignlist, 20)
-        paginator.ELLIPSIS = ''
-
-        try:
-            campaigns = paginator.page(page)
-        except PageNotAnInteger:
-            campaigns = paginator.page(1)
-        except EmptyPage:
-            campaigns = paginator.page(paginator.num_pages)
-        except Exception:
-            campaigns = paginator.page(1)
-
-        campaigns.pages = paginator.get_elided_page_range(page)
-
-        return render(request, 'Main/Campaigns/Campaigns/list_running_campaigns.html',
-                      {"campaignlist": campaigns,
-                       "current_user": request.user.swordphishuser}
-                      )
-
-    return HttpResponseForbidden()
-
-
-@validate_domain
-@login_required
 def campaign_download_results(request, campaignid):
     campaign = get_object_or_404(Campaign, id=campaignid)
 

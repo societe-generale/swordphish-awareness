@@ -1,11 +1,12 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
+
 <form class="modal-form" method="post" action="{% url 'Authent:new_region' %}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <h3>{% trans 'Create Region' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 {% if region_already_exists %}
@@ -20,7 +21,7 @@
             </div>
             <div class="modal-footer">
                 <input name="create" class="btn btn-primary" type="submit" value="create"/>
-                <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
