@@ -67,16 +67,12 @@ def user_login(request):
                 request.session.set_expiry(600)
             if user.is_active:
                 login(request, user)
-                if request.user.swordphishuser.must_change_password:
-                    return redirect('Authent:loginchangepwd')
                 return redirect('Main:index')
             return render(request, 'LocalUsers/index.html', {'error': 'error'})
         else:
             return render(request, 'LocalUsers/index.html', {'error': 'error'})
     else:
         if request.user.is_authenticated:
-            if request.user.swordphishuser.must_change_password:
-                return redirect('Authent:loginchangepwd')
             return redirect('Main:index')
         return render(request, "LocalUsers/index.html")
 

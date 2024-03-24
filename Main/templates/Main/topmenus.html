@@ -18,75 +18,80 @@
 {% block bootstrap5_content %}
     {% bootstrap_messages %}
 
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{% url 'Main:index' %}">
                 <img src="{% static 'favicon.ico' %}" alt="SwordPHISH icon" width="25"
                      class="d-inline-block align-text-top">
                 SwordPHISH
             </a>
-        </div>
-    </nav>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">{% trans 'Toggle navigation' %}</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{% url 'Main:index' %}">SwordPHISH</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar">
-                    <li>
-                        <!-- Single button -->
-                        <div class="btn-group navbar-btn">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">{% trans 'Campaigns' %} <span
-                                    class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'Main:campaign_targets' %}">Manage Targets</a></li>
-                                <li><a href="{% url 'Main:campaign_templates' %}">Manage Templates</a></li>
-                                <li><a href="{% url 'Main:campaign_campaigns' %}">Manage Campaigns</a></li>
-                                {% if user.is_staff %}
-                                    <li><a href="{% url 'Main:campaign_running_campaigns' %}">Running Campaigns</a></li>
-                                {% endif %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'Main:campaign_campaigns' %}">
+                            Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'Main:campaign_templates' %}">
+                            Templates
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'Main:campaign_targets' %}">
+                            Targets
+                        </a>
+                    </li>
+                    {% if user.swordphishuser.entity_set.count > 0 or user.is_staff %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'Main:admin_users' %}">
+                                        Users
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'Main:admin_entities' %}">
+                                        Entities
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'Main:admin_regions' %}">
+                                        Regions
+                                    </a>
+                                </li>
                             </ul>
-                        </div>
-                        <!--  <a href="{% url 'Main:campaign_targets'%}">{% trans 'Manage Campaigns'%}</a> -->
-                        {% if user.swordphishuser.entity_set.count > 0 or user.is_staff %}
-                            <div class="btn-group navbar-btn">
-                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">{% trans 'Admin' %} <span
-                                        class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{% url 'Main:admin_users' %}">Manage Users</a></li>
-                                    <li><a href="{% url 'Main:admin_entities' %}">Manage Entities</a></li>
-                                    <li><a href="{% url 'Main:admin_regions' %}">Manage Regions</a></li>
-                                </ul>
-                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+                <form class="d-flex">
+                    <span class="navbar-text me-2">
+                        Logged in as <strong>{{ user.email }}</strong>
+                    </span>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {% if user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin" rel="noopener" target="_blank">Django Admin</a>
+                            </li>
                         {% endif %}
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <div class='usergreet'>
-                            Currently logged in as <strong>{{ user.email }}</strong>
-                            {% if user.is_staff %}
-                                [ <a href="/admin">Django Admin</a> ]
-                            {% endif %}
-                            [ <a class="new" data-toggle="modal" data-form="{% url 'Authent:myprofile' %}"
-                                 data-target="#modal" href="#">{% trans 'My profile' %}</a> ]
-                            [ <a href="{% url 'Authent:logout' %}">{% trans 'Logout' %}</a> ]
-                        </div>
-                    </li>
-                </ul>
+                        <li class="nav-item">
+                            <a class="new nav-link" data-toggle="modal" data-form="{% url 'Authent:myprofile' %}"
+                               data-target="#modal" href="#">{% trans 'My profile' %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'Authent:logout' %}">{% trans 'Logout' %}</a>
+                        </li>
+                    </ul>
+                </form>
             </div>
         </div>
     </nav>
