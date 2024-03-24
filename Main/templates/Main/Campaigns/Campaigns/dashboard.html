@@ -1,86 +1,87 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 <form class="form-horizontal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>{% trans 'Dashboard: ' %}{{ campaign.name }}<h3>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Status:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">
-            {% if campaign.status == '2' %}
-              Running
-            {% else %}
-              Finished
-            {% endif %}
-            </p>
-          </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Dashboard: ' %}{{ campaign.name }}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Status:</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-static">
+                            {% if campaign.status == '2' %}
+                                Running
+                            {% else %}
+                                Finished
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Total targets:</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-static">{{ campaign.count_targets }}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Mails sent:</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-static">{{ campaign.mails_sent }}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Mails open:</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-static">{{ campaign.mails_open }}</p>
+                    </div>
+                </div>
+                {% if campaign.campaign_type == '1' or campaign.campaign_type == '3' or campaign.campaign_type == '4' %}
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Clicks:</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{ campaign.links_clicked }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if campaign.campaign_type == '2' %}
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Attach. open:</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{ campaign.attachments_open }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if campaign.campaign_type == '3' %}
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Forms submitted:</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{ campaign.forms_submitted }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if campaign.campaign_type == '4' %}
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Imgs clicked:</label>
+                        <div class="col-sm-6">
+                            <p class="form-control-static">{{ campaign.forms_submitted }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Mails reported:</label>
+                    <div class="col-sm-6">
+                        <p class="form-control-static">{{ campaign.mails_reported }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input name="refresh" data-url="{% url 'Main:campaign_display_dashboard' campaign.id %}"
+                       class="btn btn-primary refresh" type="submit" value="Refresh"/>
+                <input name="close" class="btn" type="submit" value="Close" data-dismiss="modal"/>
+            </div>
         </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label">Total targets:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.count_targets }}</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label">Mails sent:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.mails_sent }}</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label">Mails open:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.mails_open }}</p>
-          </div>
-        </div>
-        {% if campaign.campaign_type == '1' or campaign.campaign_type == '3' or campaign.campaign_type == '4' %}
-        <div class="form-group">
-          <label class="col-md-3 control-label">Clicks:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.links_clicked }}</p>
-          </div>
-        </div>
-        {% endif %}
-        {% if campaign.campaign_type == '2' %}
-        <div class="form-group">
-          <label class="col-md-3 control-label">Attach. open:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.attachments_open }}</p>
-          </div>
-        </div>
-        {% endif %}
-        {% if campaign.campaign_type == '3' %}
-        <div class="form-group">
-          <label class="col-md-3 control-label">Forms submitted:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.forms_submitted }}</p>
-          </div>
-        </div>
-        {% endif %}
-         {% if campaign.campaign_type == '4' %}
-        <div class="form-group">
-          <label class="col-md-3 control-label">Imgs clicked:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.forms_submitted }}</p>
-          </div>
-        </div>
-        {% endif %}
-        <div class="form-group">
-          <label class="col-md-3 control-label">Mails reported:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{ campaign.mails_reported }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-          <input name="refresh" data-url="{% url 'Main:campaign_display_dashboard' campaign.id %}" class="btn btn-primary refresh" type="submit" value="Refresh"/>
-          <input name="close" class="btn" type="submit" value="Close" data-dismiss="modal"/>
-      </div>
     </div>
-  </div>
 </form>
