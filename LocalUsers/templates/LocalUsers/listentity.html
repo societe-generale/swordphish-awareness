@@ -1,6 +1,8 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-	<option value="">{% trans '--Select--' %}</option>
+
+<option value="">{% trans '--Select--' %}</option>
 {% for entity in entitylist %}
-	<option data-form="{%url 'Authent:list_entity_admins' entity.id %}" value="{{ entity.id }}">{{ entity.name }}</option>
+    <option data-form="{% url 'Authent:list_entity_admins' entity.id %}"
+            value="{{ entity.id }}">{{ entity.name }}</option>
 {% endfor %}

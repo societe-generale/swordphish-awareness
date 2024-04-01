@@ -1,46 +1,46 @@
-{% extends 'LocalUsers/bootstrap.html' %}
+{% extends 'Main/bootstrap.html' %}
 
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-{% trans alert %}
+{% load static %}
 
+{% block title %}Login{% endblock %}
 
-{% block bootstrap3_extra_head %}
-    <link href="/static/custom_css/login.css" rel="stylesheet">
-{% endblock %}
+{% block bootstrap5_content %}
 
-{% block bootstrap3_content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{% trans 'Log in failed!' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
 
-	{# Display django.contrib.messages as Bootstrap alerts #}
-	{% bootstrap_messages %}
+                <img src="{% static 'img/logo.jpg' %}" alt="Logo"/>
+                <h2 class="mt-2">{% trans 'Sign in to SwordPhish' %}</h2>
 
-	<div class="container">
-
-      <form class="form-signin" role="form" method="post">
-      	{% csrf_token %}
-      	<img class="img-responsive" src="/static/img/logo.jpg" alt="Logo" />
-        <h2 class="form-signin-heading">{% trans 'Sign in to SwordPhish'%}</h2>
-        {% trans "Email address" as mail_address %}
-        <input type="email" name="username" class="form-control" placeholder="{{ mail_address }}" required autofocus>
-        {% trans "Password" as password %}
-        <input type="password" name="password" class="form-control" placeholder="{{ password }}" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" name="remember" value="remember-me">{% trans 'Keep me signed' %}
-          </label>
+                <form class="mt-3" role="form" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">{% trans "Email address" %}</label>
+                        <input type="email" class="form-control" id="username" name="username"
+                               placeholder="{% trans "Email address" %}" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">{% trans "Password" %}</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="{% trans "Password" %}" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                        <label class="form-check-label" for="remember">{% trans 'Keep me signed' %}</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{% trans 'Sign in' %}</button>
+                </form>
+            </div>
         </div>
-    {% if error %}
-    <div class="alert alert-danger alert-dismissible" id="error">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <strong>{% trans 'Unable to log in...' %}</strong><br/>
     </div>
-  {% endif %}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Sign in' %}</button>
-
-        <center><a href="{% url 'Authent:password_lost' %}">{% trans 'Password forgotten ?' %}</a></center>
-      </form>
-
-
-    </div>
-
 {% endblock %}

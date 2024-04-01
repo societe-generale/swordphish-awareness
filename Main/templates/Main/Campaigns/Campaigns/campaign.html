@@ -1,26 +1,30 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 
-<form class="modal-form" method="post" action="{% url 'Authent:myprofile' %}">
+{% block bootstrap5_extra_head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+<form class="modal-form" enctype="multipart/form-data" method="post"
+      action="{% block url %}{% endblock %}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>{% trans 'Edit My Profile' %}</h3>
+                <h3>{% block title %}{% endblock %}</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {% if user_already_exists %}
+                {% csrf_token %}
+                {% if campaign_already_exists %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>{% trans 'This mail address already exists.' %}</strong>
+                        <strong>{% trans 'Campaign already exists.' %}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endif %}
-                {% csrf_token %}
-                {% bootstrap_form userform %}
-                {% bootstrap_form swordphishform %}
+                {% bootstrap_form campaignform %}
             </div>
             <div class="modal-footer">
-                <input name="save" class="btn btn-primary" type="submit" value="Save"/>
+                <input name="create" class="btn btn-primary" type="submit" value="Save"/>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

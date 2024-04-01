@@ -1,36 +1,42 @@
-{% extends 'Main/Campaigns/leftmenu.html' %}
-
-{% load bootstrap3 %}
+{% extends 'Main/base.html' %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}{% trans 'Templates' %}{% endblock %}
 
 {% block swordphish_content %}
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
-
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Create Template' %}</h3>
-    <form class="form-inline">
-		<div class="form-group">
-		    <label class="control-label" for="createentity">{% trans 'Create Template' %}</label>
-		    	<select class="form-control" name="template_format" id="button-url">
-		    	{% for entry in types %}
-		    		{% if '#' in entry.0 %}
-			        <optgroup label='{{ entry.1 }}'>
-			        {% else %}
-				    <option value="{% url 'Main:campaign_create_template' entry.0 %}">{{ entry.1 }}</option>
-		    		{% endif %}
-				{% endfor %}
-		    	</select>
-		</div>
-		<button id="createtemplate" type="button" class="btn btn-primary new-selected form-control" data-toggle="modal" data-target="#modal">{% trans 'Create' %}</button>
-	</form>
-</div>
-
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Existing Templates' %}</h3>
-	<div class="dynamic" id="users" data-form="{%url 'Main:campaign_list_template' %}"></div>
-</div>
-
+    <div class="starter-template">
+        <div class="d-flex">
+            <h3 class="page-header">{% trans 'Templates' %}</h3>
+            <div class="ms-2 btn-group" role="group" aria-label="New template">
+                <span data-form="{% url 'Main:campaign_create_template' types.1.0 %}" role="button"
+                      class="new btn btn-primary">
+                    {{ types.1.1 }}
+                </span>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for entry in types %}
+                            {% if '#' in entry.0 %}
+                                <span class="ms-1"><b><em>{{ entry.1 }}</em></b></span>
+                            {% else %}
+                                <span class="new dropdown-item" role="button"
+                                      data-form="{% url 'Main:campaign_create_template' entry.0 %}">
+                                {{ entry.1 }}
+                            </span>
+                            {% endif %}
+                            <li>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dynamic" id="users" data-form="{% url 'Main:campaign_list_template' %}"></div>
+    </div>
 {% endblock %}

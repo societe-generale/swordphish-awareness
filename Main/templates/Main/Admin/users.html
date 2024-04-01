@@ -1,36 +1,30 @@
-{% extends 'Main/Admin/leftmenu.html' %}
+{% extends 'Main/base.html' %}
 
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}{% trans 'Users' %}{% endblock %}
 
 {% block swordphish_content %}
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true"></div>
 
-
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Create Users' %}</h3>
-	    <form class="form-inline">
-			<div class="form-group">
-			    <label for="createuser">Create new user</label>
-			</div>
-			    <button id="createuser" type="button" class="btn btn-primary new" data-toggle="modal" data-form="{% url 'Authent:new_user' %}" data-target="#modal">Create User</button>
-		</form>
-</div>
-
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Existing Users' %}</h3>
-    <div class="filter">
-		<form class="form-inline filter-form">
-			<div class="form-group">
-			    <label for="filter">Filter (based on mail)</label>
-			    <input type="text" class="form-control filter-input" id="filter" placeholder="Filter">
-			</div>
-		</form>
-	</div>
-	<br/>
-	<div class="dynamic" id="users" data-form="{%url 'Authent:list_users' %}"></div>
-</div>
-
+    <div class="starter-template">
+        <div class="d-flex">
+            <h3 class="page-header">{% trans 'Users' %}</h3>
+            <button type="button" class="ms-2 btn btn-primary new" data-toggle="modal"
+                    data-form="{% url 'Authent:new_user' %}"
+                    data-target="#modal">{% trans 'Create User' %}</button>
+        </div>
+        <div class="filter">
+            <form class="form-inline filter-form">
+                <div class="form-group">
+                    <label for="filter">Filter (based on mail)</label>
+                    <input type="text" class="form-control filter-input" id="filter" placeholder="Filter">
+                </div>
+            </form>
+        </div>
+        <br/>
+        <div class="dynamic" id="users" data-form="{% url 'Authent:list_users' %}"></div>
+    </div>
 {% endblock %}

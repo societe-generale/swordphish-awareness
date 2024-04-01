@@ -1,20 +1,16 @@
-# coding: utf8
-
-from django.shortcuts import render
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseForbidden
-from django.core.mail import EmailMessage
-from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
+from django.http import HttpResponse, HttpResponseForbidden
+from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import render
 
-from LocalUsers.forms import LostpasswordForm, SwordphishUserForm, CreateUserForm, UserForm
-from LocalUsers.forms import AddAdminForm, RegionForm, AddUserInRegionForm, ChangePasswordForm
+from LocalUsers.forms import AddAdminForm, RegionForm, AddUserInRegionForm
 from LocalUsers.forms import EntityForm, EditMyProfileForm
+from LocalUsers.forms import SwordphishUserForm, CreateUserForm, UserForm
 from LocalUsers.models import SwordphishUser, Entity, Region, RegionMembership
-
-# Create your views here.
 
 
 def __send_user_informations(firstname, email, password, creator):
@@ -67,72 +63,14 @@ def user_login(request):
                 request.session.set_expiry(600)
             if user.is_active:
                 login(request, user)
-                if request.user.swordphishuser.must_change_password:
-                    return redirect('Authent:loginchangepwd')
                 return redirect('Main:index')
             return render(request, 'LocalUsers/index.html', {'error': 'error'})
         else:
             return render(request, 'LocalUsers/index.html', {'error': 'error'})
     else:
         if request.user.is_authenticated:
-            if request.user.swordphishuser.must_change_password:
-                return redirect('Authent:loginchangepwd')
             return redirect('Main:index')
         return render(request, "LocalUsers/index.html")
-
-
-def password_lost(request):
-    if request.method == "GET":
-        newform = LostpasswordForm()
-        return render(request, 'LocalUsers/password_reset_form.html', {'lostpass': newform})
-
-    if request.method == "POST":
-        newform = LostpasswordForm(request.POST)
-        if not newform.is_valid():
-            return render(request, 'LocalUsers/password_reset_form.html', {'lostpass': newform})
-        email = newform.cleaned_data["email"]
-        tmp = SwordphishUser.objects.filter(user__email=email.lower())
-        if len(tmp) == 1:
-            user = tmp[0]
-            password = User.objects.make_random_password()
-            user.user.set_password(password)
-            user.user.save()
-            user.must_change_password = True
-            user.save()
-            __lost_password(user.user.first_name, email, password)
-
-        return render(request, 'LocalUsers/password_reset_done.html')
-
-    return HttpResponseForbidden()
-
-
-def password_change_mandatory(request):
-    if not request.user.is_authenticated:
-        return redirect("Authent:login")
-    if request.method == "GET":
-        if not request.user.swordphishuser.must_change_password:
-            return redirect("Main:index")
-        changepwdform = ChangePasswordForm(instance=request.user)
-        swordphishuser = SwordphishUserForm(instance=request.user.swordphishuser)
-        return render(request, "LocalUsers/loginchangepassword.html",
-                      {'changepassform': changepwdform, 'swordphishform': swordphishuser})
-
-    if request.method == "POST":
-        changepwdform = ChangePasswordForm(request.POST, instance=request.user)
-        swordphishuser = SwordphishUserForm(request.POST, instance=request.user.swordphishuser)
-        if not changepwdform.is_valid() or not swordphishuser.is_valid():
-            return render(request, "LocalUsers/loginchangepassword.html",
-                          {'changepassform': changepwdform, 'swordphishform': swordphishuser})
-
-        editeduser = changepwdform.save(commit=False)
-        editeduser.set_password(changepwdform.cleaned_data["password_confirmation"])
-        editeduser.save()
-        editedswordphishuser = swordphishuser.save(commit=False)
-        editedswordphishuser.must_change_password = False
-        editedswordphishuser.save()
-        return redirect("Main:index")
-
-    return HttpResponseForbidden()
 
 
 @login_required
@@ -200,9 +138,9 @@ def edit_user(request, userid=None):
         phishform = SwordphishUserForm(instance=user)
         return render(request, 'LocalUsers/edituser.html',
                       {
-                            'swordphishform': phishform,
-                            'userform': userform,
-                            'userid': userid
+                          'swordphishform': phishform,
+                          'userform': userform,
+                          'userid': userid
                       })
 
     if request.method == "POST":
@@ -220,18 +158,18 @@ def edit_user(request, userid=None):
         if not swordphishform.is_valid():
             return render(request, 'LocalUsers/edituser.html',
                           {
-                                'swordphishform': swordphishform,
-                                'userform': userform,
-                                'userid': userid
+                              'swordphishform': swordphishform,
+                              'userform': userform,
+                              'userid': userid
                           })
 
         if userform.cleaned_data["email"] != usermail:
             if User.objects.filter(email=userform.cleaned_data["email"]).count() > 0:
                 return render(request, 'LocalUsers/newuser.html',
                               {
-                                    'swordphishform': swordphishform,
-                                    'userform': userform,
-                                    'user_already_exists': True
+                                  'swordphishform': swordphishform,
+                                  'userform': userform,
+                                  'user_already_exists': True
                               })
 
         newuser = userform.save(commit=False)
@@ -257,7 +195,6 @@ def edit_user(request, userid=None):
 
 @login_required
 def new_user(request):
-
     if not request.user.swordphishuser.is_staff_or_admin():
         return HttpResponseForbidden()
 
@@ -266,8 +203,8 @@ def new_user(request):
         phishform = SwordphishUserForm()
         return render(request, 'LocalUsers/newuser.html',
                       {
-                            'swordphishform': phishform,
-                            'userform': userform
+                          'swordphishform': phishform,
+                          'userform': userform
                       })
 
     if request.method == "POST":
@@ -280,23 +217,23 @@ def new_user(request):
         if not userform.is_valid():
             return render(request, 'LocalUsers/newuser.html',
                           {
-                                'swordphishform': phishform,
-                                'userform': userform
+                              'swordphishform': phishform,
+                              'userform': userform
                           })
 
         if User.objects.filter(email=userform.cleaned_data["email"]):
             return render(request, 'LocalUsers/newuser.html',
                           {
-                                'swordphishform': phishform,
-                                'userform': userform,
-                                'user_already_exists': True
+                              'swordphishform': phishform,
+                              'userform': userform,
+                              'user_already_exists': True
                           })
 
         if not phishform.is_valid():
             return render(request, 'LocalUsers/newuser.html',
                           {
-                                'swordphishform': phishform,
-                                'userform': userform
+                              'swordphishform': phishform,
+                              'userform': userform
                           })
 
         user = userform.save(commit=False)
@@ -332,14 +269,13 @@ def list_users(request, emailcontains=None):
         full_list.append((user, user.can_be_edited(request.user)))
     return render(request, 'LocalUsers/listusers.html',
                   {
-                        "userslist": full_list,
-                        "current_user": request.user
+                      "userslist": full_list,
+                      "current_user": request.user
                   })
 
 
 @login_required
 def new_entity(request):
-
     if not request.user.is_staff:
         return HttpResponseForbidden()
 
@@ -355,8 +291,8 @@ def new_entity(request):
         if Entity.objects.filter(name=entityform.cleaned_data["name"]):
             return render(request, 'LocalUsers/newentity.html',
                           {
-                                'entityform': entityform,
-                                'entity_already_exists': True
+                              'entityform': entityform,
+                              'entity_already_exists': True
                           })
 
         entityform.save()
@@ -368,7 +304,6 @@ def new_entity(request):
 
 @login_required
 def edit_entity(request, entityid=None):
-
     if not request.user.is_staff:
         return HttpResponseForbidden()
 
@@ -382,8 +317,8 @@ def edit_entity(request, entityid=None):
         entityform = EntityForm(instance=entity)
         return render(request, 'LocalUsers/editentity.html',
                       {
-                            'entityform': entityform,
-                            "entityid": entityid
+                          'entityform': entityform,
+                          "entityid": entityid
                       })
 
     if request.method == "POST":
@@ -391,16 +326,16 @@ def edit_entity(request, entityid=None):
         if not entityform.is_valid():
             return render(request, 'LocalUsers/editentity.html',
                           {
-                                'entityform': entityform,
-                                "entityid": entityid
+                              'entityform': entityform,
+                              "entityid": entityid
                           })
 
         if Entity.objects.filter(name=entityform.cleaned_data["name"]):
             return render(request, 'LocalUsers/editentity.html',
                           {
-                                'entityform': entityform,
-                                'entity_already_exists': True,
-                                "entityid": entityid
+                              'entityform': entityform,
+                              'entity_already_exists': True,
+                              "entityid": entityid
                           })
 
         entity.name = entityform.cleaned_data["name"]
@@ -433,8 +368,8 @@ def list_entity_admins(request, entityid):
     admin_list = entity.admins.all()
     return render(request, 'LocalUsers/listentityadmins.html',
                   {
-                        "userslist": admin_list,
-                        "entityid": entityid
+                      "userslist": admin_list,
+                      "entityid": entityid
                   })
 
 
@@ -453,8 +388,8 @@ def add_entity_admin(request, entityid):
         adminform = AddAdminForm(instance=entity)
         return render(request, 'LocalUsers/addentityadmin.html',
                       {
-                            'adminform': adminform,
-                            'entityid': entityid
+                          'adminform': adminform,
+                          'entityid': entityid
                       })
 
     if request.method == "POST":
@@ -467,8 +402,8 @@ def add_entity_admin(request, entityid):
 
         return render(request, 'LocalUsers/addentityadmin.html',
                       {
-                            'adminform': addform,
-                            'entityid': entityid
+                          'adminform': addform,
+                          'entityid': entityid
                       })
 
     return HttpResponseForbidden()
@@ -489,16 +424,16 @@ def remove_entity_admin(request, entityid, adminid):
     if adminid == request.user.swordphishuser.id:
         return render(request, 'LocalUsers/removeentityadmin.html',
                       {
-                            'entity': entity,
-                            'admin': admin,
-                            'not_entity_admin': True
+                          'entity': entity,
+                          'admin': admin,
+                          'not_entity_admin': True
                       })
 
     if request.method == "GET":
         return render(request, 'LocalUsers/removeentityadmin.html',
                       {
-                            'entity': entity,
-                            'admin': admin
+                          'entity': entity,
+                          'admin': admin
                       })
 
     if request.method == "POST":
@@ -531,8 +466,8 @@ def new_region(request):
         if Region.objects.filter(name=regionform.cleaned_data["name"], entity=entity):
             return render(request, 'LocalUsers/newregion.html',
                           {
-                                'regionform': regionform,
-                                'region_already_exists': True
+                              'regionform': regionform,
+                              'region_already_exists': True
                           })
 
         region = regionform.save(commit=False)
@@ -559,8 +494,8 @@ def edit_region(request, regionid):
         regionform = RegionForm(instance=region, current_user=request.user)
         return render(request, 'LocalUsers/editregion.html',
                       {
-                            'regionform': regionform,
-                            "regionid": regionid
+                          'regionform': regionform,
+                          "regionid": regionid
                       })
 
     if request.method == "POST":
@@ -568,8 +503,8 @@ def edit_region(request, regionid):
         if not regionform.is_valid():
             return render(request, 'LocalUsers/editregion.html',
                           {
-                                'regionform': regionform,
-                                "regionid": regionid
+                              'regionform': regionform,
+                              "regionid": regionid
                           })
 
         entity = Entity.objects.get(pk=regionform.cleaned_data["entity"])
@@ -577,9 +512,9 @@ def edit_region(request, regionid):
         if Region.objects.filter(name=regionform.cleaned_data["name"], entity=entity):
             return render(request, 'LocalUsers/editregion.html',
                           {
-                                'regionform': regionform,
-                                'region_already_exists': True,
-                                "regionid": regionid
+                              'regionform': regionform,
+                              'region_already_exists': True,
+                              "regionid": regionid
                           })
 
         region.name = regionform.cleaned_data["name"]
@@ -615,8 +550,8 @@ def list_region_users(request, regionid):
 
     return render(request, 'LocalUsers/listregionsusers.html',
                   {
-                        "userslist": members,
-                        "regionid": regionid
+                      "userslist": members,
+                      "regionid": regionid
                   })
 
 
@@ -635,8 +570,8 @@ def add_region_user(request, regionid):
         userregionform = AddUserInRegionForm(instance=region)
         return render(request, 'LocalUsers/adduserinregion.html',
                       {
-                            'userregionform': userregionform,
-                            'regionid': regionid
+                          'userregionform': userregionform,
+                          'regionid': regionid
                       })
 
     if request.method == "POST":
@@ -649,8 +584,8 @@ def add_region_user(request, regionid):
 
         return render(request, 'LocalUsers/adduserinregion.html',
                       {
-                            'userregionform': userregionform,
-                            'regionid': regionid
+                          'userregionform': userregionform,
+                          'regionid': regionid
                       })
 
     return HttpResponseForbidden()
@@ -671,8 +606,8 @@ def remove_region_user(request, regionid, userid):
     if request.method == "GET":
         return render(request, 'LocalUsers/removeuserinregion.html',
                       {
-                            'region': region,
-                            'user': user
+                          'region': region,
+                          'user': user
                       })
 
     if request.method == "POST":

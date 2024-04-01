@@ -1,37 +1,31 @@
-{% extends 'Main/Admin/leftmenu.html' %}
-
-{% load bootstrap3 %}
+{% extends 'Main/base.html' %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}{% trans 'Entities' %}{% endblock %}
 
 {% block swordphish_content %}
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true"></div>
 
-
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-{% if user.is_staff %}
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Create Entity' %}</h3>
-    <form class="form-inline">
-		<div class="form-group">
-		    <label class="control-label" for="createentity">{% trans 'Create new entity' %}</label>
-		</div>
-		<button id="createentity" type="button" class="btn btn-primary new form-control" data-toggle="modal" data-form="{% url 'Authent:new_entity' %}" data-target="#modal">{% trans 'Create Entity' %}</button>
-	</form>
-</div>
-{% endif %}
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Existing Entities' %}</h3>
-    <div class="filter">
-		<form class="form-inline filter-form">
-			<div class="form-group dropdown">
-			  <label class="control-label" for="dropdownMenu1">{% trans 'Select entity' %}</label>
-			  	<select class="form-control select dynamic" data-form="{%url 'Authent:list_entities' %}">
-			  	</select>
-			</div>
-		</form>
-		</div>
-	<br/>
-	<div class="selected" id="admins"></div>
-</div>
-
+    <div class="starter-template">
+        <div class="d-flex">
+            <h3 class="page-header">{% trans 'Entities' %}</h3>
+            {% if user.is_staff %}
+                <button type="button" class="ms-2 btn btn-primary new" data-toggle="modal"
+                        data-form="{% url 'Authent:new_entity' %}"
+                        data-target="#modal">{% trans 'Create Entity' %}</button>
+            {% endif %}
+        </div>
+        <div class="row g-3 align-items-center mt-2">
+            <div class="col-auto">
+                <label class="col-form-label" for="entities">{% trans 'Select entity' %}</label>
+            </div>
+            <div class="col-auto">
+                <select id="entities" class="form-control select dynamic" data-form="{% url 'Authent:list_entities' %}">
+                </select>
+            </div>
+        </div>
+        <div class="selected mt-3" id="admins"></div>
+    </div>
 {% endblock %}

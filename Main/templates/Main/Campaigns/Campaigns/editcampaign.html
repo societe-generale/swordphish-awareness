@@ -1,34 +1,6 @@
-{% load bootstrap3 %}
+{% extends 'Main/Campaigns/Campaigns/campaign.html' %}
+
 {% load i18n %}
-<form class="modal-form" enctype="multipart/form-data" method="post" action="{% url 'Main:campaign_edit_campaign' typeid campaign.id %}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>{% trans 'Edit campaign' %}</h3>
-      </div>
-      <div class="modal-body">
-        <link href="{{STATIC_URL}}/bootstrap3_datetime/css/bootstrap-datetimepicker.min.css" type="text/css" media="all" rel="stylesheet">
-        <script type="text/javascript" src="{{STATIC_URL}}/bootstrap3_datetime/js/moment.min.js"></script>
-        <script type="text/javascript" src="{{STATIC_URL}}/bootstrap3_datetime/js/bootstrap-datetimepicker.min.js"></script>
-        {% if campaign_already_exists %}
-          <div class="alert alert-danger alert-dismissible" id="error">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{% trans 'Campaign already exists.' %}</strong><br/>
-          </div>
-        {% endif %}
-        {% csrf_token %}
-        {{ campaignform.media }}
-        {% bootstrap_form campaignform %}
-      </div>
-      <script>
-      $("#id_start_date_pickers:has(input:not([readonly],[disabled]))").datetimepicker({"format": "YYYY-MM-DD HH:mm"});
-      $("#id_end_date_pickers:has(input:not([readonly],[disabled]))").datetimepicker({"format": "YYYY-MM-DD HH:mm"});
-      </script>
-      <div class="modal-footer">
-           <input name="create" class="btn btn-primary" type="submit" value="Save" />
-           <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
-      </div>
-    </div>
-  </div>
-</form>
+
+{% block title %}{% trans 'Edit campaign' %}{% endblock %}
+{% block url %}{% url 'Main:campaign_edit_campaign' typeid campaign.id %}{% endblock %}

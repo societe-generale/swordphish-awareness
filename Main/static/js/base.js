@@ -28,8 +28,8 @@ function upload(event) {
         cache: false,
         processData: false,
         contentType: false,
-        success: function(data, status) {
-            if (data == "Ok"){
+        success: function (data, status) {
+            if (data == "Ok") {
                 $('.modal').modal('hide');
                 $(".dynamic").load($(".dynamic").data("form"));
                 $(".selected").load($(".selected").data("form"));
@@ -48,8 +48,9 @@ function upload(event) {
 function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
 $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
+    beforeSend: function (xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
@@ -61,7 +62,7 @@ function popupwindow(url, title, w, h) {
     h = typeof h !== 'undefined' ? h : 400;
     var left = 200;
     var top = -100;
-    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 }
 
 function PopupCenter(url, title, w, h) {
@@ -81,22 +82,22 @@ function PopupCenter(url, title, w, h) {
 }
 
 
-$(function() {
+$(function () {
 
     $('[data-toggle="tooltip"]').tooltip();
 
     $('body').tooltip({
-    selector: '[data-toggle="tooltip"]'
+        selector: '[data-toggle="tooltip"]'
     });
 
-    $(".dynamic").on("click", ".download", function(ev) {
+    $(".dynamic").on("click", ".download", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         window.location.href = url;
         return false;
     });
 
-    $(".dynamic").on("click", ".silent", function(ev) {
+    $(".dynamic").on("click", ".silent", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         $.get(url)
@@ -106,7 +107,7 @@ $(function() {
         return false;
     });
 
-    $(".dynamic").on("click", ".paging", function(ev) {
+    $(".dynamic").on("click", ".paging", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         $(".dynamic").empty();
@@ -114,70 +115,70 @@ $(function() {
         return false;
     });
 
-    $(".modal").on("click", ".paging", function(ev) {
+    $(".modal").on("click", ".paging", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         $(".modal").load(url);
         return false;
     });
 
-    $(".dynamic").on("click", ".edit", function(ev) {
+    $(".dynamic").on("click", ".edit", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
-        $(".modal").load(url, function() {
+        $(".modal").load(url, function () {
             $(this).modal('show');
         });
         return false;
     });
 
-    $(".dynamic").on("click", ".popup", function(ev) {
+    $(".dynamic").on("click", ".popup", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         PopupCenter(url, "preview", 800, 600);
         return false;
     });
 
-    $(".modal").on("click", ".edit", function(ev) {
+    $(".modal").on("click", ".edit", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         $(".modal").empty();
-        $(".modal").load(url, function() {
+        $(".modal").load(url, function () {
             $(this).modal('show');
         });
         return false;
     });
 
-    $(".selected").on("click", ".add", function(ev) {
+    $(".selected").on("click", ".add", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
-        $(".modal").load(url, function() {
+        $(".modal").load(url, function () {
             $(this).modal('show');
         });
         return false;
     });
 
-    $(".selected").on("click", ".edit", function(ev) {
+    $(".selected").on("click", ".edit", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
-        $(".modal").load(url, function() {
+        $(".modal").load(url, function () {
             $(this).modal('show');
         });
         return false;
     });
 
-    $(".new").click(function(ev) {
+    $(".new").click(function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
-        $(".modal").load(url, function() {
+        $(".modal").load(url, function () {
             $(this).modal('show');
         });
         return false;
     });
 
-    $(".new-selected").click(function(ev) {
+    $(".new-selected").click(function (ev) {
         ev.preventDefault();
         var url = $("#button-url").find(":selected").val();
-        $(".modal").load(url, function() {
+        $(".modal").load(url, function () {
             $(this).modal('show');
         });
         return false;
@@ -190,33 +191,32 @@ $(function() {
 
     $(".dynamic").load($(".dynamic").data("form"));
 
-    var delay = (function(){
-      var timer = 0;
-      return function(callback, ms){
-        clearTimeout (timer);
-        timer = setTimeout(callback, ms);
-      };
+    var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
     })();
 
-    $(".filter-input").on("keyup", function(ev) {
-        delay(function(){
-            if ($(".filter-input").val() != ""){
-                $(".dynamic").load($(".dynamic").data("form") + '/' +  $(".filter-input").val());
-            }
-            else {
+    $(".filter-input").on("keyup", function (ev) {
+        delay(function () {
+            if ($(".filter-input").val() != "") {
+                $(".dynamic").load($(".dynamic").data("form") + '/' + $(".filter-input").val());
+            } else {
                 $(".dynamic").load($(".dynamic").data("form"));
             }
         }, 200);
     })
 
-    $('.modal').on("submit", ".modal-form", function() {
+    $('.modal').on("submit", ".modal-form", function () {
         $.ajax({
             type: this.method,
             url: this.action,
             data: $(this).serialize(),
             context: this,
-            success: function(data, status) {
-                if (data == "Ok"){
+            success: function (data, status) {
+                if (data == "Ok") {
                     $('.modal').modal('hide');
                     $(".dynamic").load($(".dynamic").data("form"));
                     $(".selected").load($(".selected").data("form"));
@@ -230,93 +230,69 @@ $(function() {
         return false;
     });
 
-    $('.modal').on("click", ".refresh", function() {
+    $('.modal').on("click", ".refresh", function () {
         $('.modal').load($(".refresh").data("url"));
         return false;
     });
 
-    $('.modal').on("click", ".browse", function(){
-        $('input[id=targetlist]').click();
-        return false;
-    })
-
-    $('.modal').on("change", 'input[id=targetlist]', function(){
+    $('.modal').on("change", 'input[id=targetlist]', function () {
         $('#filepath').val($(this).val());
     })
 
     $('.modal').on("submit", ".modal-form-file", upload);
 
-    $('.select').change(function(ev){
+    $('.select').change(function (ev) {
 
-        if ($("select option:selected").val() == "" )
-        {
+        if ($("select option:selected").val() == "") {
             $(".selected").empty();
-        }
-        else
-        {
+        } else {
             $(".selected").load($("select option:selected").data("form"));
             $(".selected").attr("data-form", $("select option:selected").data("form"))
         }
     })
 
-    index_form = function( fset, index ){
+    index_form = function (fset, index) {
 
-        $(fset).find(':input').each(function() {
-            var name = $(this).attr('name').replace( new RegExp('(\_\_prefix\_\_|\\d)') , index );
+        $(fset).find(':input').each(function () {
+            var name = $(this).attr('name').replace(new RegExp('(\_\_prefix\_\_|\\d)'), index);
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id});
         });
 
-        $(fset).find('label').each(function() {
-            var newFor = $(this).attr('for').replace( new RegExp('(\_\_prefix\_\_|\\d)') , index );
+        $(fset).find('label').each(function () {
+            var newFor = $(this).attr('for').replace(new RegExp('(\_\_prefix\_\_|\\d)'), index);
             var id = 'label_' + newFor;
-            $(this).attr({'id':id, 'for':newFor});
+            $(this).attr({'id': id, 'for': newFor});
         });
 
     }
 
-    reindex_formset = function( formset_zone ){
+    reindex_formset = function (formset_zone) {
 
-        var formset = $(formset_zone).find( '.nsorte' );
-        for( var cpt=0;cpt<formset.length;cpt++ ){
-            index_form( formset[cpt], cpt );
-        };
+        var formset = $(formset_zone).find('.nsorte');
+        for (var cpt = 0; cpt < formset.length; cpt++) {
+            index_form(formset[cpt], cpt);
+        }
+        ;
 
-        $("#id_form-TOTAL_FORMS").val( parseInt( cpt ) );
+        $("#id_form-TOTAL_FORMS").val(parseInt(cpt));
 
     };
 
-    set_event = function(){
-            $('.modal').on('click',".bt_rm_sorte",function(){
-                $(this).parents(".nsorte").remove();
-                reindex_formset( "#formsetZone" );
-            });
+    set_event = function () {
+        $('.modal').on('click', ".bt_rm_sorte", function () {
+            $(this).parents(".nsorte").remove();
+            reindex_formset("#formsetZone");
+        });
     };
 
-    $('.modal').on('click',"#bt_add_sorte",function(){
+    $('.modal').on('click', "#bt_add_sorte", function () {
 
-        $( "#eform" ).clone(true).appendTo( $("#formsetZone") );
+        $("#eform").clone(true).appendTo($("#formsetZone"));
 
-        reindex_formset( "#formsetZone" );
+        reindex_formset("#formsetZone");
 
     });
 
     set_event();
-
-
 });
-
-// CKEditor Focus Horrible Hack
-$.fn.modal.Constructor.prototype.enforceFocus = function() {
-  modal_this = this
-  $(document).on('focusin.modal', function (e) {
-    if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
-    && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select')
-    && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')
-    && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_textarea')) {
-      modal_this.$element.focus()
-    }
-  })
-};
-
-

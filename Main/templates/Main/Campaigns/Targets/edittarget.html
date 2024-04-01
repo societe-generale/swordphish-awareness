@@ -1,54 +1,56 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-<form class="modal-form-file" enctype="multipart/form-data" method="post" action="{% url 'Main:campaign_edit_target' targetlist.id targetid %}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>{% trans 'Edit target' %}</h3>
-      </div>
-      <div class="modal-body">
-        {% if target_already_exists %}
-          <div class="alert alert-danger alert-dismissible" id="error">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{% trans 'Target already exists.' %}</strong><br/>
-          </div>
-        {% endif %}
-        {% csrf_token %}
-        <div class="form-group">
-        <label class="control-label" for="targtlistname">{% trans "Target list" %}</label>
-        <input id="targtlistname" type="text" name="targtlistname" class="form-control" value="{{ targetlist.name }}" readonly>
-        </div>
-        {% bootstrap_form targetform %}
-        <div class="form-group">
-        <button class="btn btn-success btn-sm" id="bt_add_sorte" type="button">Add attribute</button>
-        </div>
-        {{ attformset.management_form }}
-        <div id="formsetZone">
-          {% for form in attformset %}
-            <div class="nsorte">
-              {% bootstrap_form form %}
-              <div class='btn btn-warning btn-sm bt_rm_sorte'>
-                <i class='glyphicon glyphicon-trash'></i>
-              </div>
+
+<form class="modal-form-file" enctype="multipart/form-data" method="post"
+      action="{% url 'Main:campaign_edit_target' targetlist.id targetid %}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Edit target' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          {% endfor %}
+            <div class="modal-body">
+                {% if target_already_exists %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'Target already exists.' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="control-label" for="targtlistname">{% trans "Target list" %}</label>
+                    <input id="targtlistname" type="text" name="targtlistname" class="form-control"
+                           value="{{ targetlist.name }}" readonly>
+                </div>
+                {% bootstrap_form targetform %}
+                <div class="form-group">
+                    <button class="btn btn-success btn-sm" id="bt_add_sorte" type="button">Add attribute</button>
+                </div>
+                {{ attformset.management_form }}
+                <div id="formsetZone">
+                    {% for form in attformset %}
+                        <div class="nsorte">
+                            {% bootstrap_form form %}
+                            <div class='btn btn-danger btn-sm bt_rm_sorte mb-2'>
+                                <em class="bi bi-trash"></em>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input name="create" class="btn btn-primary" type="submit" value="Confirm"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-           <input name="create" class="btn btn-primary" type="submit" value="Confirm" />
-           <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
-      </div>
     </div>
-  </div>
 </form>
 
-<!-- Element à copier pour un ajout au formset -->
-<div style="display:none;">
-    <div id="eform" class="nsorte" >
-        {% bootstrap_form attformset.empty_form%}
-        <div class='btn btn-warning btn-sm bt_rm_sorte'>
-                <i class='glyphicon glyphicon-trash'></i>
+<div class="d-none">
+    <div id="eform" class="nsorte">
+        {% bootstrap_form attformset.empty_form %}
+        <div class='btn btn-danger btn-sm bt_rm_sorte'>
+            <em class="bi bi-trash"></em>
         </div>
     </div>
 </div>

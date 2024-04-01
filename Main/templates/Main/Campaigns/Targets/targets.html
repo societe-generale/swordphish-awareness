@@ -1,27 +1,19 @@
-{% extends 'Main/Campaigns/leftmenu.html' %}
+{% extends 'Main/base.html' %}
 
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}{% trans 'Targets' %}{% endblock %}
 
 {% block swordphish_content %}
-
-
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Create Targets List' %}</h3>
-    <form class="form-inline">
-		<div class="form-group">
-		    <label class="control-label" for="createentity">{% trans 'Create new list' %}</label>
-		    <button id="createentity" type="button" class="btn btn-primary new form-control" data-toggle="modal" data-form="{% url 'Main:campaign_create_targets_list' %}" data-target="#modal">{% trans 'Create List' %}</button>
-		</div>
-	</form>
-</div>
-
-<div class="starter-template">
-    <h3 class="page-header">{% trans 'Existing Targets Lists' %}</h3>
-	<div class="dynamic" id="users" data-form="{%url 'Main:campaign_list_targets_list' %}"></div>
-</div>
-
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+    <div class="starter-template">
+        <div class="d-flex">
+            <h3 class="page-header">{% trans 'Targets List' %}</h3>
+            <button type="button" class="ms-2 btn btn-primary new" data-toggle="modal"
+                    data-form="{% url 'Main:campaign_create_targets_list' %}"
+                    data-target="#modal">{% trans 'Create List' %}</button>
+        </div>
+        <div class="dynamic" data-form="{% url 'Main:campaign_list_targets_list' %}"></div>
+    </div>
 {% endblock %}

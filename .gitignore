@@ -70,3 +70,9 @@ venv/
 
 # mkdocs
 site/
+
+# private settings
+Swordphish/settings_private*
+
+# results
+results/*.xlsx

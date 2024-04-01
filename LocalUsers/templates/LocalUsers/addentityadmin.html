@@ -1,27 +1,27 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-<form class="modal-form" method="post" action="{% url 'Authent:add_entity_admin' entityid %}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>{% trans 'Add Entity Admin' %}</h3>
 
-      </div>
-      <div class="modal-body">
-        {% if admin_already_exists %}
-          <div class="alert alert-danger alert-dismissible" id="error">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{% trans 'This user is already admin.' %}</strong><br/>
-          </div>
-        {% endif %}
-        {% csrf_token %}
-        {% bootstrap_form adminform %}
-      </div>
-      <div class="modal-footer">
-           <input name="add" class="btn btn-primary" type="submit" value="Add" />
-           <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
-      </div>
+<form class="modal-form" method="post" action="{% url 'Authent:add_entity_admin' entityid %}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Add Entity Admin' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if admin_already_exists %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'This user is already admin.' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+                {% csrf_token %}
+                {% bootstrap_form adminform %}
+            </div>
+            <div class="modal-footer">
+                <input name="add" class="btn btn-primary" type="submit" value="Add"/>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
     </div>
-  </div>
 </form>

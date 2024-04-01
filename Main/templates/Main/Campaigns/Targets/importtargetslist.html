@@ -1,50 +1,51 @@
-{% load bootstrap3 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-<form class="modal-form-file" enctype="multipart/form-data" method="post" action="{% url 'Main:campaign_import_targets_list' listid %}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>{% trans 'Import Targets List' %}</h3>
-      </div>
-      <div class="modal-body">
-        {% if bademail %}
-          <div class="alert alert-danger alert-dismissible" id="error">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{% trans 'At least one mail address is bad formatted: ' %}{{ exception.message }}</strong><br/>
-          </div>
-        {% endif %}
-        {% if bad_file %}
-          <div class="alert alert-danger alert-dismissible" id="error">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{% trans 'Wrong file format' %}</strong><br/>
-          </div>
-        {% endif %}
-        {% if unknown_error %}
-          <div class="alert alert-danger alert-dismissible" id="error">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{% trans 'An unknown error happened during the import' %}</strong><br/>
-          </div>
-        {% endif %}
 
+<form class="modal-form-file modal-lg" enctype="multipart/form-data" method="post"
+      action="{% url 'Main:campaign_import_targets_list' listid %}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Import Targets List' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if bademail %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>
+                            {% trans 'At least one mail address is bad formatted: ' %}{{ exception.message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+                {% if bad_file %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'Wrong file format' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+                {% if unknown_error %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'An unknown error happened during the import' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
 
-        {% csrf_token %}
-        <div class="form-group">
-          <label class="control-label" for="targetlist">{% trans 'File to import:' %}</label>
-          <input class="form-control" name="targetlist" id="targetlist" type="file" style="display:none">
-          <input id="filepath" class="form-control" type="text" placeholder="{% trans 'Filename' %}">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">{% trans 'File to import:' %}</label>
+                    <input class="form-control" type="file" id="formFile" name="targetlist">
+                </div>
+                <p><b>{% trans 'Expected format:' %}</b> XLSX file</p>
+                <p><b>{% trans 'First line contains header:' %}</b> email | tagname1 | tagname2 | tagname3...</p>
+                <p><b>{% trans 'Each line:' %}</b> mail@mail.tld | tag1 | tag2 | tag3...</p>
+            </div>
+            <div class="modal-footer">
+                <button name="create" id="importbutton" data-loading-text="{% trans 'Loading...' %}"
+                        data-complete-text="Done !" class="btn btn-primary import"
+                        type="submit">{% trans 'Import' %}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
         </div>
-        <div class="form-group">
-          <button class="btn btn-sm btn-primary browse">{% trans 'Browse' %}</button>
-        </div>
-        <p><b>{% trans 'Expected format:' %}</b> XLSX file</p>
-        <p><b>{% trans 'First line contains header:' %}</b> email | tagname1 | tagname2 | tagname3...</p>
-        <p><b>{% trans 'Each line:' %}</b> mail@mail.tld | tag1 | tag2 | tag3...</p>
-      </div>
-      <div class="modal-footer">
-           <button name="create" id="importbutton" data-loading-text="{% trans 'Loading...' %}" data-complete-text="Done !" class="btn btn-primary import" type="submit">{% trans 'Import' %}</button>
-           <input name="cancel" class="btn" type="submit" value="Cancel" data-dismiss="modal"/>
-      </div>
     </div>
-  </div>
 </form>

@@ -1,0 +1,37 @@
+.table tbody > tr > td.vert-align {
+    vertical-align: middle;
+}
+
+.table td, .table th {
+    white-space: nowrap;
+    width: 1%;
+}
+
+#id_targets {
+    height: 150px;
+    overflow: scroll;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+
+.starter-template {
+    padding: 5px 20px;
+    text-align: left;
+    margin-top: 15px;
+}
+
+.invalid-feedback {
+    display: block !important;
+}
+
+.mb-3.has-error > .django-ckeditor-widget {
+    border-color: var(--bs-form-invalid-color);
+    border-width: 3px;
+    border-style: outset;
+}
+
+.input-group-text {
+    border: none !important;
+    background: transparent;
+}

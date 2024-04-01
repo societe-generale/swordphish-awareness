@@ -1,8 +1,21 @@
-{% extends 'bootstrap3/bootstrap3.html' %}
+<!DOCTYPE html>
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-{% load bootstrap3 %}
+<html lang="{{ LANGUAGE_CODE|default:'en_us' }}" data-bs-theme="{{ 'theme_color'|bootstrap_setting }}">
 
-{% bootstrap_javascript %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block bootstrap5_title %}SwordPHISH | {% block title %}{% endblock %}{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block bootstrap5_head %}{% endblock %}
+</head>
 
-{% block bootstrap3_title %}{% block title %}SwordPHISH{% endblock %}{% endblock %}
-
+<body>
+{% block bootstrap5_content %} CONTENT {% endblock %}
+{% block bootstrap5_extra_script %}{% endblock %}
+</body>
+</html>
