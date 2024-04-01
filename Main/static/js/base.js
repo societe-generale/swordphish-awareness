@@ -235,11 +235,6 @@ $(function () {
         return false;
     });
 
-    $('.modal').on("click", ".browse", function () {
-        $('input[id=targetlist]').click();
-        return false;
-    })
-
     $('.modal').on("change", 'input[id=targetlist]', function () {
         $('#filepath').val($(this).val());
     })

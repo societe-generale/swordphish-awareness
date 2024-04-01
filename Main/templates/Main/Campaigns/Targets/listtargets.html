@@ -57,16 +57,16 @@
                     <nav>
                         <ul class="pagination">
                             {% if targets.has_previous %}
-                                <li>
-                                    <a class="paging"
+                                <li class="page-item">
+                                    <a class="page-link"
                                        data-form="{% url 'Main:campaign_list_targets' targetlist.id targets.previous_page_number %}"
                                        href="#" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
                             {% else %}
-                                <li class="disabled">
-                                    <a href="#" disabled aria-label="Previous">
+                                <li class="disabled page-item">
+                                    <a href="#" disabled aria-label="Previous" class="page-link">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
@@ -74,26 +74,26 @@
                             {% for page in targets.pages %}
                                 {% if page %}
                                     {% if targets.number == page %}
-                                        <li class="active"><a href="#">{{ page }}</a></li>
+                                        <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
                                     {% else %}
-                                        <li><a data-form="{% url 'Main:campaign_list_targets' targetlist.id page %}"
-                                               class="paging" href="#">{{ page }}</a></li>
+                                        <li class="page-item"><a data-form="{% url 'Main:campaign_list_targets' targetlist.id page %}"
+                                               class="page-link" href="#">{{ page }}</a></li>
                                     {% endif %}
                                 {% else %}
-                                    <li class="disabled"><span aria-hidden="true">...</span></li>
+                                    <li class="disabled page-item"><span aria-hidden="true">...</span></li>
                                 {% endif %}
                             {% endfor %}
                             {% if targets.has_next %}
-                                <li>
-                                    <a class="paging"
+                                <li class="page-item">
+                                    <a class="page-link"
                                        data-form="{% url 'Main:campaign_list_targets' targetlist.id targets.next_page_number %}"
                                        href="#" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
                             {% else %}
-                                <li class="disabled">
-                                    <a href="#" aria-label="Next">
+                                <li class="disabled page-item">
+                                    <a href="#" aria-label="Next" class="page-link">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
