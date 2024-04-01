@@ -10,10 +10,9 @@
             </div>
             <div class="modal-body">
                 {% if targetlistused %}
-                    <div class="alert alert-danger alert-dismissible" id="error">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <strong>{% trans 'This list is used in a campaign.' %}</strong><br/>
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'This list is used in a campaign.' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endif %}
                 {% csrf_token %}

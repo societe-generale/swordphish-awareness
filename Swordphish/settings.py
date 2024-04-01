@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_generate_secret_key',
     'django_bootstrap5',
-    'bootstrap3_datetime',
+    'tempus_dominus',
     'ckeditor',
     'LocalUsers',
     'Main',
@@ -155,7 +155,7 @@ BOOTSTRAP5 = {
     'error_css_class': 'has-error',
 
     # theme color: light, dark, custom.. https://getbootstrap.com/docs/5.3/customize/color-modes/
-    'theme_color': 'dark'
+    'theme_color': 'light'
 }
 
 CKEDITOR_BASEPATH = STATIC_URL + "ckeditor/ckeditor"

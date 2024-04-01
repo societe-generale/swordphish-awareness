@@ -4,7 +4,11 @@
 {% load i18n %}
 {% load static %}
 
-{% block bootstrap5_extra_head %}
+{% block bootstrap5_head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" type="image/png" href="{% static '/favicon.ico' %}"/>
+    <link href="{% static '/css/base.css' %}" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
     </script>
@@ -14,11 +18,8 @@
     </script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="{% static '/css/dashboard.css' %}" rel="stylesheet">
-    <link href="{% static '/css/mybootstrap.css' %}" rel="stylesheet">
-    <script src="{% static '/js/customjs.js' %}"></script>
-    <link rel="icon" type="image/png" href="{% static '/favicon.ico' %}"/>
+    <script src="{% static '/js/base.js' %}"></script>
+    {% block bootstrap5_extra_head %}{% endblock %}
 {% endblock %}
 
 {% block bootstrap5_content %}

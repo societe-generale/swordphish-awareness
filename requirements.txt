@@ -2,7 +2,7 @@ beautifulsoup4==4.11.1
 celery==5.2.7
 Django==4.2.11
 django-bootstrap5==23.4
-django-bootstrap3-datetimepicker-2==2.8.3
+django-tempus-dominus==5.1.2.17
 django-ckeditor==6.5.1
 django-generate-secret-key==1.0.2
 django-js-asset==2.0.0
