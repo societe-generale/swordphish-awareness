@@ -151,55 +151,11 @@ BOOTSTRAP5 = {
         "integrity": "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz",
         "crossorigin": "anonymous",
     },
-
-    # The complete URL to the Bootstrap CSS theme file (None means no theme).
-    "theme_url": None,
-
-    # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap5.html).
-    'javascript_in_head': True,
-
-    # Wrapper class for non-inline fields.
-    # The default value "mb-3" is the spacing as used by Bootstrap 5 example code.
-    'wrapper_class': 'mb-3',
-
-    # Wrapper class for inline fields.
-    # The default value is empty, as Bootstrap5 example code doesn't use a wrapper class.
-    'inline_wrapper_class': '',
-
-    # Label class to use in horizontal forms
-    'horizontal_label_class': 'col-md-2',
-
-    # Field class to use in horizontal forms
-    'horizontal_field_class': 'col-md-4',
-
-    # Field class used for horizontal fields without a label.
-    'horizontal_field_offset_class': 'offset-sm-2',
-
-    # Set placeholder attributes to label if no placeholder is provided.
-    'set_placeholder': True,
-
-    # Class to indicate required field (better to set this in your Django form).
-    'required_css_class': '',
-
     # Class to indicate error (better to set this in your Django form)
     'error_css_class': 'has-error',
 
-    # Class to indicate success, meaning the field has valid input (better to set this in your Django form).
-    'success_css_class': '',
-
-    # Enable or disable Bootstrap 5 server side validation classes (separate from the indicator classes above).
-    'server_side_validation': True,
-
-    # Renderers (only set these if you have studied the source and understand the inner workings).
-    'formset_renderers': {
-        'default': 'django_bootstrap5.renderers.FormsetRenderer',
-    },
-    'form_renderers': {
-        'default': 'django_bootstrap5.renderers.FormRenderer',
-    },
-    'field_renderers': {
-        'default': 'django_bootstrap5.renderers.FieldRenderer',
-    },
+    # theme color: light, dark, custom.. https://getbootstrap.com/docs/5.3/customize/color-modes/
+    'theme_color': 'dark'
 }
 
 CKEDITOR_BASEPATH = STATIC_URL + "ckeditor/ckeditor"
@@ -299,7 +255,7 @@ AUTOCLEAN_DELAY = 90
 # The day of the week when the auto delete is performed
 AUTOCLEAN_DAY = "saturday"
 
-# Used to filter access to swordphih pages when reaching phishing pages
+# Used to filter access to swordphish pages when reaching phishing pages
 HOSTING_DOMAIN = "FIXME"
 
 # Phishing mail header

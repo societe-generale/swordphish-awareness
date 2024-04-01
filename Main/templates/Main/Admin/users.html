@@ -1,7 +1,9 @@
-{% extends 'Main/topmenus.html' %}
+{% extends 'Main/base.html' %}
 
 {% load django_bootstrap5 %}
 {% load i18n %}
+
+{% block title %}{% trans 'Users' %}{% endblock %}
 
 {% block swordphish_content %}
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

@@ -14,3 +14,13 @@
     border-radius: 4px;
     padding: 6px 12px;
 }
+
+.invalid-feedback {
+    display: block !important;
+}
+
+.mb-3.has-error > .django-ckeditor-widget {
+    border-color: var(--bs-form-invalid-color);
+    border-width: 3px;
+    border-style: outset;
+}

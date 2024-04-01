@@ -1,7 +1,8 @@
-{% extends 'Main/topmenus.html' %}
+{% extends 'Main/base.html' %}
 {% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}{% trans 'Campaigns' %}{% endblock %}
 
 {% block swordphish_content %}
     <div class="modal fade" id="modal" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel"
@@ -29,9 +30,9 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    </div>
                 </div>
             </div>
+        </div>
         <div class="dynamic mt-2" id="users" data-form="{% url 'Main:campaign_list_campaigns' %}"></div>
     </div>
 {% endblock %}
