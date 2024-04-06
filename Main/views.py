@@ -1198,6 +1198,17 @@ def campaign_target_click(request, targetid):
     return HttpResponseForbidden()
 
 
+def campaign_target_autoclick(request, targetid):
+    if target := AnonymousTarget.objects.filter(uniqueid=targetid):
+        target = target.first()
+        campaign = target.campaign_set.get()
+        if campaign.status == "2" and not target.autoclick_time:
+            target.autoclick_time = datetime.now(tz=get_current_timezone())
+            target.save()
+
+    return HttpResponse()
+
+
 def campaign_target_openmail(request, targetid):
     # pylint: disable=W0613
     campaigntest = Campaign.objects.filter(testid=targetid)
