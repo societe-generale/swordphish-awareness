@@ -101,6 +101,9 @@ urlpatterns = [
     re_path(r'^result/click/(?P<targetid>[a-z\d]{8}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{12})$',
             views.campaign_target_click,
             name="campaign_target_click"),
+    re_path(r'^result/autoclick/(?P<targetid>[a-z\d]{8}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{12})$',
+            views.campaign_target_autoclick,
+            name="campaign_target_autoclick"),
     re_path(
         r'^result/displayawareness/(?P<campaignid>\d+)/(?P<targetid>[a-z\d]{8}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{12})$',
         views.campaign_display_awareness,

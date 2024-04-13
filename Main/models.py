@@ -1,32 +1,32 @@
 import datetime
-from django.utils.timezone import get_current_timezone
+import logging
+import re
 import uuid
 from base64 import b64decode
-from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
-from email.mime.image import MIMEImage
 from email.header import Header
+from email.mime.image import MIMEImage
+from smtplib import SMTPRecipientsRefused, SMTPServerDisconnected
+from time import sleep
+
 from bs4 import BeautifulSoup
-from openpyxl import load_workbook, Workbook
-from openpyxl.writer.excel import save_virtual_workbook
-from openpyxl.styles import Font, Alignment
 from ckeditor.fields import RichTextField
-from django.db import models, transaction
-from django.core.validators import validate_email
-from django.core.exceptions import ObjectDoesNotExist
-from django.forms import ValidationError
-from django.core import mail
 from django.conf import settings
-from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.core import mail
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import RegexValidator
+from django.core.validators import validate_email
+from django.db import models, transaction
+from django.forms import ValidationError
+from django.urls import reverse
+from django.utils.timezone import get_current_timezone
+from django.utils.translation import gettext as _
+from openpyxl import load_workbook, Workbook
+from openpyxl.styles import Font, Alignment
+from openpyxl.writer.excel import save_virtual_workbook
 
 from LocalUsers.models import SwordphishUser, get_admin
 from Main.utils import send_alert_new_campaign
 
-import re
-import logging
-from time import sleep
-# Create your models here.
 
 class Attribute(models.Model):
     key = models.CharField(db_index=True, max_length=240)
@@ -40,7 +40,7 @@ class Attribute(models.Model):
 
 
 class Target(models.Model):
-    mail_address = models.EmailField(db_index=True,)
+    mail_address = models.EmailField(db_index=True, )
     attributes = models.ManyToManyField(Attribute)
 
     def __str__(self):
@@ -60,7 +60,6 @@ class Target(models.Model):
     def removeAttribute(self, attribute):
         self.attributes.remove(attribute)
         self.save()
-
 
 
 class TargetList(models.Model):
@@ -84,7 +83,7 @@ class TargetList(models.Model):
         n = 1
         for x in header[1:]:
             if x.value is not None:
-                tags_keys.append('ORDN-' +  "%03d" % n + '-' + x.value)
+                tags_keys.append('ORDN-' + "%03d" % n + '-' + x.value)
                 n += 1
         for row in ws.iter_rows(min_row=2):
             if row[0] and row[0].value:
@@ -144,7 +143,7 @@ class TargetList(models.Model):
         raw_header = list(sorted(tags))
         header = []
         for h in raw_header:
-            h = re.sub(r'ORDN-[0-9]{3}-','',h)
+            h = re.sub(r'ORDN-[0-9]{3}-', '', h)
             header.append(h)
         header.insert(0, "email")
         ws.append(header)
@@ -171,7 +170,6 @@ class TargetList(models.Model):
         return save_virtual_workbook(wb)
 
 
-
 class AnonymousTarget(models.Model):
     uniqueid = models.CharField(db_index=True, max_length=36, default=uuid.uuid4)
     attributes = models.ManyToManyField(Attribute)
@@ -180,6 +178,7 @@ class AnonymousTarget(models.Model):
     mail_opened_time = models.DateTimeField(blank=True, null=True)
     link_clicked = models.BooleanField(default=False)
     link_clicked_time = models.DateTimeField(blank=True, null=True)
+    autoclick_time = models.DateTimeField(default=None, null=True)
     attachment_opened = models.BooleanField(default=False)
     attachment_opened_time = models.DateTimeField(blank=True, null=True)
     form_submitted = models.BooleanField(default=False)
@@ -200,7 +199,6 @@ class AnonymousTarget(models.Model):
             self.attributes.add(att)
 
 
-
 class PhishmailDomain(models.Model):
     class Meta:
         ordering = ["domain"]
@@ -211,9 +209,7 @@ class PhishmailDomain(models.Model):
         return self.domain
 
 
-
 class Template(models.Model):
-
     class Meta:
         ordering = ["name", "-creation_date"]
 
@@ -257,9 +253,7 @@ class Template(models.Model):
         return False
 
 
-
 class Campaign(models.Model):
-
     class Meta:
         ordering = ["-start_date", "-end_date", "creation_date"]
 
@@ -403,6 +397,8 @@ class Campaign(models.Model):
                 div = soup.new_tag('div', style='display: none')
                 img = soup.new_tag("img", src="FIXMEMAILTRACKER", width=1, height=1)
                 div.append(img)
+                autoclick_link = soup.new_tag("a", href="FIXMEAUTOCLICKLINK")
+                div.append(autoclick_link)
                 soup.body.append(div)
 
         return {"text": str(soup), "imgs": imgs}
@@ -505,9 +501,14 @@ class Campaign(models.Model):
         if self.enable_mail_tracker:
             html_content = html_content.replace("FIXMEMAILTRACKER", imgurl)
 
+        # add autoclick url
+        if self.campaign_type in '134' and self.host_domain:
+            autolink = f"http://{self.host_domain.domain}{reverse('Main:campaign_target_autoclick', kwargs={'targetid': targetid})}"
+            html_content = html_content.replace("FIXMEAUTOCLICKLINK", autolink)
+
         if target:
             for att in target.attributes.all():
-                att.key = re.sub(r'ORDN-[0-9]{3}-','',att.key)
+                att.key = re.sub(r'ORDN-[0-9]{3}-', '', att.key)
                 html_content = html_content.replace("($%s$)" % (att.key), att.value)
 
         email.attach_alternative(html_content, "text/html")
@@ -561,7 +562,7 @@ class Campaign(models.Model):
 
         if target:
             for att in target.attributes.all():
-                att.key = re.sub(r'ORDN-[0-9]{3}-','',att.key)
+                att.key = re.sub(r'ORDN-[0-9]{3}-', '', att.key)
                 html_content = html_content.replace("($%s$)" % (att.key), att.value)
         email.attach_alternative(html_content, "text/html")
         temp = "%s.doc" % (self.attachment_template.title)
@@ -591,7 +592,7 @@ class Campaign(models.Model):
         except SMTPRecipientsRefused:
             pass
         targetlists = self.targets.all()
-        connec = mail.get_connection(fail_silently=False,timeout=15)
+        connec = mail.get_connection(fail_silently=False, timeout=15)
         connec.open()
         mail_content = self.__buildemail()
         for targetlist in targetlists:
@@ -621,7 +622,7 @@ class Campaign(models.Model):
                     logger.info("Pause for a little while before opening a new connection")
                     sleep(60)
                     try:
-                        connec = mail.get_connection(fail_silently=False,timeout=15)
+                        connec = mail.get_connection(fail_silently=False, timeout=15)
                         connec.open()
                         if self.campaign_type in ["1", "3", "4"]:
                             self.__sendemail(target.mail_address,
@@ -690,9 +691,14 @@ class Campaign(models.Model):
         header.append("mail sent time")
         header.append("mail opened")
         header.append("mail opened time")
+
+        has_autoclicks = self.has_autoclicks
+
         if self.campaign_type == "1" or self.campaign_type == "3" or self.campaign_type == "4":
             header.append("link clicked")
             header.append("link clicked time")
+            if has_autoclicks:
+                header.append("link autoclicked time")
             if self.campaign_type == "3":
                 header.append("form submitted")
                 header.append("form submitted time")
@@ -706,7 +712,7 @@ class Campaign(models.Model):
         header.append("reported time")
 
         for tag in sorted(tags):
-            header.append(re.sub(r'ORDN-[0-9]{3}-','',tag))
+            header.append(re.sub(r'ORDN-[0-9]{3}-', '', tag))
 
         ft = Font(bold=True)
         al = Alignment(horizontal="center", vertical="center")
@@ -746,6 +752,10 @@ class Campaign(models.Model):
                 link_clicked_time = target.link_clicked_time.strftime('%Y-%m-%d %H:%M:%S')
             else:
                 link_clicked_time = "N/A"
+            if target.autoclick_time:
+                link_autoclick_time = target.autoclick_time.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                link_autoclick_time = "N/A"
 
             if target.attachment_opened:
                 attachment_opened = "yes"
@@ -805,6 +815,10 @@ class Campaign(models.Model):
                 ws.cell(row=row, column=column, value=link_clicked_time)
                 ws.cell(row=row, column=column).alignment = al
                 column += 1
+                if has_autoclicks:
+                    ws.cell(row=row, column=column, value=link_autoclick_time)
+                    ws.cell(row=row, column=column).alignment = al
+                    column += 1
                 if self.campaign_type == "3" or self.campaign_type == "4":
                     ws.cell(row=row, column=column, value=form_submitted)
                     ws.cell(row=row, column=column).alignment = al
@@ -833,7 +847,7 @@ class Campaign(models.Model):
 
         c = ws['B2']
         ws.freeze_panes = c
-        wb.save(filename = dest_filename)
+        wb.save(filename=dest_filename)
         return True
 
     def count_targets(self):
@@ -851,6 +865,18 @@ class Campaign(models.Model):
         else:
             res = "%s (%s%s)" % (count, int(float(count) / float(total) * 100), '%')
         return res
+
+    @property
+    def has_autoclicks(self):
+        return self.anonymous_targets.filter(autoclick_time__isnull=False).count()
+
+    def links_autoclicked(self):
+        count = self.anonymous_targets.filter(autoclick_time__isnull=False).count()
+        total = self.targets_count
+        if total == 0:
+            return "0"
+        else:
+            return "%s (%s%s)" % (count, int(float(count) / float(total) * 100), '%')
 
     def mails_reported(self):
         count = self.anonymous_targets.filter(reported=True).count()
