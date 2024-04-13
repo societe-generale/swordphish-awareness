@@ -6,6 +6,7 @@ django-tempus-dominus==5.1.2.17
 django-ckeditor==6.5.1
 django-generate-secret-key==1.0.2
 django-js-asset==2.0.0
+django-select2==8.1.2
 openpyxl==3.0.10
 psycopg2-binary==2.9.3
 redis==4.4.4

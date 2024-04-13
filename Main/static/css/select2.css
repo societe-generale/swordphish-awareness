@@ -1,0 +1,39 @@
+.select2.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default, .select2-selection__choice, .select2-dropdown {
+    border: var(--bs-border-width) solid var(--bs-border-color) !important;
+    border-radius: var(--bs-border-radius) !important;
+}
+
+.select2-selection {
+    border: none !important;
+}
+
+.select2-selection, .select2-selection__choice {
+    background: var(--bs-body-bg) !important;
+    color: var(--bs-body-color) !important;
+}
+
+.select2-results__option {
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.select2-results__option[aria-selected="true"] {
+    background: var(--bs-success) !important;
+    color: var(--bs-body-color) !important;
+}
+
+.select2-results__option.select2-results__option--highlighted[aria-selected] {
+    background: var(--bs-primary) !important;
+}
+
+.select2-results__option.select2-results__option--highlighted[aria-selected="true"] {
+    background: var(--bs-danger) !important;
+}
+
+.select2-selection__choice__remove {
+    color: var(--bs-danger) !important;
+}

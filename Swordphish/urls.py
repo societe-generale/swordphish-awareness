@@ -1,8 +1,9 @@
-from django.urls import include, re_path
 from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
-    re_path(r'^admin/', admin.site.urls),
-    re_path(r'^', include('LocalUsers.urls')),
-    re_path(r'^', include('Main.urls')),
+    path('admin/', admin.site.urls),
+    path('', include('LocalUsers.urls')),
+    path('', include('Main.urls')),
+    path("select2/", include("django_select2.urls")),
 ]
