@@ -4,8 +4,9 @@ from bs4 import BeautifulSoup, Doctype
 from django.conf import settings
 from django.core.validators import URLValidator
 from django.db.models import Q
-from django.forms import CharField, Textarea, CheckboxSelectMultiple, ModelForm, EmailField, ValidationError
+from django.forms import CharField, Textarea, ModelForm, EmailField, ValidationError
 from django.utils.translation import gettext as _
+from django_select2 import forms as s2forms
 from tempus_dominus.widgets import DateTimePicker
 
 from Main.models import TargetList, Target, Campaign, Attribute, Template
@@ -385,6 +386,13 @@ class TestCampaignForm(ModelForm):
         fields = ['name']
 
 
+class TargetsListWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = [
+        'name__icontains',
+        'author__user__email__icontains',
+    ]
+
+
 class CampaignForm(ModelForm):
     visible_users = None
 
@@ -431,7 +439,7 @@ class CampaignForm(ModelForm):
         widgets = {
             'start_date': DateTimePicker(options=dtp_option, attrs=dtp_attrs),
             'end_date': DateTimePicker(options=dtp_option, attrs=dtp_attrs),
-            'targets': CheckboxSelectMultiple()}
+            'targets': TargetsListWidget}
         labels = {
             'from_name': _('On behalf of'),
             'from_domain': _('Domain'),

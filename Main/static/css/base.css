@@ -35,3 +35,7 @@
     border: none !important;
     background: transparent;
 }
+
+#modal {
+    z-index: 1051 !important;
+}
