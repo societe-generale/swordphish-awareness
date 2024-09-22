@@ -4,7 +4,9 @@
 {% load i18n %}
 {% load static %}
 
-{% block bootstrap5_head %}
+{% block bootstrap5_title %}SwordPhish | {% block title %}{% endblock %}{% endblock %}
+
+{% block bootstrap5_extra_head %}
     <link rel="icon" type="image/png" href="{% static '/favicon.ico' %}"/>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -27,7 +29,6 @@
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <script src="{% static '/js/base.js' %}"></script>
-    {% block bootstrap5_extra_head %}{% endblock %}
 {% endblock %}
 
 {% block bootstrap5_content %}
@@ -90,7 +91,7 @@
                 </ul>
                 <form class="d-flex">
                     <span class="navbar-text me-2">
-                        Logged in as <strong>{{ user.email }}</strong>
+                        <em class="bi bi-person"></em> <strong>{{ user.email }}</strong>
                     </span>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {% if user.is_staff %}
@@ -110,5 +111,7 @@
             </div>
         </div>
     </nav>
+    <div class="mt-1 p-3">
     {% block swordphish_content %}{% endblock %}
+    </div>
 {% endblock %}
