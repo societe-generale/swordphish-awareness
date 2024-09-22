@@ -138,8 +138,9 @@ BOOTSTRAP5 = {
     },
     # Class to indicate error (better to set this in your Django form)
     'error_css_class': 'has-error',
-    # theme color: light, dark, custom.. https://getbootstrap.com/docs/5.3/customize/color-modes/
-    'theme_color': 'light'
+
+    # Color mode: light/dark (None means do not set color mode).
+    "color_mode": None,
 }
 
 CKEDITOR_BASEPATH = STATIC_URL + "ckeditor/ckeditor"
