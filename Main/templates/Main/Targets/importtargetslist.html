@@ -1,0 +1,51 @@
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+<form class="modal-form-file modal-lg" enctype="multipart/form-data" method="post"
+      action="{% url 'Main:import_targets_list' listid %}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Import Targets List' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if bademail %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>
+                            {% trans 'At least one mail address is bad formatted: ' %}{{ exception.message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+                {% if bad_file %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'Wrong file format' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+                {% if unknown_error %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'An unknown error happened during the import' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">{% trans 'File to import:' %}</label>
+                    <input class="form-control" type="file" id="formFile" name="targetlist">
+                </div>
+                <p><b>{% trans 'Expected format:' %}</b> XLSX file</p>
+                <p><b>{% trans 'First line contains header:' %}</b> email | tagname1 | tagname2 | tagname3...</p>
+                <p><b>{% trans 'Each line:' %}</b> mail@mail.tld | tag1 | tag2 | tag3...</p>
+            </div>
+            <div class="modal-footer">
+                <button name="create" id="importbutton" data-loading-text="{% trans 'Loading...' %}"
+                        data-complete-text="Done !" class="btn btn-primary import"
+                        type="submit">{% trans 'Import' %}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</form>

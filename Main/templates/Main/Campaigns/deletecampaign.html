@@ -1,0 +1,35 @@
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+<form class="modal-form" method="post" action="{% url 'Main:delete_campaign' campaign.id %}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Delete Campaign' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label" for="name">{% trans "Campaign name" %}</label>
+                    <input id="name" type="text" name="name" class="form-control" value="{{ campaign.name }}"
+                           disabled>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="stdate">{% trans "Start date" %}</label>
+                    <input id="stdate" type="text" name="stdate" class="form-control"
+                           value="{{ campaign.start_date }}" disabled>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="endate">{% trans "End date" %}</label>
+                    <input id="endate" type="text" name="endate" class="form-control"
+                           value="{{ campaign.end_date }}" disabled>
+                </div>
+                <div class="modal-footer">
+                    <input name="remove" class="btn btn-danger" type="submit" value="Delete"/>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

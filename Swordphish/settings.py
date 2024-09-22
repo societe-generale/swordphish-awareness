@@ -1,5 +1,5 @@
 """
-Django settings for SwordPHISH project.
+Django settings for SwordPhish project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 from django.conf import settings
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -27,15 +28,13 @@ if os.path.exists(SECRET_KEY_FILE):
 else:
     SECRET_KEY = 'DUMMY_KEY_FOR_DEVELOPMENT_DO_NOT_USE_IN_PRODUCTION'
 
-ADMINS = []
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', "127.0.0.1", "::1"]
 CSRF_TRUSTED_ORIGINS = ['http://' + h for h in ALLOWED_HOSTS] + ['https://' + h for h in ALLOWED_HOSTS]
 
-PROJECT_NAME = "SwordPHISH"
+PROJECT_NAME = "SwordPhish"
 
 # Application definition
 
@@ -76,14 +75,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'swordphish',
-        'USER': 'swordphish',
-        'PASSWORD': 'FIXME',
-        'HOST': 'FIXME',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
-
 }
 
 TEMPLATES = [
@@ -92,8 +86,6 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
-                # list if you haven't customized them:
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.i18n',
@@ -125,8 +117,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = (
-    'locale',)
+LOCALE_PATHS = ('locale',)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -147,7 +138,6 @@ BOOTSTRAP5 = {
         "integrity": "sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH",
         "crossorigin": "anonymous",
     },
-
     "javascript_url": {
         "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
         "integrity": "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz",
@@ -155,7 +145,6 @@ BOOTSTRAP5 = {
     },
     # Class to indicate error (better to set this in your Django form)
     'error_css_class': 'has-error',
-
     # theme color: light, dark, custom.. https://getbootstrap.com/docs/5.3/customize/color-modes/
     'theme_color': 'light'
 }
@@ -204,11 +193,6 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-# Redis configuration used by Celery
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
-REDIS_DB = 0
-
 # Mail address used to send mails
 SERVER_EMAIL = "SwordPhish <swordphish@invalid.notld>"
 
@@ -227,13 +211,12 @@ AUTOLOCK_DELAY = 180
 # Mail sent when an account is auto locked
 AUTOLOCK_TEMPLATE = u"""Hello %s
 
-You have an active account on Swordphish but you never logged in.
+You have an active SwordPhish account but you never logged in.
 
-As a security measure, your account has been locked. If you need it reply to this email !
+As a security measure, your account has been locked. If you need it reply to this email!
 
 Best regards,
-
-Swordphish administrators
+SwordPhish team
 """
 
 # AUTOLOCK_NEVER_USED_DELAY days after creation an account will be locked if not used
@@ -242,13 +225,12 @@ AUTOLOCK_NEVER_USED_DELAY = 30
 # Mail sent when an account is never used
 AUTOLOCK_NEVER_USED_TEMPLATE = u"""Hello %s
 
-You have an active account on Swordphish but haven't used it during the last %s days.
+You have an active SwordPhish account but haven't used it during the last %s days.
 
-As a security measure, your account has been locked. If you need it reply to this email !
+As a security measure, your account has been locked. If you need it reply to this email!
 
 Best regards,
-
-Swordphish administrators
+SwordPhish team
 """
 
 # After AUTOCLEAN_DELAY days the campaigns / targets will be automatically deleted
@@ -256,9 +238,6 @@ AUTOCLEAN_DELAY = 90
 
 # The day of the week when the auto delete is performed
 AUTOCLEAN_DAY = "saturday"
-
-# Used to filter access to swordphish pages when reaching phishing pages
-HOSTING_DOMAIN = "FIXME"
 
 # Phishing mail header
 PHISHING_MAIL_HEADER = "X-Swordphish-Awareness-Campaign"

@@ -1,7 +1,3 @@
-# coding: utf8
-
-
-from __future__ import absolute_import, unicode_literals
 from datetime import timedelta
 from celery.schedules import crontab
 from django.utils import timezone
@@ -16,8 +12,7 @@ from Main.models import Campaign, Attribute, TargetList, AnonymousTarget, Target
 
 celery_app.conf.beat_schedule['update-every-minute'] = {
     'task': 'Main.tasks.check_campaigns',
-    'schedule': crontab(),
-    'args': (),
+    'schedule': 60
 }
 
 celery_app.conf.beat_schedule['run-every-saturday-night'] = {

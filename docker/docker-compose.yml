@@ -3,54 +3,31 @@
 version: '3'
 
 volumes:
-  postgres_data:
   swordphish_config:
 
 services:
   swordphish:
-    container_name: swordphish_main
+    container_name: swordphish
     image: swordphish
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
     ports:
       - "8000:8000"
     volumes:
       - swordphish_config:/opt/swordphish/config
     links:
-      - swordphish-redis
-      - swordphish-postgres
       - swordphish-mail
-    restart: always
-  swordphish-redis:
-    image: redis:alpine3.19
-  swordphish-beat:
+    command: './manage.py makemigrations && ./manage.py migrate && ./manage.py runserver'
+    restart: on-failure
+  celery:
     image: swordphish
     links:
-      - swordphish-redis
-      - swordphish-postgres
       - swordphish-mail
-    command: [ 'docker-entrypoint.sh', 'beat' ]
-    restart: always
-  swordphish-worker:
-    image: swordphish
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile
-    links:
-      - swordphish-redis
-      - swordphish-postgres
-      - swordphish-mail
-    command: [ 'docker-entrypoint.sh', 'workers' ]
-    restart: always
+    command: '/usr/local/bin/celery -A Swordphish worker -l info -B'
+    restart: on-failure
   swordphish-mail:
     image: mailhog/mailhog:v1.0.1
     ports:
       - "8025:8025"
-    restart: always
-  swordphish-postgres:
-    image: postgres:16.2-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=swordphish
-      - POSTGRES_PASSWORD=swordphish
-      - POSTGRES_DB=swordphish
-    restart: always
+    restart: on-failure

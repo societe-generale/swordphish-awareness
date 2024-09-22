@@ -57,14 +57,6 @@ $.ajaxSetup({
     }
 });
 
-function popupwindow(url, title, w, h) {
-    w = typeof w !== 'undefined' ? w : 800;
-    h = typeof h !== 'undefined' ? h : 400;
-    var left = 200;
-    var top = -100;
-    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-}
-
 function PopupCenter(url, title, w, h) {
     var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
     var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
@@ -107,7 +99,7 @@ $(function () {
         return false;
     });
 
-    $(".dynamic").on("click", ".paging", function (ev) {
+    $(".dynamic").on("click", ".page-link", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         $(".dynamic").empty();
@@ -115,7 +107,7 @@ $(function () {
         return false;
     });
 
-    $(".modal").on("click", ".paging", function (ev) {
+    $(".modal").on("click", ".page-link", function (ev) {
         ev.preventDefault();
         var url = $(this).data("form");
         $(".modal").load(url);
@@ -237,7 +229,7 @@ $(function () {
 
     $('.modal').on("change", 'input[id=targetlist]', function () {
         $('#filepath').val($(this).val());
-    })
+    });
 
     $('.modal').on("submit", ".modal-form-file", upload);
 
@@ -247,9 +239,9 @@ $(function () {
             $(".selected").empty();
         } else {
             $(".selected").load($("select option:selected").data("form"));
-            $(".selected").attr("data-form", $("select option:selected").data("form"))
+            $(".selected").attr("data-form", $("select option:selected").data("form"));
         }
-    })
+    });
 
     index_form = function (fset, index) {
 
@@ -265,7 +257,7 @@ $(function () {
             $(this).attr({'id': id, 'for': newFor});
         });
 
-    }
+    };
 
     reindex_formset = function (formset_zone) {
 

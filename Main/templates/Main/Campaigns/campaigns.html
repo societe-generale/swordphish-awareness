@@ -1,0 +1,38 @@
+{% extends 'Main/base.html' %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block title %}{% trans 'Campaigns' %}{% endblock %}
+
+{% block swordphish_content %}
+    <div class="modal fade" id="modal" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true"></div>
+
+    <div class="starter-template">
+        <div class="d-flex">
+            <h3 class="page-header">{% trans 'Campaigns' %}</h3>
+            <div class="ms-2 btn-group" role="group" aria-label="New campaign">
+                <span data-form="{% url 'Main:create_campaign' types.0.0 %}" role="button"
+                      class="new btn btn-primary">
+                    {{ types.0.1 }}
+                </span>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for entry in types %}
+                            <li>
+                            <span class="dropdown-item new" role="button"
+                                  data-form="{% url 'Main:create_campaign' entry.0 %}">
+                                {{ entry.1 }}
+                            </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dynamic mt-2" id="users" data-form="{% url 'Main:list_campaigns' %}"></div>
+    </div>
+{% endblock %}

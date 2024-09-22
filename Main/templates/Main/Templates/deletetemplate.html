@@ -1,0 +1,32 @@
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+<form class="modal-form" method="post" action="{% url 'Main:delete_template' template.id %}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{% trans 'Delete Template' %}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                {% if templateused %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <strong>{% trans 'This template is used in a campaign!' %}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label class="form-label" for="targtlistname">{% trans "Template name" %}</label>
+                    <input id="targtlistname" type="text" name="targtlistname" class="form-control"
+                           value="{{ template.name }}" disabled>
+                </div>
+                <div class="modal-footer">
+                    <input name="remove" class="btn btn-danger" type="submit" value="Delete"/>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

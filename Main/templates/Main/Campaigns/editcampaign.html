@@ -1,0 +1,6 @@
+{% extends 'Main/Campaigns/campaign.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'Edit campaign' %}{% endblock %}
+{% block url %}{% url 'Main:edit_campaign' campaign.id %}{% endblock %}

@@ -1,6 +1,5 @@
-# Dockerfile for Swordphish development instance
-# Must not be used directly, use docker-compose instead (see README.md)
-FROM python:3.10-slim
+#FROM python:3.10-slim
+FROM swordphish
 
 RUN apt update && apt upgrade -y && apt autoremove -y && \
     apt install make git gcc libpq-dev python3-dev locales tzdata -y && pip3 install --upgrade pip
@@ -11,26 +10,14 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen && update-locale &
 
 RUN groupadd swordphish && useradd -r --home-dir /opt/swordhish -g swordphish swordphish
 
-ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/
-
 WORKDIR /opt/swordphish
-
 COPY requirements.txt /opt/swordphish/
 RUN pip install -r requirements.txt
 
 COPY . /opt/swordphish/
 
-RUN cp Swordphish/settings.py Swordphish/settings_docker.py && \
-    chown -R swordphish:swordphish /opt/swordphish && \
-    sed -i '81s/FIXME/swordphish/' Swordphish/settings_docker.py && \
-    sed -i '82s/FIXME/swordphish-postgres/' Swordphish/settings_docker.py && \
-    sed -i '250s/localhost/swordphish-redis/' Swordphish/settings_docker.py && \
-    sed -i '256s/hostname/localhost:8000/' Swordphish/settings_docker.py && \
-    sed -i '256s/https/http/' Swordphish/settings_docker.py && \
-    sed -i '306s/localhost/swordphish-mail/' Swordphish/settings_docker.py && \
-    sed -i '307s/2525/1025/' Swordphish/settings_docker.py && \
-    mv ./docker/scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
-    chmod 755 /usr/local/bin/wait-for-it.sh /usr/local/bin/docker-entrypoint.sh
+RUN mv ./docker/scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
+    chmod 755 /usr/local/bin/docker-entrypoint.sh
 
 USER swordphish
 ENV HOME /opt/swordphish
@@ -43,5 +30,3 @@ ENV LANGUAGE=en_US.UTF-8
 RUN ./manage.py generate_secret_key && ./manage.py collectstatic
 
 EXPOSE 8000
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["webserver"]

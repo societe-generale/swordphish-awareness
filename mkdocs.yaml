@@ -1,11 +1,47 @@
-site_name: SwordPHISH
-theme: readthedocs
+site_name: SwordPhish
+copyright: Société Générale &copy; 2024
+repo_url: https://github.com/societe-generale/swordphish-awareness
+repo_name: swordphish-awareness
+theme:
+  name: material
+  logo: images/soc102c.png
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.footer
+    - navigation.instant
+    - navigation.instant.prefetch
+    - content.action.edit
+  font:
+    text: Roboto
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: blue
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: blue
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
 
-markdown_extensions:
-  - admonition
-  - codehilite
-  - footnotes
-  - meta
-  - pymdownx.details
-  - pymdownx.tabbed
-  - pymdownx.superfences
+nav:
+  - Getting Started: index.md
+  - User Guide:
+      - Campaigns: user/campaigns.md
+      - Templates: user/templates.md
+      - Targets: user/targets.md
+      - Users: user/users.md
+  - Setup:
+      - Installation: setup/installation.md
+      - Configuration: setup/configuration.md
+      - Docker: setup/docker.md
+  - Contribution: contrib/index.md
+
+plugins:
+  - search
