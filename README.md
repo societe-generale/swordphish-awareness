@@ -23,7 +23,7 @@ correctly the mails to security teams.
 ## Installation
 
 Detailed installation instructions can be found in the
-[documentation](https://societe-generale.github.io/swordphish-awareness/installation).
+[documentation](https://societe-generale.github.io/swordphish-awareness/setup/installation/).
 
 ## Docker images
 
