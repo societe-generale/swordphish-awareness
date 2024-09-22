@@ -20,13 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY_FILE = os.path.join(BASE_DIR, 'secretkey.txt')
-
-if os.path.exists(SECRET_KEY_FILE):
-    with open(SECRET_KEY_FILE) as f:
-        SECRET_KEY = f.read().strip()
-else:
-    SECRET_KEY = 'DUMMY_KEY_FOR_DEVELOPMENT_DO_NOT_USE_IN_PRODUCTION'
+SECRET_KEY = 'REPLACE_IT_IN_PRODUCTION'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_generate_secret_key',
     'django_bootstrap5',
     'tempus_dominus',
     'ckeditor',

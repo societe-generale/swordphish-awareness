@@ -119,12 +119,10 @@ cp Swordphish/settings.py Swordphish/settings_prod.py
 
 ```
 
-Then generate a new secret-key:
+Then add Django secret in settings:
 
-```bash
-workon swordphish
-./manage.py generate_secret_key
-
+```python
+SECRET_KEY = 'REPLACE_IT_IN_PRODUCTION'
 ```
 
 Then open the newly created settings_prod.py with your favorite editor.
